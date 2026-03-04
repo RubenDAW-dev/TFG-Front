@@ -1,1 +1,55 @@
-<p>dashboard works!</p>
+<div class="dashboard-wrapper">
+  
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="header-title">TEMPORADA 2024-2025</h1>
+      <p class="header-subtitle">Estadísticas y clasificaciones en tiempo real</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="panels-grid">
+
+      <!-- Left Column: Scorers + Past Matches -->
+      <div class="left-column">
+        
+        <!-- Top Scorers -->
+        <div class="panel-card">
+          <app-top-scorers [players]="topScorers()"></app-top-scorers>
+        </div>
+
+        <!-- NEW COMPONENT: Past Matches -->
+        <div class="panel-card">
+          <app-past-matches [matches]="pastMatches()"></app-past-matches>
+        </div>
+
+      </div>
+
+      <!-- Center Column: League Table -->
+      <div class="center-column">
+        <div class="panel-card center-panel">
+          <app-league-table [table]="leagueTable()"></app-league-table>
+        </div>
+      </div>
+
+      <!-- Right Column: Assists + Next Matches -->
+      <div class="right-column">
+        
+        <!-- Top Assists -->
+        <div class="panel-card">
+          <app-top-assits [players]="topAssists()"></app-top-assits>
+        </div>
+
+        <!-- NEW COMPONENT: Next Matches -->
+        <div class="panel-card">
+          <app-next-matches [matches]="nextMatches()"></app-next-matches>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,45 +1,74 @@
-import { Component, OnInit } from '@angular/core';
-import { StatsService } from '../services/stats/stats.service';
-import { MatchesService } from '../services/matches/matches.service';
+import { Component, OnInit, signal } from '@angular/core';
+import { PlayerSeasonStatsService } from '../services/player-season-stats.service';
+import { TeamSeasonStatsService } from '../services/team-season-stats.service';
+import { MatchesService } from '../services/matches.service';
+import { TopScorers } from './components/top-scorers/top-scorers';
+import { TopAssits } from './components/top-assits/top-assits';
+import { LeagueTableComponent } from './components/league-table/league-table';
+import { CommonModule } from '@angular/common';
+import { PastMatchDTO } from '../shared/models/past-match.dto';
+import { FutureMatchDTO } from '../shared/models/future-match.dto';
+import { PastMatches } from './components/past-matches/past-matches';
+import { NextMatches } from './components/next-matches/next-matches';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  standalone: true,
+  templateUrl: './dashboard.html',
+  styleUrls: ['./dashboard.css'],
+  imports: [
+    TopScorers,
+    TopAssits,
+    LeagueTableComponent,
+    PastMatches,
+    NextMatches,
+    CommonModule
+  ]
 })
-export class Dashboard implements OnInit {
+export class DashboardComponent implements OnInit {
 
-  topScorers: any[] = [];
-  topAssists: any[] = [];
-  radarStats: any = null;
-  lastMatches: any[] = [];
-
-  loading: boolean = true;
+  topScorers = signal<any[]>([]);
+  topAssists = signal<any[]>([]);
+  leagueTable = signal<any[]>([]);
+  pastMatches = signal<PastMatchDTO[]>([]);
+  nextMatches = signal<FutureMatchDTO[]>([]);
 
   constructor(
-    private statsService: StatsService,
-    private matchesService: MatchesService
+    private pss: PlayerSeasonStatsService,
+    private teamStats: TeamSeasonStatsService,
+    private matchService: MatchesService
   ) {}
 
   ngOnInit(): void {
-    this.load();
-  }
 
-  load() {
-    this.loading = true;
+    this.pss.getTopScorers(undefined, 5).subscribe(res => {
+      console.log("TOP SCORERS:", res);
+      this.topScorers.set(res ?? []);
+    });
 
-    Promise.all([
-      this.statsService.getTopScorers().toPromise(),
-      this.statsService.getTopAssists().toPromise(),
-      this.statsService.getGlobalStats().toPromise(),
-      this.matchesService.getLastMatches().toPromise()
-    ])
-      .then(([scorers, assists, global, matches]) => {
-        this.topScorers = scorers ?? [];
-        this.topAssists = assists ?? [];
-        this.radarStats = global ?? null;
-        this.lastMatches = matches ?? [];
-      })
-      .finally(() => (this.loading = false));
+    this.pss.getTopAssists(undefined, 5).subscribe(res => {
+      console.log("TOP ASSISTS:", res);
+      this.topAssists.set(res ?? []);
+    });
+
+    this.teamStats.getLeagueTable().subscribe(res => {
+      console.log("LEAGUE TABLE:", res);
+      this.leagueTable.set((res ?? []).reverse());
+    });
+    
+    this.matchService.getLastMatches().subscribe(
+      res => {
+        console.log("PAST MATCHES:", res);
+        this.pastMatches.set(res)
+      }
+    );
+    this.matchService.getNextMatches().subscribe(
+      res => {
+        console.log("NEXT MATCHES:", res);
+        this.nextMatches.set(res)
+      }
+    );
+
+
   }
 }

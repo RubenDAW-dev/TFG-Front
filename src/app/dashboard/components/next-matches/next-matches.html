@@ -1,0 +1,15 @@
+<h3 class="section-title">Próximos partidos</h3>
+
+<div *ngIf="matches.length === 0" class="empty">No hay datos disponibles.</div>
+
+<div *ngFor="let m of matches" class="match-row three-cols">
+  <span class="col left team ellipsis">{{ m.homeTeam }}</span>
+
+  <!-- Fecha/hora centrado -->
+  <span class="col center muted">
+    <span class="day">{{ m.day }}</span>
+    <span class="time">{{ m.time }}</span>
+  </span>
+
+  <span class="col right team ellipsis">{{ m.awayTeam }}</span>
+</div>

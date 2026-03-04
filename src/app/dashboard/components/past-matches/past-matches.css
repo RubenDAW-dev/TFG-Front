@@ -1,0 +1,70 @@
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #c084fc;
+  margin-bottom: 12px;
+}
+
+.match-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  column-gap: 12px;
+
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 8px;
+
+  font-size: 0.95rem;
+  color: #e5e7eb;
+  font-weight: 500;
+
+  height: 60px;                 /* ⬅️ ALTO FIJO IGUAL PARA TODOS */
+  box-sizing: border-box;
+}
+
+/* Equipos */
+.team {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Alineaciones */
+.left  { justify-self: start; }
+.right { justify-self: end;   }
+
+/* CENTRO */
+.center {
+  justify-self: center;
+  text-align: center;
+  line-height: 1.1;             /* ⬅️ compacta día+hora */
+}
+
+/* Para NEXT (día y hora dentro del centro) */
+.center .day {
+  font-weight: 600;
+  display: block;
+}
+
+.center .time {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Para PAST (score en el centro) */
+.strong {
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Si no hay datos */
+.empty {
+  text-align: center;
+  color: #aaa;
+  padding: 10px 0;
+}

@@ -1,0 +1,12 @@
+<h3 class="section-title">Últimos partidos jugados</h3>
+
+<div *ngIf="matches.length === 0" class="empty">No hay datos disponibles.</div>
+
+<div *ngFor="let m of matches" class="match-row three-cols">
+  <span class="col left team ellipsis">{{ m.homeTeam }}</span>
+
+  <!-- Resultado centrado -->
+  <span class="col center strong">{{ m.score }}</span>
+
+  <span class="col right team ellipsis">{{ m.awayTeam }}</span>
+</div>
