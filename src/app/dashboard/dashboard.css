@@ -10,15 +10,6 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: #e0e0e0;
 }
-
-/* === HEADER === */
-.header-section {
-  background: linear-gradient(90deg, #1a2f4a 0%, #0f1b2f 100%);
-  border-bottom: 2px solid #a855f7;
-  padding: 30px 40px;
-  box-shadow: 0 8px 32px rgba(168, 85, 247, 0.15);
-}
-
 .header-content {
   max-width: 1600px;
   margin: 0 auto;
@@ -42,7 +33,6 @@
   letter-spacing: 1px;
 }
 
-/* === MAIN CONTENT === */
 .main-content {
   padding: 40px;
   max-width: 1600px;
@@ -54,9 +44,26 @@
   grid-template-columns: 1fr 1.4fr 1fr;
   gap: 30px;
   min-height: calc(100vh - 280px);
+  align-items: stretch;
+}
+
+.panels-grid > div {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.left-column,
+.center-column,
+.right-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 20px;
 }
 
 .panel-card {
+  position: relative;
   background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(168, 85, 247, 0.3);
@@ -67,8 +74,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  align-self: start; /* prevent stretching in grid row */
-  margin-top: 10px;
+  max-height: 100%;
 }
 
 .panel-card:hover {
@@ -81,14 +87,23 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
+  left: 0; 
   right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, #a855f7, transparent);
   opacity: 0.5;
 }
 
-/* === RESPONSIVE === */
+.panel-card > * {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.center-panel {
+  flex: 1;
+  min-height: 0;
+}
+
 @media (max-width: 1024px) {
   .panels-grid {
     grid-template-columns: 1fr 1.4fr 1fr;

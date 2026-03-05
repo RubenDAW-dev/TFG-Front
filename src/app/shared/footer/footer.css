@@ -1,0 +1,28 @@
+.app-footer {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(30, 41, 70) 0%, rgba(20, 30, 50) 100%);
+  padding: 25px 0;
+  border-top: 2px solid #a855f7;
+}
+
+.footer-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  text-align: center;
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.footer-links {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.footer-links a {
+  color: #a0aec0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
