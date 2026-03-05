@@ -21,7 +21,7 @@
   color: #e5e7eb;
   font-weight: 500;
 
-  height: 60px;                 /* ⬅️ ALTO FIJO IGUAL PARA TODOS */
+  height: 60px;                
   box-sizing: border-box;
 }
 
@@ -32,7 +32,6 @@
   text-overflow: ellipsis;
 }
 
-/* Alineaciones */
 .left  { justify-self: start; }
 .right { justify-self: end;   }
 
@@ -40,7 +39,7 @@
 .center {
   justify-self: center;
   text-align: center;
-  line-height: 1.1;             /* ⬅️ compacta día+hora */
+  line-height: 1.1; 
 }
 
 /* Para NEXT (día y hora dentro del centro) */
@@ -67,4 +66,15 @@
   text-align: center;
   color: #aaa;
   padding: 10px 0;
+}
+
+h2 {
+  color: #c084fc;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 2px solid rgba(168, 85, 247, 0.3);
+  padding-bottom: 12px;
 }
