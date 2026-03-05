@@ -1,0 +1,75 @@
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(20, 30, 50, .7);
+  border: 1px solid rgba(168, 85, 247, .3);
+  border-radius: 12px;
+  padding: 24px;
+  color: #e0e0e0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .35);
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+label {
+  font-size: .9rem;
+  color: #cbd5e1;
+  margin: 8px 0 6px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #c084fc, #a855f7);
+  color: #0f1227;
+}
+
+.error {
+  color: #fda4af;
+  font-size: .85rem;
+  margin-top: 6px;
+  display: block;
+  padding-left: 4px;
+}
+
+.register-link {
+  margin-top: 12px;
+  text-align: center;
+  font-size: .85rem;
+  color: #cbd5e1;
+}
+
+.register-link a {
+  color: #c084fc;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

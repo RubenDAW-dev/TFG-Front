@@ -1,27 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../core/Auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink,RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })
 export class Navbar {
-  mobileOpen = false;
+  private router = inject(Router);
+  auth = inject(AuthService);
 
-  constructor(private router: Router) {}
+  mobileOpen = signal(false);
 
   goToLogin() {
     this.router.navigate(['/login']);
   }
 
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  logout() {
+    this.auth.logout();
+  }
+
   toggleMobile() {
-    this.mobileOpen = !this.mobileOpen;
+    this.mobileOpen.set(!this.mobileOpen());
   }
 
   closeMobile() {
-    this.mobileOpen = false;
+    this.mobileOpen.set(false);
   }
 }

@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+
+/* Asegura que la raíz puede medir toda la altura */
+html, body, app-root {
+  height: 100%;
+}
+
+/* Evita márgenes por defecto del body */
+body {
+  margin: 0;
+}
+
+/* Opcional: suaviza el scrolling en otras vistas */
+html {
+  scroll-behavior: smooth;
+}
