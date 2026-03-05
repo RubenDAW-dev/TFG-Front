@@ -12,8 +12,6 @@ export class PlayerSeasonStatsService {
 
   // === RANKINGS ===
   getTopScorers(teamId?: string, limit = 5) {
-    // Si hay teamId -> /team/top-scorers?teamId=...
-    // Si no hay teamId -> /top-scorers (global)
     if (teamId) {
       const q = new URLSearchParams();
       q.set('teamId', teamId);

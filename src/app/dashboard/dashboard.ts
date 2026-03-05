@@ -42,29 +42,24 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
 
     this.pss.getTopScorers(undefined, 5).subscribe(res => {
-      console.log("TOP SCORERS:", res);
       this.topScorers.set(res ?? []);
     });
 
     this.pss.getTopAssists(undefined, 5).subscribe(res => {
-      console.log("TOP ASSISTS:", res);
       this.topAssists.set(res ?? []);
     });
 
     this.teamStats.getLeagueTable().subscribe(res => {
-      console.log("LEAGUE TABLE:", res);
       this.leagueTable.set((res ?? []).reverse());
     });
     
     this.matchService.getLastMatches().subscribe(
       res => {
-        console.log("PAST MATCHES:", res);
         this.pastMatches.set(res)
       }
     );
     this.matchService.getNextMatches().subscribe(
       res => {
-        console.log("NEXT MATCHES:", res);
         this.nextMatches.set(res)
       }
     );

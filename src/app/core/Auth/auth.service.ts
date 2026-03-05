@@ -66,6 +66,6 @@ export class AuthService {
   }
 
   register(body: LoginRequest) {
-    return this.http.post<LoginResponse>(`${environment.apiUrl}/usuario/create`, body);
+    return this.http.post<LoginResponse>(`${environment.apiUrl}/usuarios/create`, body);
   }
 }
