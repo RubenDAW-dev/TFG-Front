@@ -12,7 +12,7 @@
       </div>
       <div class="register-link">
         ¿Has olvidado tu contraseña?
-        <a routerLink="/reset-password">Restablecer contraseña</a>
+        <a routerLink="/forgot-password">Restablecer contraseña</a>
       </div>
       <button type="submit" [disabled]="form.invalid || loading">{{ loading ? 'Entrando...' : 'Entrar' }}</button>
       <div class="error" *ngIf="error">{{ error }}</div>

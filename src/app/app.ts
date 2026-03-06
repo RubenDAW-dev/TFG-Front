@@ -18,12 +18,18 @@ export class App {
   hideLayoutSignal = signal(false);
 
   constructor() {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        this.hideLayoutSignal.set(event.url === '/login' || event.url === '/register');
-      });
-  }
+  this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+      const url = event.url.split('?')[0];
+      this.hideLayoutSignal.set(
+        url === '/login' ||
+        url === '/register' ||
+        url === '/forgot-password' ||
+        url === '/reset-password'
+      );
+    });
+}
 
   hideLayout() {
     return this.hideLayoutSignal();

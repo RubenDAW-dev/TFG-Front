@@ -68,4 +68,22 @@ export class AuthService {
   register(body: LoginRequest) {
     return this.http.post<LoginResponse>(`${environment.apiUrl}/usuarios/create`, body);
   }
+  
+  forgotPassword(email: string) {
+    return this.http.post(`${environment.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  verifyResetToken(token: string) {
+    return this.http.get(`${environment.apiUrl}/auth/verify-reset-token`, {
+      params: { token }
+    });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post(`${environment.apiUrl}/auth/reset-password`, {
+      token,
+      newPassword
+    });
+  }
+
 }
