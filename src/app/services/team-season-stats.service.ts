@@ -12,4 +12,8 @@ export class TeamSeasonStatsService {
   getLeagueTable() {
     return this.http.get<any[]>(`${this.api}/table`);
   }
+
+  getStatsTable() {
+    return this.http.get<any[]>(`${this.api}/stats-table`);
+  }
 }

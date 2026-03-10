@@ -1,0 +1,310 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.equipos-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #e0e0e0;
+  padding: 40px;
+}
+
+.equipos-content {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #c084fc, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 30px;
+}
+
+.panel-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.panel-card:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 12px 48px rgba(168, 85, 247, 0.2);
+}
+
+.panel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a855f7, transparent);
+  opacity: 0.5;
+}
+
+/* ── PESTAÑAS ── */
+.tabs-bar {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #a0aec0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: -1px;
+  border-radius: 6px 6px 0 0;
+}
+
+.tab-btn:hover {
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.08);
+}
+
+.tab-btn.active {
+  color: #c084fc;
+  border-bottom-color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+}
+
+.tab-btn i {
+  font-size: 0.8rem;
+}
+
+/* ── CAPTION ── */
+.caption-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+  padding-bottom: 16px;
+}
+
+/* ── SEARCH ── */
+.search-wrapper {
+  position: relative;
+  width: 280px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a855f7;
+  font-size: 0.9rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-radius: 8px;
+  color: #e0e0e0 !important;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: rgba(168, 85, 247, 0.7) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15) !important;
+}
+
+.search-input::placeholder {
+  color: #718096;
+}
+
+/* ── ROWS SELECT ── */
+.rows-select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rows-label {
+  color: #a0aec0;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.rows-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 6px;
+  color: #e0e0e0;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rows-select:focus {
+  border-color: rgba(168, 85, 247, 0.7);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15);
+}
+
+.rows-select option {
+  background: rgb(15, 20, 45);
+  color: #e0e0e0;
+}
+
+/* ── PRIMENG OVERRIDES ── */
+:host ::ng-deep .p-datatable {
+  background: transparent !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background: transparent !important;
+  color: #e0e0e0 !important;
+  border-color: rgba(168, 85, 247, 0.1) !important;
+  transition: background 0.2s ease;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background: rgba(168, 85, 247, 0.1) !important;
+}
+
+:host ::ng-deep .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background: rgba(168, 85, 247, 0.05) !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  border-color: rgba(168, 85, 247, 0.1) !important;
+}
+
+:host ::ng-deep .p-sortable-column-icon {
+  color: #a855f7 !important;
+}
+
+:host ::ng-deep .p-paginator {
+  background: transparent !important;
+  color: #a0aec0 !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  padding: 12px 0 0 0 !important;
+  gap: 4px !important;
+}
+
+:host ::ng-deep .p-paginator-left-content {
+  margin-right: auto;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
+  border: 1px solid rgba(168, 85, 247, 0.5) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page {
+  border-radius: 6px !important;
+  min-width: 2rem !important;
+  height: 2rem !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page,
+:host ::ng-deep .p-paginator .p-paginator-next,
+:host ::ng-deep .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-paginator .p-paginator-first,
+:host ::ng-deep .p-paginator .p-paginator-last {
+  color: #a0aec0 !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page:hover,
+:host ::ng-deep .p-paginator .p-paginator-next:hover,
+:host ::ng-deep .p-paginator .p-paginator-prev:hover {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+}
+
+:host ::ng-deep .p-current-page-report {
+  color: #a0aec0 !important;
+  font-size: 0.85rem;
+}
+
+:host ::ng-deep .p-button.p-button-secondary {
+  background: rgba(168, 85, 247, 0.15) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  color: #c084fc !important;
+}
+
+:host ::ng-deep .p-button.p-button-secondary:hover {
+  background: rgba(168, 85, 247, 0.25) !important;
+}
+
+@media (max-width: 768px) {
+  .equipos-wrapper {
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .panel-card {
+    padding: 20px;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .caption-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tabs-bar {
+    flex-wrap: wrap;
+  }
+}

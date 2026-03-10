@@ -1,0 +1,186 @@
+<div class="equipos-wrapper">
+    <div class="equipos-content">
+        <h1 class="page-title">Estadísticas de Equipos</h1>
+
+        <div class="panel-card">
+
+            <!-- PESTAÑAS -->
+            <div class="tabs-bar">
+                <button class="tab-btn" [class.active]="activeTab === 'clasificacion'"
+                    (click)="activeTab = 'clasificacion'">
+                    <i class="pi pi-list"></i> Clasificación
+                </button>
+                <button class="tab-btn" [class.active]="activeTab === 'ataque'" (click)="activeTab = 'ataque'">
+                    <i class="pi pi-bolt"></i> Ataque
+                </button>
+                <button class="tab-btn" [class.active]="activeTab === 'defensa'" (click)="activeTab = 'defensa'">
+                    <i class="pi pi-shield"></i> Defensa
+                </button>
+                <button class="tab-btn" [class.active]="activeTab === 'medias'" (click)="activeTab = 'medias'">
+                    <i class="pi pi-chart-bar"></i> Medias
+                </button>
+            </div>
+
+            <p-table #dt [value]="teams" [paginator]="true" [rows]="currentRows" [globalFilterFields]="['teamName']"
+                sortMode="single" dataKey="teamId" [loading]="loading" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} equipos"
+                styleClass="p-datatable-striped">
+
+                <ng-template pTemplate="caption">
+                    <div class="caption-bar">
+                        <div class="search-wrapper">
+                            <i class="pi pi-search search-icon"></i>
+                            <input pInputText type="text" class="search-input"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                                placeholder="Buscar equipo..." />
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="paginatorleft">
+                    <div class="rows-select-wrapper">
+                        <span class="rows-label">Filas por página:</span>
+                        <select class="rows-select" [(ngModel)]="currentRows" (change)="onRowsChange(currentRows)">
+                            <option *ngFor="let r of rowOptions" [value]="r">{{ r }}</option>
+                        </select>
+                    </div>
+                </ng-template>
+
+                <!-- CABECERA -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="teamName">Equipo <p-sortIcon field="teamName"></p-sortIcon></th>
+
+                        <!-- CLASIFICACIÓN -->
+                        <ng-container *ngIf="activeTab === 'clasificacion'">
+                            <th pSortableColumn="posicion">Pos </th>
+                            <th pSortableColumn="puntos">Pts <p-sortIcon field="puntos"></p-sortIcon></th>
+                            <th pSortableColumn="partidos">PJ <p-sortIcon field="partidos"></p-sortIcon></th>
+                            <th pSortableColumn="victorias">V <p-sortIcon field="victorias"></p-sortIcon></th>
+                            <th pSortableColumn="empates">E <p-sortIcon field="empates"></p-sortIcon></th>
+                            <th pSortableColumn="derrotas">D <p-sortIcon field="derrotas"></p-sortIcon></th>
+                            <th pSortableColumn="golesFavor">GF <p-sortIcon field="golesFavor"></p-sortIcon></th>
+                            <th pSortableColumn="golesContra">GC <p-sortIcon field="golesContra"></p-sortIcon></th>
+                            <th pSortableColumn="diferenciaGoles">DG <p-sortIcon field="diferenciaGoles"></p-sortIcon>
+                            </th>
+                        </ng-container>
+
+                        <!-- ATAQUE -->
+                        <ng-container *ngIf="activeTab === 'ataque'">
+                            <th pSortableColumn="golesEquipo">Goles <p-sortIcon field="golesEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="asistenciasEquipo">Asist <p-sortIcon
+                                    field="asistenciasEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="disparosEquipo">Disparos <p-sortIcon
+                                    field="disparosEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="disparosPuertaEquipo">D.Puerta <p-sortIcon
+                                    field="disparosPuertaEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="precisionTiroMedia">%Precisión <p-sortIcon
+                                    field="precisionTiroMedia"></p-sortIcon></th>
+                            <th pSortableColumn="centrosEquipo">Centros <p-sortIcon field="centrosEquipo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="autogolesEquipo">AG <p-sortIcon field="autogolesEquipo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="conversionPenaltiMedia">%Conv.Pen <p-sortIcon
+                                    field="conversionPenaltiMedia"></p-sortIcon></th>
+                        </ng-container>
+
+                        <!-- DEFENSA -->
+                        <ng-container *ngIf="activeTab === 'defensa'">
+                            <th pSortableColumn="golesContra">GC <p-sortIcon field="golesContra"></p-sortIcon></th>
+                            <th pSortableColumn="amarillasEquipo">TA <p-sortIcon field="amarillasEquipo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="rojasEquipo">TR <p-sortIcon field="rojasEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="faltasCometidasEquipo">FC <p-sortIcon
+                                    field="faltasCometidasEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="entradasGanadasEquipo">Entradas <p-sortIcon
+                                    field="entradasGanadasEquipo"></p-sortIcon></th>
+                            <th pSortableColumn="intercepcionesEquipo">Interc <p-sortIcon
+                                    field="intercepcionesEquipo"></p-sortIcon></th>
+                        </ng-container>
+
+                        <!-- MEDIAS -->
+                        <ng-container *ngIf="activeTab === 'medias'">
+                            <th pSortableColumn="golesPorPartido">G/PJ <p-sortIcon field="golesPorPartido"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="golesContraPorPartido">GC/PJ <p-sortIcon field="golesContraPorPartido"></p-sortIcon></th>
+                            <th pSortableColumn="posesionMedia">Posesión% <p-sortIcon
+                                    field="posesionMedia"></p-sortIcon></th>
+                            <th pSortableColumn="tirosMedia">Tiros/PJ <p-sortIcon field="tirosMedia"></p-sortIcon></th>
+                            <th pSortableColumn="tirosPuertaMedia">T.Puerta/PJ <p-sortIcon
+                                    field="tirosPuertaMedia"></p-sortIcon></th>
+                            <th pSortableColumn="paradasMedia">Paradas/PJ <p-sortIcon field="paradasMedia"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="tarjetasMedia">Tarjetas/PJ <p-sortIcon
+                                    field="tarjetasMedia"></p-sortIcon></th>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+
+                <!-- CUERPO -->
+                <ng-template pTemplate="body" let-t let-i="rowIndex">
+                    <tr>
+                        <td><b>{{ t.teamName }}</b></td>
+
+                        <!-- CLASIFICACIÓN -->
+                        <ng-container *ngIf="activeTab === 'clasificacion'">
+                            <td>{{ i + 1 }}</td>
+                            <td><b style="color: #c084fc">{{ t.puntos }}</b></td>
+                            <td>{{ t.partidos }}</td>
+                            <td>{{ t.victorias }}</td>
+                            <td>{{ t.empates }}</td>
+                            <td>{{ t.derrotas }}</td>
+                            <td>{{ t.golesFavor }}</td>
+                            <td>{{ t.golesContra }}</td>
+                            <td
+                                [style.color]="t.diferenciaGoles > 0 ? '#4ade80' : t.diferenciaGoles < 0 ? '#f87171' : '#e0e0e0'">
+                                {{ t.diferenciaGoles > 0 ? '+' : '' }}{{ t.diferenciaGoles }}
+                            </td>
+                        </ng-container>
+
+                        <!-- ATAQUE -->
+                        <ng-container *ngIf="activeTab === 'ataque'">
+                            <td><b>{{ t.golesEquipo }}</b></td>
+                            <td>{{ t.asistenciasEquipo }}</td>
+                            <td>{{ t.disparosEquipo }}</td>
+                            <td>{{ t.disparosPuertaEquipo }}</td>
+                            <td>{{ t.precisionTiroMedia | number:'1.2-2' }}%</td>
+                            <td>{{ t.centrosEquipo }}</td>
+                            <td>{{ t.autogolesEquipo }}</td>
+                            <td>{{ t.conversionPenaltiMedia | number:'1.2-2' }}%</td>
+                        </ng-container>
+
+                        <!-- DEFENSA -->
+                        <ng-container *ngIf="activeTab === 'defensa'">
+                            <td>{{ t.golesContra }}</td>
+                            <td>{{ t.amarillasEquipo }}</td>
+                            <td>{{ t.rojasEquipo }}</td>
+                            <td>{{ t.faltasCometidasEquipo }}</td>
+                            <td>{{ t.entradasGanadasEquipo }}</td>
+                            <td>{{ t.intercepcionesEquipo }}</td>
+                        </ng-container>
+
+                        <!-- MEDIAS -->
+                        <ng-container *ngIf="activeTab === 'medias'">
+                            <td>{{ t.golesPorPartido | number:'1.2-2' }}</td>
+                            <td>{{ t.golesContraPorPartido | number:'1.2-2' }}</td>
+                            <td>{{ t.posesionMedia | number:'1.2-2' }}%</td>
+                            <td>{{ t.tirosMedia | number:'1.2-2' }}</td>
+                            <td>{{ t.tirosPuertaMedia | number:'1.2-2' }}</td>
+                            <td>{{ t.paradasMedia | number:'1.2-2' }}</td>
+                            <td>{{ t.tarjetasMedia | number:'1.2-2' }}</td>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="9" class="text-center p-4" style="color: #a0aec0;">
+                            No se encontraron equipos.
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </div>
+</div>

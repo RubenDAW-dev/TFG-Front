@@ -12,8 +12,8 @@
             </linearGradient>
           </defs>
           <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="3" />
-          <path d="M16 40 L26 24 L36 34 L48 20" fill="none" stroke="url(#g1)" stroke-width="4"
-                stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M16 40 L26 24 L36 34 L48 20" fill="none" stroke="url(#g1)" stroke-width="4" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
         <span class="logo-text">TFG<span>Stats</span></span>
       </a>
@@ -61,6 +61,11 @@
   <!-- Menú móvil -->
   <div class="mobile-menu" [class.open]="mobileOpen()">
     <a routerLink="/dashboard" (click)="closeMobile()">Home</a>
+    <a routerLink="/jugadores" (click)="closeMobile()">Jugadores</a>
+    <a routerLink="/equipos" (click)="closeMobile()">Equipos</a>
+    <a routerLink="/comparador" (click)="closeMobile()">Comparador</a>
+    <a routerLink="/partidos" (click)="closeMobile()">Partidos</a>
+
 
     <ng-container *ngIf="!auth.isAuthenticated(); else mobileLogged">
       <button class="btn-login mobile" (click)="goToLogin(); closeMobile()">Login</button>
