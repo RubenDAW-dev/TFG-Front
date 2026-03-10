@@ -32,7 +32,7 @@ import { SelectModule } from 'primeng/select';
 export class Jugadores implements OnInit {
 
   private service = inject(PlayerSeasonStatsService);
-  private cdr = inject(ChangeDetectorRef); // ← AÑADIR
+  private cdr = inject(ChangeDetectorRef);
 
   players: any[] = [];
   teams: any[] = [];
@@ -45,18 +45,19 @@ export class Jugadores implements OnInit {
     this.loadTeams();
   }
 
-  loadAll(page = 0, size = 20, sortField = 'goles', sortOrder = -1) {
-  this.loading = true;
-  const sortDir = sortOrder === 1 ? 'asc' : 'desc';
-  this.service.getAll(page, size, sortField, sortDir).subscribe({
-    next: (res) => {
-      this.players = res.content;
-      this.totalRecords = res.page.totalElements;
-      this.loading = false;
-      this.cdr.detectChanges();
-    }
-  });
-}
+  loadAll(sortField = 'goles', sortOrder = -1) {
+    this.loading = true;
+    const sortDir = sortOrder === 1 ? 'asc' : 'desc';
+    this.service.getAll(sortField, sortDir).subscribe({
+      next: (res) => {
+        this.players = res;
+        this.totalRecords = res.length;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   loadTeams() {
     this.service.getTeams().subscribe({
       next: (res) => {
@@ -74,11 +75,11 @@ export class Jugadores implements OnInit {
 
     this.loading = true;
     this.service.getPlayersByTeam(this.selectedTeam).subscribe({
-      next: (page) => {
-        this.players = page.content;
+      next: (res) => {
+        this.players = res;
+        this.totalRecords = res.length;
         this.loading = false;
         this.cdr.detectChanges();
-        console.log('Jugadores filtrados por equipo:', this.players);
       }
     });
   }
@@ -87,11 +88,5 @@ export class Jugadores implements OnInit {
     this.selectedTeam = null;
     this.loadAll();
   }
-  onLazyLoad(event: any) {
-  const page = (event.first ?? 0) / (event.rows ?? 20);
-  const size = event.rows ?? 20;
-  const sortField = event.sortField ?? 'goles';
-  const sortOrder = event.sortOrder ?? -1;
-  this.loadAll(page, size, sortField, sortOrder);
-}
+
 }

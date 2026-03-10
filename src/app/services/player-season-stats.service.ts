@@ -33,25 +33,25 @@ export class PlayerSeasonStatsService {
     }
   }
 
-  // === Tabla de plantilla (paginada) ===
+  // === Tabla de plantilla ===
   getTeamStatsPaged(teamId: string, page = 0, size = 20) {
     return this.http.get<any>(
       `${this.api}/team/${teamId}/players?page=${page}&size=${size}`
     );
   }
-  getAll(page = 0, size = 20, sortField = 'goles', sortDir = 'desc') {
-    return this.http.get<any>(
-      `${this.api}/getAll?page=${page}&size=${size}&sortField=${sortField}&sortDir=${sortDir}`
+
+  getAll(sortField = 'goles', sortDir = 'desc') {
+    return this.http.get<any[]>(
+      `${this.api}/getAll?sortField=${sortField}&sortDir=${sortDir}`
     );
   }
 
-  getPlayersByTeam(teamId: string, page = 0, size = 25) {
-    return this.http.get<any>(
-      `${this.api}/team/${teamId}/players?page=${page}&size=${size}`
+  getPlayersByTeam(teamId: string) {
+    return this.http.get<any[]>(
+      `${this.api}/team/${teamId}/players`
     );
   }
 
-  // ← CORREGIDO: apunta a /api/teams/getAll
   getTeams() {
     return this.http.get<any[]>(`${this.teamsApi}/getAll`);
   }

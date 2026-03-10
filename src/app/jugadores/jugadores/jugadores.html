@@ -6,9 +6,12 @@
         <h1 class="m-0 text-900 font-bold">Estadísticas de Jugadores</h1>
       </div>
 
-      <p-table #dt [value]="players" [paginator]="true" [rows]="20" [totalRecords]="totalRecords" [lazy]="true"
-        (onLazyLoad)="onLazyLoad($event)" [rowsPerPageOptions]="[10,20,50]"
-        [globalFilterFields]="['playerName','teamName']" sortMode="multiple" dataKey="playerId"
+      <p-table #dt [value]="players" [paginator]="true" [rows]="20"
+        [rowsPerPageOptions]="[10,20,50]"
+        [globalFilterFields]="['playerName','teamName']"
+        sortMode="single"
+        dataKey="playerId"
+        [loading]="loading"
         styleClass="p-datatable-striped">
 
         <!-- HEADER -->
@@ -55,7 +58,7 @@
           <tr>
             <th pSortableColumn="playerName">Jugador <p-sortIcon field="playerName"></p-sortIcon></th>
             <th pSortableColumn="teamName">Equipo <p-sortIcon field="teamName"></p-sortIcon></th>
-            <th pSortableColumn="goles">Goles <p-sortIcon field="goles"></p-sortIcon></th>
+            <th pSortableColumn="goles" [pSortableColumnDisabled]="false">Goles <p-sortIcon field="goles"></p-sortIcon></th>
             <th pSortableColumn="asistencias">Asistencias <p-sortIcon field="asistencias"></p-sortIcon></th>
             <th pSortableColumn="minutos">Minutos <p-sortIcon field="minutos"></p-sortIcon></th>
             <th pSortableColumn="partidos">Partidos <p-sortIcon field="partidos"></p-sortIcon></th>
