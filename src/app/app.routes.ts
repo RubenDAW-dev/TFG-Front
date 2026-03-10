@@ -8,6 +8,7 @@ import { Jugadores } from './jugadores/jugadores/jugadores';
 import { Equipos } from './equipos/equipos';
 import { authGuard } from './core/Auth/auth.guard';
 import { adminGuard } from './core/Auth/admin.guard';
+import { ComparadorComponent } from './comparador/comparador/comparador';
 
 export const routes: Routes = [
   // Públicas — sin guard
@@ -20,6 +21,7 @@ export const routes: Routes = [
    // Protegidas — requieren login
   { path: 'jugadores', component: Jugadores, canActivate: [authGuard] },
   { path: 'equipos', component: Equipos, canActivate: [authGuard] },
+  { path: 'comparador', component: ComparadorComponent, canActivate: [authGuard] },
 
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   { path: '**', redirectTo: 'dashboard' }

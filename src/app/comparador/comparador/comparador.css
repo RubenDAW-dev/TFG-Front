@@ -1,0 +1,558 @@
+/* comparador.component.css */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap');
+
+/* ── Wrapper ────────────────────────────────────────────── */
+.comparador-wrapper {
+  min-height: 100vh;
+  background: #080c12;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(0,180,255,0.06), transparent),
+    radial-gradient(ellipse 60% 30% at 80% 110%, rgba(255,80,120,0.05), transparent);
+  font-family: 'Barlow', sans-serif;
+  color: #e8edf5;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.comp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.comp-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #e8edf5;
+  margin: 0;
+}
+
+.comp-title::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 2.5rem;
+  background: linear-gradient(90deg, #00d4ff, #ff5078);
+  margin-top: 4px;
+  border-radius: 2px;
+}
+
+.tab-switcher {
+  display: flex;
+  gap: 0.5rem;
+  background: #111827;
+  padding: 0.25rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.tab-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background: transparent;
+  color: #5a6478;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn .tab-icon {
+  margin-right: 0.35rem;
+}
+
+.tab-btn.active {
+  background: rgba(255,255,255,0.07);
+  color: #e8edf5;
+}
+
+.tab-btn:not(.active):hover {
+  color: #b8c0cc;
+}
+
+/* ── Selector Row ───────────────────────────────────────── */
+.selector-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.selector-panel {
+  background: #0d1520;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.selector-panel.left-panel {
+  border-top: 3px solid #00d4ff;
+}
+
+.selector-panel.right-panel {
+  border-top: 3px solid #ff5078;
+}
+
+.selector-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #5a6478;
+  margin-bottom: 0.75rem;
+}
+
+.custom-select-wrapper {
+  position: relative;
+}
+
+.custom-select-wrapper .select-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5a6478;
+  pointer-events: none;
+  font-size: 0.75rem;
+}
+
+.custom-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: #e8edf5;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.7rem 2.5rem 0.7rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.custom-select:focus {
+  outline: none;
+}
+
+.custom-select:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.custom-select option {
+  background: #1a2232;
+}
+
+.custom-select.select-a:focus {
+  border-color: #00d4ff;
+}
+
+.custom-select.select-b:focus {
+  border-color: #ff5078;
+}
+
+/* Team Badge */
+.team-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.team-badge .badge-initial {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.team-badge .badge-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.team-badge.badge-a .badge-initial {
+  background: rgba(0,212,255,0.15);
+  color: #00d4ff;
+}
+
+.team-badge.badge-b .badge-initial {
+  background: rgba(255,80,120,0.15);
+  color: #ff5078;
+}
+
+/* ── VS Center ──────────────────────────────────────────── */
+.vs-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vs-ring {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.12);
+  background: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.vs-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #5a6478;
+}
+
+.vs-line {
+  width: 1px;
+  height: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), transparent);
+}
+
+/* ── Comparison Arena ───────────────────────────────────── */
+.comparison-arena {
+  display: grid;
+  grid-template-columns: 1fr 350px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ── Stats Panels ───────────────────────────────────────── */
+.stats-panel {
+  background: #0d1520;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.stats-header.header-a {
+  border-left: 3px solid #00d4ff;
+}
+
+.stats-header.header-b {
+  border-left: 3px solid #ff5078;
+}
+
+.stats-team-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #e8edf5;
+  flex: 1;
+}
+
+.stats-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.stats-dot.dot-a {
+  background: #00d4ff;
+  box-shadow: 0 0 8px #00d4ff;
+}
+
+.stats-dot.dot-b {
+  background: #ff5078;
+  box-shadow: 0 0 8px #ff5078;
+}
+
+.stats-list {
+  padding: 0.75rem 0;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  transition: background 0.15s;
+}
+
+.stat-row:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.stat-row.winner {
+  background: rgba(255,255,255,0.03);
+}
+
+.stat-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #5a6478;
+  text-transform: uppercase;
+  min-width: 90px;
+}
+
+.stat-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 42px;
+  text-align: right;
+}
+
+.stat-value.val-a {
+  color: #00d4ff;
+}
+
+.stat-value.val-b {
+  color: #ff5078;
+}
+
+.stat-bar-wrapper {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  min-width: 4px;
+  transition: width 0.6s cubic-bezier(.4,0,.2,1);
+}
+
+.stat-bar.bar-a {
+  background: linear-gradient(90deg, #00a8cc, #00d4ff);
+}
+
+.stat-bar.bar-b {
+  background: linear-gradient(90deg, #ff5078, #ff7a96);
+}
+
+/* Panel derecho invertido */
+.stats-right .stat-row {
+  flex-direction: row-reverse;
+}
+
+.stats-right .stat-label {
+  text-align: right;
+}
+
+.stats-right .stat-value {
+  text-align: left;
+}
+
+.winner-icon {
+  font-size: 0.6rem;
+  color: #ffd700;
+  flex-shrink: 0;
+}
+
+/* ── Radar Container ────────────────────────────────────── */
+.radar-container {
+  background: #0d1520;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radar-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #5a6478;
+  margin-bottom: 1.25rem;
+}
+
+.radar-legend {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #5a6478;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+}
+
+.legend-dot.dot-a {
+  background: #00d4ff;
+}
+
+.legend-dot.dot-b {
+  background: #ff5078;
+}
+
+.legend-label {
+  color: #e8edf5;
+}
+
+/* ── Placeholder ────────────────────────────────────────── */
+.placeholder-area {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem;
+  color: #5a6478;
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.placeholder-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .comparison-arena {
+    grid-template-columns: 1fr;
+  }
+  .comparison-arena .radar-container {
+    order: -1;
+  }
+  .selector-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .selector-row .vs-center {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .comp-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .selector-row {
+    grid-template-columns: 1fr;
+  }
+  .comparador-wrapper {
+    padding: 1rem;
+  }
+}
+
+.radar-col .radar-container {
+  flex: none;
+}
+
+.radar-canvas {
+  width: 100% !important;
+}
+
+/* ── Segundo Radar ──────────────────────────────────────── */
+.radar-detail-spacer {
+  background: #0d1520;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+}
+
+.radar-detail-labels {
+  width: 100%;
+  margin-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.detail-key {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #5a6478;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.detail-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+}
+
+.detail-val.val-a { color: #00d4ff; }
+.detail-val.val-b { color: #ff5078; }
+
+.detail-sep {
+  color: rgba(255,255,255,0.15);
+  font-size: 0.75rem;
+}
+
+/* ── Columna central con dos radares ────────────────────── */
+.radar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

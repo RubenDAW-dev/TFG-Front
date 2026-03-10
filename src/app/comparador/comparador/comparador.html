@@ -1,0 +1,136 @@
+<!-- comparador.component.html -->
+<div class="comparador-wrapper">
+
+  <!-- Header -->
+  <div class="comp-header">
+    <h1 class="comp-title">COMPARADOR</h1>
+    <div class="tab-switcher">
+      <button class="tab-btn" [class.active]="modo === 'equipos'" (click)="setModo('equipos')">
+        <span class="tab-icon">⬡</span> EQUIPOS
+      </button>
+      <button class="tab-btn" [class.active]="modo === 'jugadores'" (click)="setModo('jugadores')">
+        <span class="tab-icon">◈</span> JUGADORES
+      </button>
+    </div>
+  </div>
+
+  <!-- Selector Row -->
+  <div class="selector-row">
+    <!-- Selector Izquierda -->
+    <div class="selector-panel left-panel">
+      <div class="selector-label">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} A</div>
+      <div class="custom-select-wrapper" [class.selected]="seleccionA">
+        <select class="custom-select select-a" [(ngModel)]="seleccionA" (change)="onCambioA()">
+          <option value="">— Elige —</option>
+          <option *ngFor="let item of listaOpciones" [value]="item.id">{{ item.nombre }}</option>
+        </select>
+        <span class="select-arrow">▾</span>
+      </div>
+      <div class="team-badge badge-a" *ngIf="seleccionA">
+        <span class="badge-initial">{{ getNombre(seleccionA).charAt(0) }}</span>
+        <span class="badge-name">{{ getNombre(seleccionA) }}</span>
+      </div>
+    </div>
+
+    <!-- VS Central -->
+    <div class="vs-center">
+      <div class="vs-ring">
+        <span class="vs-text">VS</span>
+      </div>
+      <div class="vs-line left-line"></div>
+      <div class="vs-line right-line"></div>
+    </div>
+
+    <!-- Selector Derecha -->
+    <div class="selector-panel right-panel">
+      <div class="selector-label">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} B</div>
+      <div class="custom-select-wrapper" [class.selected]="seleccionB">
+        <select class="custom-select select-b" [(ngModel)]="seleccionB" (change)="onCambioB()">
+          <option value="">— Elige —</option>
+          <option *ngFor="let item of listaOpciones" [value]="item.id">{{ item.nombre }}</option>
+        </select>
+        <span class="select-arrow">▾</span>
+      </div>
+      <div class="team-badge badge-b" *ngIf="seleccionB">
+        <span class="badge-initial">{{ getNombre(seleccionB).charAt(0) }}</span>
+        <span class="badge-name">{{ getNombre(seleccionB) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparación Principal -->
+  <div class="comparison-arena" *ngIf="datosA && datosB; else placeholder">
+
+    <!-- Stats Izquierda -->
+    <div class="stats-panel stats-left">
+      <div class="stats-header header-a">
+        <span class="stats-team-name">{{ getNombre(seleccionA) }}</span>
+        <span class="stats-dot dot-a"></span>
+      </div>
+      <div class="stats-list">
+        <div class="stat-row" *ngFor="let stat of statsComunes; let i = index"
+             [class.winner]="ganador(stat.key) === 'A'">
+          <span class="stat-value val-a">{{ formatVal(datosA[stat.key]) }}</span>
+          <span class="stat-bar-wrapper">
+            <span class="stat-bar bar-a"
+                  [style.width.%]="getPct(datosA[stat.key], datosB[stat.key])"></span>
+          </span>
+          <span class="stat-label">{{ stat.label }}</span>
+          <span class="winner-icon" *ngIf="ganador(stat.key) === 'A'">▲</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Radar Chart -->
+    <div class="radar-col">
+      <div class="radar-container">
+        <div class="radar-title">ANÁLISIS COMPARATIVO</div>
+        <canvas #radarCanvas class="radar-canvas"></canvas>
+        <div class="radar-legend">
+          <span class="legend-dot dot-a"></span><span class="legend-label">{{ getNombre(seleccionA) }}</span>
+          <span class="legend-dot dot-b"></span><span class="legend-label">{{ getNombre(seleccionB) }}</span>
+        </div>
+      </div>
+
+      <!-- Segundo Radar -->
+      <div class="radar-container" style="margin-top: 1.5rem;">
+        <div class="radar-title">DETALLE TÉCNICO</div>
+        <canvas #radarCanvas2 class="radar-canvas"></canvas>
+        <div class="radar-legend">
+          <span class="legend-dot dot-a"></span><span class="legend-label">{{ getNombre(seleccionA) }}</span>
+          <span class="legend-dot dot-b"></span><span class="legend-label">{{ getNombre(seleccionB) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Derecha -->
+    <div class="stats-panel stats-right">
+      <div class="stats-header header-b">
+        <span class="stats-dot dot-b"></span>
+        <span class="stats-team-name">{{ getNombre(seleccionB) }}</span>
+      </div>
+      <div class="stats-list">
+        <div class="stat-row" *ngFor="let stat of statsComunes"
+             [class.winner]="ganador(stat.key) === 'B'">
+          <span class="winner-icon" *ngIf="ganador(stat.key) === 'B'">▲</span>
+          <span class="stat-label">{{ stat.label }}</span>
+          <span class="stat-bar-wrapper">
+            <span class="stat-bar bar-b"
+                  [style.width.%]="getPct(datosB[stat.key], datosA[stat.key])"></span>
+          </span>
+          <span class="stat-value val-b">{{ formatVal(datosB[stat.key]) }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Placeholder -->
+  <ng-template #placeholder>
+    <div class="placeholder-area">
+      <div class="placeholder-icon">◈</div>
+      <p class="placeholder-text">Selecciona dos {{ modo }} para comenzar la comparación</p>
+    </div>
+  </ng-template>
+
+</div>
