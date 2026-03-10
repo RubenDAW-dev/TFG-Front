@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { PopoverModule } from 'primeng/popover';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { Table } from 'primeng/table';
 
 import { PlayerSeasonStatsService } from '../../services/player-season-stats.service';
 import { SelectModule } from 'primeng/select';
@@ -31,6 +32,8 @@ import { SelectModule } from 'primeng/select';
 })
 export class Jugadores implements OnInit {
 
+  @ViewChild('dt') dt!: Table;
+
   private service = inject(PlayerSeasonStatsService);
   private cdr = inject(ChangeDetectorRef);
 
@@ -39,6 +42,16 @@ export class Jugadores implements OnInit {
   selectedTeam: string | null = null;
   loading = true;
   totalRecords = 0;
+  currentRows = 20;
+  rowOptions = [10, 20, 50, 100];
+  activeTab: 'basicas' | 'ofensivas' | 'defensivas' | 'por90' = 'basicas';
+
+  tabs = [
+    { key: 'basicas', label: 'Básicas' },
+    { key: 'ofensivas', label: 'Ofensivas' },
+    { key: 'defensivas', label: 'Defensivas' },
+    { key: 'por90', label: 'Por 90 min' }
+  ];
 
   ngOnInit(): void {
     this.loadAll();
@@ -72,7 +85,6 @@ export class Jugadores implements OnInit {
       this.loadAll();
       return;
     }
-
     this.loading = true;
     this.service.getPlayersByTeam(this.selectedTeam).subscribe({
       next: (res) => {
@@ -89,4 +101,12 @@ export class Jugadores implements OnInit {
     this.loadAll();
   }
 
+  onRowsChange(rows: number) {
+    this.currentRows = Number(rows);
+    if (this.dt) {
+      this.dt.rows = this.currentRows;
+      this.dt.first = 0;
+      this.dt.reset();
+    }
+  }
 }

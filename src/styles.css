@@ -14,3 +14,65 @@ body {
 html {
   scroll-behavior: smooth;
 }
+/* ── POPOVER GLOBAL ── */
+.p-popover {
+  background: rgba(15, 20, 45, 0.98) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 10px !important;
+}
+
+.p-popover .p-popover-content {
+  background: rgba(15, 20, 45, 0.98) !important;
+  padding: 16px !important;
+  border-radius: 10px !important;
+  color: #e0e0e0 !important;
+}
+
+.p-select {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.p-select-label {
+  color: #e0e0e0 !important;
+}
+
+.p-select-overlay {
+  background: rgba(15, 20, 45, 0.98) !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.p-select-option {
+  color: #e0e0e0 !important;
+  background: transparent !important;
+}
+
+.p-select-option:hover,
+.p-select-option.p-highlight {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #c084fc !important;
+}
+.p-paginator-rpp-dropdown .p-select-overlay {
+  background: rgb(15, 20, 45) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+.p-paginator-rpp-dropdown .p-select-list-container {
+  background: rgb(15, 20, 45) !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.p-paginator-rpp-dropdown .p-select-option {
+  color: #e0e0e0 !important;
+  background: transparent !important;
+  padding: 8px 16px !important;
+}
+
+.p-paginator-rpp-dropdown .p-select-option:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #c084fc !important;
+}
