@@ -20,7 +20,7 @@ interface StatDef { key: string; label: string; }
   styleUrls: ['./comparador.css'],
   imports: [CommonModule,FormsModule]
 })
-export class ComparadorComponent implements OnInit, AfterViewChecked {
+export class Comparador implements OnInit, AfterViewChecked {
 
   @ViewChild('radarCanvas')  radarCanvas!:  ElementRef<HTMLCanvasElement>;
   @ViewChild('radarCanvas2') radarCanvas2!: ElementRef<HTMLCanvasElement>;

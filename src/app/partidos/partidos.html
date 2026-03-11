@@ -1,0 +1,124 @@
+<div class="matches-page">
+
+  <!-- LOADING -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando partidos...</p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-state" *ngIf="error && !loading">
+    <span class="error-icon">⚠</span>
+    <p>{{ error }}</p>
+  </div>
+
+  <ng-container *ngIf="loading === false && !error">
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- PANEL 1: JORNADA ACTUAL                    -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="panel-card">
+      <h2>Jornada {{ currentRound }}</h2>
+
+      <div class="matches-grid-2col" *ngIf="currentRoundMatches.length > 0; else noCurrentMatches">
+        <div
+          class="match-row current"
+          *ngFor="let match of currentRoundMatches"
+          [ngClass]="getResultClass(match)"
+        >
+          <span class="col-left">{{ match.homeTeam.nombre }}</span>
+
+          <!-- Con resultado -->
+          <span class="col-center strong" *ngIf="match.score && match.score.trim() !== ''">
+            {{ match.score }}
+          </span>
+
+          <!-- Sin resultado: fecha y hora -->
+          <span class="col-center" *ngIf="!match.score || match.score.trim() === ''">
+            <span class="day">{{ formatDate(match.date) }}</span>
+            <span class="time">{{ match.time }}</span>
+          </span>
+
+          <span class="col-right">{{ match.awayTeam.nombre }}</span>
+        </div>
+      </div>
+
+      <ng-template #noCurrentMatches>
+        <p class="empty-msg">No hay partidos en la jornada actual.</p>
+      </ng-template>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- PANEL 2: TABS JUGADOS / PRÓXIMOS           -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="panel-card">
+
+      <div class="tabs">
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'played'"
+          (click)="activeTab = 'played'"
+        >
+          Jugados
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'upcoming'"
+          (click)="activeTab = 'upcoming'"
+        >
+          Próximos
+        </button>
+      </div>
+
+      <!-- ── JUGADOS ── -->
+      <ng-container *ngIf="activeTab === 'played'">
+        <div class="round-selector">
+          <select
+            class="round-select"
+            [value]="selectedRound"
+            (change)="selectRound(+$any($event.target).value)"
+          >
+            <option *ngFor="let r of availableRounds" [value]="r">
+              Jornada {{ r }}
+            </option>
+          </select>
+        </div>
+
+        <div class="matches-grid-2col" *ngIf="selectedRound !== null">
+          <div
+            class="match-row"
+            *ngFor="let match of getMatchesByRound(selectedRound)"
+            [ngClass]="getResultClass(match)"
+          >
+            <span class="col-left">{{ match.homeTeam.nombre }}</span>
+            <span class="col-center strong">{{ match.score }}</span>
+            <span class="col-right">{{ match.awayTeam.nombre }}</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- ── PRÓXIMOS ── -->
+      <ng-container *ngIf="activeTab === 'upcoming'">
+        <div *ngFor="let round of getUpcomingRounds()" class="upcoming-group">
+          <div class="upcoming-round-header">Jornada {{ round }}</div>
+
+          <div class="matches-grid-2col">
+            <div
+              class="match-row upcoming"
+              *ngFor="let match of getUpcomingByRound(round)"
+            >
+              <span class="col-left">{{ match.homeTeam.nombre }}</span>
+              <span class="col-center">
+                <span class="day">{{ formatDate(match.date) }}</span>
+                <span class="time">{{ match.time }}</span>
+              </span>
+              <span class="col-right">{{ match.awayTeam.nombre }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+
+  </ng-container>
+</div>
