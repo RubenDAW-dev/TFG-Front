@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { MatchEntity } from '../shared/models/match.entity';
 import { MatchesService } from '../services/matches.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-partidos',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './partidos.html',
   styleUrl: './partidos.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

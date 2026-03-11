@@ -25,6 +25,7 @@
           class="match-row current"
           *ngFor="let match of currentRoundMatches"
           [ngClass]="getResultClass(match)"
+          [routerLink]="['/partidos', match.id]" style="cursor:pointer"
         >
           <span class="col-left">{{ match.homeTeam.nombre }}</span>
 
@@ -89,6 +90,7 @@
             class="match-row"
             *ngFor="let match of getMatchesByRound(selectedRound)"
             [ngClass]="getResultClass(match)"
+            [routerLink]="['/partidos', match.id]" style="cursor:pointer"
           >
             <span class="col-left">{{ match.homeTeam.nombre }}</span>
             <span class="col-center strong">{{ match.score }}</span>
@@ -106,6 +108,7 @@
             <div
               class="match-row upcoming"
               *ngFor="let match of getUpcomingByRound(round)"
+              [routerLink]="['/partidos', match.id]" style="cursor:pointer"
             >
               <span class="col-left">{{ match.homeTeam.nombre }}</span>
               <span class="col-center">

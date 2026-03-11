@@ -1,0 +1,319 @@
+<div class="detail-page">
+
+  <!-- LOADING -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando partido...</p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-state" *ngIf="error && !loading">
+    <span>⚠</span><p>{{ error }}</p>
+  </div>
+
+  <ng-container *ngIf="!loading && !error && match">
+
+    <!-- ── BACK ───────────────────────────────────────── -->
+    <button class="back-btn" (click)="goBack()">← Volver a partidos</button>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- HERO                                            -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="panel-card hero-card">
+
+      <div class="hero-meta">
+        <span class="hero-round">Jornada {{ match.wk }}</span>
+        <span class="hero-date">{{ formatDate(match.date) }}</span>
+        <span class="hero-venue">{{ match.venue }}</span>
+      </div>
+
+      <div class="hero-match">
+        <div class="hero-team home">
+          <span class="hero-team-name">{{ match.homeTeam.nombre }}</span>
+          <span class="hero-team-city">{{ match.homeTeam.ciudad }}</span>
+        </div>
+
+        <div class="hero-score-box">
+          <ng-container *ngIf="isPlayed(); else notPlayed">
+            <span class="hero-score">{{ match.score }}</span>
+            <span class="hero-score-label">Resultado final</span>
+          </ng-container>
+          <ng-template #notPlayed>
+            <span class="hero-vs">VS</span>
+            <span class="hero-time">{{ match.time }}</span>
+          </ng-template>
+        </div>
+
+        <div class="hero-team away">
+          <span class="hero-team-name">{{ match.awayTeam.nombre }}</span>
+          <span class="hero-team-city">{{ match.awayTeam.ciudad }}</span>
+        </div>
+      </div>
+
+      <div class="hero-referee" *ngIf="match.referee">
+        Árbitro: {{ match.referee }}
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STATS DE TEMPORADA (partido no jugado)          -->
+    <!-- ════════════════════════════════════════════════ -->
+    <ng-container *ngIf="!isPlayed() && homeSeasonStats && awaySeasonStats">
+
+      <!-- Cabecera de comparación estilo comparador -->
+      <div class="season-comparison-arena panel-card">
+
+        <h2>Estadísticas de temporada</h2>
+
+        <!-- Nombres + radar legend -->
+        <div class="season-header">
+          <div class="season-team-badge home">
+            <span class="season-badge-initial">{{ match.homeTeam.nombre.charAt(0) }}</span>
+            <span class="season-badge-name">{{ match.homeTeam.nombre }}</span>
+          </div>
+          <div class="season-vs-ring">
+            <span>VS</span>
+          </div>
+          <div class="season-team-badge away">
+            <span class="season-badge-name">{{ match.awayTeam.nombre }}</span>
+            <span class="season-badge-initial away">{{ match.awayTeam.nombre.charAt(0) }}</span>
+          </div>
+        </div>
+
+        <!-- Filas de stats -->
+        <div class="season-stats-list">
+          <div class="season-stat-row" *ngFor="let stat of seasonStats">
+            <span class="season-val home"
+                  [class.winner]="ganador(homeSeasonStats[stat.key], awaySeasonStats[stat.key]) === 'home'">
+              {{ formatVal(homeSeasonStats[stat.key]) }}
+            </span>
+            <div class="season-bar-wrap home">
+              <div class="season-bar home"
+                   [style.width.%]="getPct(homeSeasonStats[stat.key], awaySeasonStats[stat.key])">
+              </div>
+            </div>
+            <span class="season-label">{{ stat.label }}</span>
+            <div class="season-bar-wrap away">
+              <div class="season-bar away"
+                   [style.width.%]="getPct(awaySeasonStats[stat.key], homeSeasonStats[stat.key])">
+              </div>
+            </div>
+            <span class="season-val away"
+                  [class.winner]="ganador(homeSeasonStats[stat.key], awaySeasonStats[stat.key]) === 'away'">
+              {{ formatVal(awaySeasonStats[stat.key]) }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Radares -->
+      <div class="radar-grid">
+
+        <div class="radar-card panel-card">
+          <div class="radar-title">ANÁLISIS COMPARATIVO</div>
+          <canvas #radarCanvas class="radar-canvas"></canvas>
+          <div class="radar-legend">
+            <span class="legend-dot home"></span>
+            <span class="legend-label">{{ match.homeTeam.nombre }}</span>
+            <span class="legend-dot away"></span>
+            <span class="legend-label">{{ match.awayTeam.nombre }}</span>
+          </div>
+        </div>
+
+        <div class="radar-card panel-card">
+          <div class="radar-title">DETALLE TÉCNICO</div>
+          <canvas #radarCanvas2 class="radar-canvas"></canvas>
+          <div class="radar-legend">
+            <span class="legend-dot home"></span>
+            <span class="legend-label">{{ match.homeTeam.nombre }}</span>
+            <span class="legend-dot away"></span>
+            <span class="legend-label">{{ match.awayTeam.nombre }}</span>
+          </div>
+        </div>
+
+      </div>
+
+    </ng-container>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STATS DEL PARTIDO (jugado)                      -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="panel-card" *ngIf="isPlayed() && (homeStats || awayStats)">
+      <h2>Estadísticas del partido</h2>
+
+      <div class="team-stats-grid">
+
+        <div class="stat-row">
+          <span class="stat-val home">{{ homeStats?.possession ?? '–' }}%</span>
+          <span class="stat-label">Posesión</span>
+          <span class="stat-val away">{{ awayStats?.possession ?? '–' }}%</span>
+        </div>
+        <div class="possession-bar">
+          <div class="possession-fill" [style.width.%]="homePossessionWidth()"></div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-val home">{{ homeStats?.shots_total ?? '–' }}</span>
+          <span class="stat-label">Tiros</span>
+          <span class="stat-val away">{{ awayStats?.shots_total ?? '–' }}</span>
+        </div>
+        <div class="stat-bar-row">
+          <div class="stat-bar-wrap home">
+            <div class="stat-bar home" [style.width.%]="getPct(homeStats?.shots_total, awayStats?.shots_total)"></div>
+          </div>
+          <div class="stat-bar-wrap away">
+            <div class="stat-bar away" [style.width.%]="getPct(awayStats?.shots_total, homeStats?.shots_total)"></div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-val home">{{ homeStats?.shots_on_target ?? '–' }}</span>
+          <span class="stat-label">A puerta</span>
+          <span class="stat-val away">{{ awayStats?.shots_on_target ?? '–' }}</span>
+        </div>
+        <div class="stat-bar-row">
+          <div class="stat-bar-wrap home">
+            <div class="stat-bar home" [style.width.%]="getPct(homeStats?.shots_on_target, awayStats?.shots_on_target)"></div>
+          </div>
+          <div class="stat-bar-wrap away">
+            <div class="stat-bar away" [style.width.%]="getPct(awayStats?.shots_on_target, homeStats?.shots_on_target)"></div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-val home">{{ homeStats?.saves ?? '–' }}</span>
+          <span class="stat-label">Paradas</span>
+          <span class="stat-val away">{{ awayStats?.saves ?? '–' }}</span>
+        </div>
+        <div class="stat-bar-row">
+          <div class="stat-bar-wrap home">
+            <div class="stat-bar home" [style.width.%]="getPct(homeStats?.saves, awayStats?.saves)"></div>
+          </div>
+          <div class="stat-bar-wrap away">
+            <div class="stat-bar away" [style.width.%]="getPct(awayStats?.saves, homeStats?.saves)"></div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-val home">{{ homeStats?.cards ?? '–' }}</span>
+          <span class="stat-label">Tarjetas</span>
+          <span class="stat-val away">{{ awayStats?.cards ?? '–' }}</span>
+        </div>
+        <div class="stat-bar-row">
+          <div class="stat-bar-wrap home">
+            <div class="stat-bar home cards" [style.width.%]="getPct(homeStats?.cards, awayStats?.cards)"></div>
+          </div>
+          <div class="stat-bar-wrap away">
+            <div class="stat-bar away cards" [style.width.%]="getPct(awayStats?.cards, homeStats?.cards)"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- TABLAS DE JUGADORES (jugado)                    -->
+    <!-- ════════════════════════════════════════════════ -->
+    <ng-container *ngIf="isPlayed() && playerStats.length > 0">
+
+      <div class="panel-card" *ngIf="homePlayers.length > 0">
+        <h2>{{ match.homeTeam.nombre }}</h2>
+        <div class="table-wrap">
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="col-name">Jugador</th>
+                <th>Pos</th>
+                <th>Min</th>
+                <th>Gol</th>
+                <th>Ast</th>
+                <th>Tiros</th>
+                <th>A puerta</th>
+                <th title="Tarjeta amarilla">TA</th>
+                <th title="Tarjeta roja">TR</th>
+                <th>Faltas</th>
+                <th>Interc.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of homePlayers"
+                  [class.scored]="p.gls && p.gls > 0"
+                  [class.carded]="(p.yellowCards && p.yellowCards > 0) || (p.redCards && p.redCards > 0)">
+                <td class="col-num">{{ p.number }}</td>
+                <td class="col-name">{{ p.player.nombre }}</td>
+                <td class="col-pos">{{ p.pos }}</td>
+                <td>{{ p.minutes }}</td>
+                <td class="col-goals">{{ p.gls ?? 0 }}</td>
+                <td>{{ p.ast ?? 0 }}</td>
+                <td>{{ p.shots ?? 0 }}</td>
+                <td>{{ p.shotsOnTarget ?? 0 }}</td>
+                <td>
+                  <span class="card yellow" *ngIf="p.yellowCards && p.yellowCards > 0">{{ p.yellowCards }}</span>
+                  <span *ngIf="!p.yellowCards || p.yellowCards === 0">0</span>
+                </td>
+                <td>
+                  <span class="card red" *ngIf="p.redCards && p.redCards > 0">{{ p.redCards }}</span>
+                  <span *ngIf="!p.redCards || p.redCards === 0">0</span>
+                </td>
+                <td>{{ p.foulsCommitted ?? 0 }}</td>
+                <td>{{ p.interceptions ?? 0 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel-card" *ngIf="awayPlayers.length > 0">
+        <h2>{{ match.awayTeam.nombre }}</h2>
+        <div class="table-wrap">
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="col-name">Jugador</th>
+                <th>Pos</th>
+                <th>Min</th>
+                <th>Gol</th>
+                <th>Ast</th>
+                <th>Tiros</th>
+                <th>A puerta</th>
+                <th title="Tarjeta amarilla">TA</th>
+                <th title="Tarjeta roja">TR</th>
+                <th>Faltas</th>
+                <th>Interc.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of awayPlayers"
+                  [class.scored]="p.gls && p.gls > 0"
+                  [class.carded]="(p.yellowCards && p.yellowCards > 0) || (p.redCards && p.redCards > 0)">
+                <td class="col-num">{{ p.number }}</td>
+                <td class="col-name">{{ p.player.nombre }}</td>
+                <td class="col-pos">{{ p.pos }}</td>
+                <td>{{ p.minutes }}</td>
+                <td class="col-goals">{{ p.gls ?? 0 }}</td>
+                <td>{{ p.ast ?? 0 }}</td>
+                <td>{{ p.shots ?? 0 }}</td>
+                <td>{{ p.shotsOnTarget ?? 0 }}</td>
+                <td>
+                  <span class="card yellow" *ngIf="p.yellowCards && p.yellowCards > 0">{{ p.yellowCards }}</span>
+                  <span *ngIf="!p.yellowCards || p.yellowCards === 0">0</span>
+                </td>
+                <td>
+                  <span class="card red" *ngIf="p.redCards && p.redCards > 0">{{ p.redCards }}</span>
+                  <span *ngIf="!p.redCards || p.redCards === 0">0</span>
+                </td>
+                <td>{{ p.foulsCommitted ?? 0 }}</td>
+                <td>{{ p.interceptions ?? 0 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </ng-container>
+
+  </ng-container>
+</div>
