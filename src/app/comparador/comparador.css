@@ -548,3 +548,70 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+
+/* Cambiar color del cuadro del select */
+:host ::ng-deep .ng-select .ng-select-container {
+  background: #0d1520;              /* mismo fondo que tus panels */
+  border: 1px solid rgba(255,255,255,0.07);
+  color: #e8edf5;
+}
+
+/* Cambiar color del desplegable */
+:host ::ng-deep .ng-dropdown-panel {
+  background: #1a2232;              /* fondo oscuro del dropdown */
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+:host ::ng-deep .ng-option-marked {
+  background: rgba(255,255,255,0.05);
+}
+/* Color del texto del selector */
+:host ::ng-deep .ng-select {
+  color: #e8edf5;
+}
+
+/* Color del texto dentro del select */
+:host ::ng-deep .ng-select-container {
+  color: #e8edf5;
+}
+:host ::ng-deep .ng-select input::placeholder {
+  color: #5a6478;
+}
+/* Contenedor general del select */
+:host ::ng-deep .ng-select .ng-select-container {
+  background: #0d1520;         /* mismo que tus panels */
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  color: #e8edf5;              /* color del texto seleccionado */
+}
+
+/* Input de búsqueda */
+:host ::ng-deep .ng-select .ng-input input {
+  color: #e8edf5;              /* color del texto que escribes */
+  background: transparent;      /* fondo transparente para que se vea el panel */
+}
+
+/* Placeholder del input */
+:host ::ng-deep .ng-select .ng-input input::placeholder {
+  color: #5a6478;              /* placeholder gris */
+}
+
+/* Dropdown */
+:host ::ng-deep .ng-dropdown-panel {
+  background: #1a2232;          /* fondo oscuro del desplegable */
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+/* Opciones dentro del dropdown */
+:host ::ng-deep .ng-dropdown-panel .ng-option {
+  color: #e8edf5;
+  background: transparent;
+}
+
+:host ::ng-deep .ng-dropdown-panel .ng-option-marked {
+  background: rgba(255,255,255,0.05);
+}
+
+:host ::ng-deep .ng-dropdown-panel .ng-option-selected {
+  background: rgba(168,85,247,0.15);
+}

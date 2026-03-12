@@ -4,13 +4,15 @@ import { DashboardComponent } from './dashboard/dashboard';
 import { Register } from './features/register/register';
 import { ResetPassword } from './features/reset-password/reset-password';
 import { ForgotPassword } from './features/forgot-password/forgot-password';
-import { Jugadores } from './jugadores/jugadores/jugadores';
+import { Jugadores } from './jugadores/jugadores';
 import { Equipos } from './equipos/equipos';
 import { authGuard } from './core/Auth/auth.guard';
 import { adminGuard } from './core/Auth/admin.guard';
 import { Comparador } from './comparador/comparador';
 import { Partidos } from './partidos/partidos';
 import { PartidoDetalle } from './partidos/partido-detalle/partido-detalle';
+import { PlayerDetailComponent } from './jugadores/jugadores-detalle/jugadores-detalle';
+import { EquiposDetalle } from './equipos/equipos-detalle/equipos-detalle';
 
 export const routes: Routes = [
   // Públicas — sin guard
@@ -22,7 +24,9 @@ export const routes: Routes = [
   
    // Protegidas — requieren login
   { path: 'jugadores', component: Jugadores, canActivate: [authGuard] },
+  { path: 'jugadores/:id', component: PlayerDetailComponent, canActivate: [authGuard] },
   { path: 'equipos', component: Equipos, canActivate: [authGuard] },
+  { path: 'equipos/:id', component: EquiposDetalle, canActivate: [authGuard] },
   { path: 'comparador', component: Comparador, canActivate: [authGuard] },
   { path: 'partidos', component: Partidos, canActivate: [authGuard] },
   { path: 'partidos/:id', component: PartidoDetalle, canActivate: [authGuard] },

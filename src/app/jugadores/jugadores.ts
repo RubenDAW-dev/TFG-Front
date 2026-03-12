@@ -10,8 +10,9 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { Table } from 'primeng/table';
 
-import { PlayerSeasonStatsService } from '../../services/player-season-stats.service';
+import { PlayerSeasonStatsService } from '../services/player-season-stats.service';
 import { SelectModule } from 'primeng/select';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-jugadores',
@@ -27,7 +28,8 @@ import { SelectModule } from 'primeng/select';
     ButtonModule,
     PopoverModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    RouterLink
   ]
 })
 export class Jugadores implements OnInit {

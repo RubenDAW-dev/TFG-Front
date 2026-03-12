@@ -1,0 +1,197 @@
+/* proximos-partidos.css */
+
+.upcoming-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upcoming-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-d);
+  font-size: 1.05rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-1);
+  margin: 0;
+}
+
+.upcoming-title svg {
+  color: var(--accent);
+}
+
+/* Loading */
+.upcoming-loading {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.mini-spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+/* Empty */
+.upcoming-empty {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  text-align: center;
+  padding: 16px 0;
+  margin: 0;
+}
+
+/* Match list */
+.match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.match-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  transition: border-color 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.match-item.home {
+  border-left-color: var(--accent);
+}
+
+.match-item.away {
+  border-left-color: var(--blue);
+}
+
+.match-item:hover {
+  border-color: rgba(255,255,255,0.14);
+  cursor: pointer;
+}
+
+/* Meta: jornada + fecha + hora */
+.match-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.match-jornada {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+.match-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-2);
+  text-transform: capitalize;
+}
+
+.match-time {
+  font-size: 0.75rem;
+  color: var(--text-2);
+  margin-left: auto;
+}
+
+/* Equipos */
+.match-teams {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.team-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-2);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-name.highlight {
+  color: var(--text-1);
+  font-weight: 700;
+}
+
+.match-vs {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+/* Venue */
+.match-venue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.match-venue svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* Badge local/visitante */
+.loc-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.home-badge {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(0,229,160,0.25);
+}
+
+.away-badge {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border: 1px solid rgba(61,156,255,0.25);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

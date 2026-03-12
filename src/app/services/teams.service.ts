@@ -14,14 +14,14 @@ export class TeamsService {
   }
 
   getTeam(id: string) {
-    return this.http.get<any>(`${this.api}/${id}`);
+    return this.http.get<any>(`${this.api}/get/${id}`);
   }
 
   getTeamStats(id: string) {
-    return this.http.get<any>(`${this.api}/${id}/stats`);
+    return this.http.get<any>(`${this.api}/get/${id}/stats`);
   }
 
   getTeamPlayers(id: string) {
-    return this.http.get<any[]>(`${this.api}/${id}/players`);
+    return this.http.get<any[]>(`${this.api}/get/${id}/players`);
   }
 }

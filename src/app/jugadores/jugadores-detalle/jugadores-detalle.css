@@ -1,0 +1,689 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+/* ── Variables ───────────────────────────────────────────── */
+:host {
+  --bg: #0b0d12;
+  --surface: #13161f;
+  --surface-2: #1a1e2a;
+  --border: rgba(255, 255, 255, 0.07);
+  --accent: #00e5a0;
+  --accent-dim: rgba(0, 229, 160, 0.1);
+  --blue: #3d9cff;
+  --blue-dim: rgba(61, 156, 255, 0.12);
+  --yellow: #f5c542;
+  --yellow-dim: rgba(245, 197, 66, 0.12);
+  --red: #f5425a;
+  --red-dim: rgba(245, 66, 90, 0.12);
+  --text-1: #eef0f7;
+  --text-2: #6b7490;
+  --radius: 14px;
+  --font-d: 'Bebas Neue', Impact, sans-serif;
+  --font-b: 'DM Sans', 'Segoe UI', sans-serif;
+  display: block;
+  width: 100%;
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page wrapper ────────────────────────────────────────── */
+.player-detail-page {
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: var(--font-b);
+  color: var(--text-1);
+}
+
+/* ── Loading / Error states ──────────────────────────────── */
+.state-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  gap: 16px;
+}
+
+.state-text {
+  color: var(--text-2);
+  font-size: 0.95rem;
+}
+
+.state-text.error {
+  color: var(--red);
+}
+
+.loader-ring {
+  width: 52px;
+  height: 52px;
+}
+
+.loader-ring span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--accent);
+  animation: spin 0.85s linear infinite;
+}
+
+.error-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--red-dim);
+  border: 1.5px solid var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--red);
+}
+
+/* ── Back button ─────────────────────────────────────────── */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-family: var(--font-b);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-back.floating {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  
+  width: auto;
+  display: inline-flex;
+
+  background: none;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 8px;
+  color: #a855f7;
+
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+
+  z-index: 20;
+  pointer-events: all;
+}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% -10%, rgba(0, 229, 160, 0.15) 0%, transparent 70%),
+    linear-gradient(180deg, transparent 20%, var(--bg) 100%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 35%, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 35%, black 60%, transparent 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 96px 5% 48px;
+  display: flex;
+  align-items: flex-end;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.jersey-number {
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  font-family: var(--font-d);
+  font-size: 10rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.035);
+  letter-spacing: -6px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Avatar iniciales */
+.avatar-initials {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  border: 2px solid rgba(0, 229, 160, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 3rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  letter-spacing: 2px;
+}
+
+/* Hero info */
+.hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-name {
+  font-family: var(--font-d);
+  font-size: 3.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--text-1);
+}
+
+.player-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.badge.pos {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(0, 229, 160, 0.3);
+}
+
+.badge.nat {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+
+.team-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: var(--text-2);
+}
+
+.team-name svg {
+  opacity: 0.5;
+}
+
+/* KPIs en hero */
+.hero-kpis {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-left: auto;
+  align-self: center;
+}
+
+.hero-kpi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 28px;
+  gap: 4px;
+}
+
+.kpi-num {
+  font-family: var(--font-d);
+  font-size: 2rem;
+  letter-spacing: 1px;
+  color: var(--text-1);
+}
+
+.kpi-lbl {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-2);
+}
+
+.kpi-sep {
+  width: 1px;
+  height: 48px;
+  background: var(--border);
+}
+
+/* ── Body layout (2 columnas) ────────────────────────────── */
+.body-layout {
+  display: grid;
+  grid-template-columns: 60% 30%;
+  grid-template-areas: "main sidebar";
+  gap: 0 5%;
+  padding: 28px 5% 72px;
+  width: 100%;
+  min-width: 0;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.body-section {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.body-sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  top: 24px;
+}
+
+@media (max-width: 900px) {
+  .body-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "sidebar" "main";
+    padding: 20px 5% 60px;
+    gap: 20px;
+  }
+
+  .body-sidebar {
+    position: static;
+  }
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.card:nth-child(1) {
+  animation-delay: 0.04s;
+}
+
+.card:nth-child(2) {
+  animation-delay: 0.10s;
+}
+
+.card:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-d);
+  font-size: 1.15rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-1);
+  margin-bottom: 22px;
+}
+
+.card-title svg {
+  color: var(--accent);
+}
+
+/* ── Datos personales ────────────────────────────────────── */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 18px 28px;
+}
+
+.data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.data-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--text-2);
+}
+
+.data-value {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-1);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.data-value.accent {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.data-value small {
+  font-size: 0.78rem;
+  color: var(--text-2);
+  font-weight: 400;
+}
+
+/* ── Stats header + tabs ─────────────────────────────────── */
+.stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stats-header .card-title {
+  margin-bottom: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px;
+}
+
+.tab {
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--font-b);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+.tab:not(.active):hover {
+  color: var(--text-1);
+}
+
+/* ── Stat rows (barras) ──────────────────────────────────── */
+.stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 190px 1fr 56px;
+  align-items: center;
+  gap: 14px;
+}
+
+.sr-label {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.sr-bar-wrap {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.sr-bar {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--accent);
+  max-width: 100%;
+  transition: width 0.5s ease;
+}
+
+.sr-bar.assist {
+  background: var(--blue);
+}
+
+.sr-bar.blue {
+  background: var(--blue);
+}
+
+.sr-bar.yellow {
+  background: var(--yellow);
+}
+
+.sr-bar.red {
+  background: var(--red);
+}
+
+.sr-bar.accent {
+  background: var(--accent);
+}
+
+.sr-val {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-1);
+  text-align: right;
+}
+
+/* ── Disciplina cards ────────────────────────────────────── */
+.discipline-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.disc-card {
+  border-radius: 12px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+
+.disc-num {
+  font-family: var(--font-d);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.disc-lbl {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  text-align: center;
+}
+
+.yellow-card {
+  background: var(--yellow-dim);
+  border-color: rgba(245, 197, 66, 0.25);
+}
+
+.yellow-card .disc-num,
+.yellow-card .disc-lbl {
+  color: var(--yellow);
+}
+
+.red-card {
+  background: var(--red-dim);
+  border-color: rgba(245, 66, 90, 0.25);
+}
+
+.red-card .disc-num,
+.red-card .disc-lbl {
+  color: var(--red);
+}
+
+.foul-card {
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+.foul-card .disc-num {
+  color: var(--text-1);
+}
+
+.foul-card .disc-lbl {
+  color: var(--text-2);
+}
+
+.won-card {
+  background: var(--accent-dim);
+  border-color: rgba(0, 229, 160, 0.2);
+}
+
+.won-card .disc-num,
+.won-card .disc-lbl {
+  color: var(--accent);
+}
+
+/* ── Empty card ──────────────────────────────────────────── */
+.empty-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.empty-card p {
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px 36px;
+  }
+
+  .player-name {
+    font-size: 2.8rem;
+  }
+
+  .jersey-number {
+    font-size: 6rem;
+    right: 16px;
+  }
+
+  .hero-kpis {
+    margin: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-kpi {
+    padding: 14px 18px;
+  }
+
+  .body-section {
+    padding: 20px 16px 60px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .btn-back.floating {
+    top: 14px;
+    left: 14px;
+  }
+
+  .stat-row {
+    grid-template-columns: 130px 1fr 44px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    border-radius: 12px;
+  }
+}

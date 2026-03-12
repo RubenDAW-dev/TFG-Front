@@ -1,0 +1,471 @@
+<!-- jugadores-detalle.html -->
+<div class="player-detail-page">
+
+  <!-- ── LOADING ─────────────────────────────────── -->
+  @if (loading) {
+  <div class="state-overlay">
+    <div class="loader-ring"><span></span></div>
+    <p class="state-text">Cargando jugador…</p>
+  </div>
+  }
+
+  <!-- ── ERROR ───────────────────────────────────── -->
+  @if (!loading && error) {
+  <div class="state-overlay">
+    <div class="error-icon">!</div>
+    <p class="state-text error">{{ error }}</p>
+    <button class="btn-back" (click)="goBack()">← Volver</button>
+  </div>
+  }
+
+  <!-- ── CONTENIDO ───────────────────────────────── -->
+  @if (!loading && !error && player) {
+  <!-- ── HERO ─────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-gradient"></div>
+      <div class="hero-grid"></div>
+    </div>
+
+    <div class="hero-content">
+
+      <!-- Iniciales como avatar -->
+      <div class="avatar-initials">
+        {{ player.nombre?.charAt(0) ?? '?' }}
+      </div>
+
+      <!-- Nombre y meta -->
+      <div class="hero-info">
+        <button class="btn-back floating" (click)="goBack()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          Volver a Jugadores
+        </button>
+        <h1 class="player-name">{{ player.nombre }}</h1>
+        <div class="player-meta">
+          @if (player.posicion) {
+          <span class="badge pos">{{ getPositionLabel(player.posicion) }}</span>
+          }
+          @if (player.nacionalidad) {
+          <span class="badge nat">{{ player.nacionalidad }}</span>
+          }
+          @if (player.edad) {
+          <span class="badge age">{{ player.edad }} años</span>
+          }
+        </div>
+        @if (player.team?.nombre) {
+        <p class="team-name">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+          {{ player.team.nombre }}
+        </p>
+        }
+      </div>
+
+      <!-- KPIs rápidos -->
+      @if (stats) {
+      <div class="hero-kpis">
+        <div class="hero-kpi">
+          <span class="kpi-num">{{ stats.goles ?? '—' }}</span>
+          <span class="kpi-lbl">Goles</span>
+        </div>
+        <div class="kpi-sep"></div>
+        <div class="hero-kpi">
+          <span class="kpi-num">{{ stats.asistencias ?? '—' }}</span>
+          <span class="kpi-lbl">Asistencias</span>
+        </div>
+        <div class="kpi-sep"></div>
+        <div class="hero-kpi">
+          <span class="kpi-num">{{ stats.partidos ?? '—' }}</span>
+          <span class="kpi-lbl">Partidos</span>
+        </div>
+        <div class="kpi-sep"></div>
+        <div class="hero-kpi">
+          <span class="kpi-num">{{ stats.minutos ?? '—' }}</span>
+          <span class="kpi-lbl">Minutos</span>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- ── BODY ──────────────────────────────────── -->
+  <div class="body-layout">
+
+    <!-- Columna derecha: próximos partidos -->
+    @if (player.team?.id) {
+    <aside class="body-sidebar">
+      <app-proximos-partidos [teamId]="player.team.id" [teamName]="player.team.nombre">
+      </app-proximos-partidos>
+    </aside>
+    }
+
+    <div class="body-section">
+
+      <!-- Datos personales -->
+      <div class="card">
+        <h2 class="card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+          Datos personales
+        </h2>
+        <div class="data-grid">
+          @if (player.edad) {
+          <div class="data-item">
+            <span class="data-label">Edad</span>
+            <span class="data-value">{{ player.edad }} años</span>
+          </div>
+          }
+          @if (player.posicion) {
+          <div class="data-item">
+            <span class="data-label">Posición</span>
+            <span class="data-value">{{ getPositionLabel(player.posicion) }}</span>
+          </div>
+          }
+          @if (player.nacionalidad) {
+          <div class="data-item">
+            <span class="data-label">Nacionalidad</span>
+            <span class="data-value">{{ player.nacionalidad }}</span>
+          </div>
+          }
+          @if (player.team?.nombre) {
+          <div class="data-item">
+            <span class="data-label">Equipo</span>
+            <span class="data-value">{{ player.team.nombre }}</span>
+          </div>
+          }
+          @if (player.team?.estadio) {
+          <div class="data-item">
+            <span class="data-label">Estadio</span>
+            <span class="data-value">{{ player.team.estadio }}</span>
+          </div>
+          }
+          @if (player.team?.ciudad) {
+          <div class="data-item">
+            <span class="data-label">Ciudad</span>
+            <span class="data-value">{{ player.team.ciudad }}</span>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- ── ESTADÍSTICAS ──────────────────────── -->
+      @if (stats) {
+      <div class="card stats-card">
+        <div class="stats-header">
+          <h2 class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 20V10M12 20V4M6 20v-6" />
+            </svg>
+            Estadísticas de temporada
+          </h2>
+          <div class="tabs">
+            <button class="tab" [class.active]="activeTab==='ataque'" (click)="setTab('ataque')">Ataque</button>
+            <button class="tab" [class.active]="activeTab==='defensa'" (click)="setTab('defensa')">Defensa</button>
+            <button class="tab" [class.active]="activeTab==='disciplina'"
+              (click)="setTab('disciplina')">Disciplina</button>
+            <button class="tab" [class.active]="activeTab==='por90'" (click)="setTab('por90')">Por 90'</button>
+          </div>
+        </div>
+
+        <!-- ATAQUE -->
+        @if (activeTab === 'ataque') {
+        <div class="stats-grid">
+          @if (has(stats.goles)) {
+          <div class="stat-row">
+            <span class="sr-label">Goles</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar" [style.width.%]="Math.min((stats.goles / 40) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.goles }}</span>
+          </div>
+          }
+          @if (has(stats.asistencias)) {
+          <div class="stat-row">
+            <span class="sr-label">Asistencias</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar assist" [style.width.%]="Math.min((stats.asistencias / 30) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.asistencias }}</span>
+          </div>
+          }
+          @if (has(stats.disparos)) {
+          <div class="stat-row">
+            <span class="sr-label">Disparos</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.disparos / 150) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.disparos }}</span>
+          </div>
+          }
+          @if (has(stats.disparosPuerta)) {
+          <div class="stat-row">
+            <span class="sr-label">Disparos a puerta</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.disparosPuerta / 80) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.disparosPuerta }}</span>
+          </div>
+          }
+          @if (has(stats.precisionTiro)) {
+          <div class="stat-row">
+            <span class="sr-label">Precisión de tiro</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar accent" [style.width.%]="Math.min(stats.precisionTiro * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.precisionTiro * 100 | number:'1.0-1' }}%</span>
+          </div>
+          }
+          @if (has(stats.penaltisMarcados)) {
+          <div class="stat-row">
+            <span class="sr-label">Penaltis</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar" [style.width.%]="Math.min((stats.penaltisMarcados / 10) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.penaltisMarcados }}/{{ stats.penaltisIntentados ?? '?' }}</span>
+          </div>
+          }
+          @if (has(stats.conversionPenalti)) {
+          <div class="stat-row">
+            <span class="sr-label">Conversión penalti</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar accent" [style.width.%]="Math.min(stats.conversionPenalti * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.conversionPenalti * 100 | number:'1.0-1' }}%</span>
+          </div>
+          }
+          @if (has(stats.fueraDeJuego)) {
+          <div class="stat-row">
+            <span class="sr-label">Fuera de juego</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.fueraDeJuego / 30) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.fueraDeJuego }}</span>
+          </div>
+          }
+          @if (has(stats.centros)) {
+          <div class="stat-row">
+            <span class="sr-label">Centros</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.centros / 100) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.centros }}</span>
+          </div>
+          }
+          @if (has(stats.autogoles)) {
+          <div class="stat-row">
+            <span class="sr-label">Autogoles</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar red" [style.width.%]="Math.min((stats.autogoles / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.autogoles }}</span>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- DEFENSA -->
+        @if (activeTab === 'defensa') {
+        <div class="stats-grid">
+          @if (has(stats.entradasGanadas)) {
+          <div class="stat-row">
+            <span class="sr-label">Entradas ganadas</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar" [style.width.%]="Math.min((stats.entradasGanadas / 150) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.entradasGanadas }}</span>
+          </div>
+          }
+          @if (has(stats.intercepciones)) {
+          <div class="stat-row">
+            <span class="sr-label">Intercepciones</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.intercepciones / 100) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.intercepciones }}</span>
+          </div>
+          }
+          @if (has(stats.faltasCometidas)) {
+          <div class="stat-row">
+            <span class="sr-label">Faltas cometidas</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar yellow" [style.width.%]="Math.min((stats.faltasCometidas / 80) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.faltasCometidas }}</span>
+          </div>
+          }
+          @if (has(stats.faltasRecibidas)) {
+          <div class="stat-row">
+            <span class="sr-label">Faltas recibidas</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar assist" [style.width.%]="Math.min((stats.faltasRecibidas / 80) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.faltasRecibidas }}</span>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- DISCIPLINA -->
+        @if (activeTab === 'disciplina') {
+        <div class="discipline-cards">
+          @if (has(stats.amarillas)) {
+          <div class="disc-card yellow-card">
+            <span class="disc-num">{{ stats.amarillas }}</span>
+            <span class="disc-lbl">Tarjetas amarillas</span>
+          </div>
+          }
+          @if (has(stats.rojas)) {
+          <div class="disc-card red-card">
+            <span class="disc-num">{{ stats.rojas }}</span>
+            <span class="disc-lbl">Tarjetas rojas</span>
+          </div>
+          }
+          @if (has(stats.faltasCometidas)) {
+          <div class="disc-card foul-card">
+            <span class="disc-num">{{ stats.faltasCometidas }}</span>
+            <span class="disc-lbl">Faltas cometidas</span>
+          </div>
+          }
+          @if (has(stats.faltasRecibidas)) {
+          <div class="disc-card won-card">
+            <span class="disc-num">{{ stats.faltasRecibidas }}</span>
+            <span class="disc-lbl">Faltas recibidas</span>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- POR 90 -->
+        @if (activeTab === 'por90') {
+        <div class="stats-grid">
+          @if (has(stats.golesPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Goles / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar" [style.width.%]="Math.min((stats.golesPor90 / 1.5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.golesPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.asistenciasPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Asistencias / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar assist" [style.width.%]="Math.min((stats.asistenciasPor90 / 1.5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.asistenciasPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.disparosPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Disparos / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.disparosPor90 / 10) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.disparosPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.disparosPuertaPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Disparos a puerta / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.disparosPuertaPor90 / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.disparosPuertaPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.amarillasPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Amarillas / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar yellow" [style.width.%]="Math.min((stats.amarillasPor90 / 0.5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.amarillasPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.rojasPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Rojas / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar red" [style.width.%]="Math.min((stats.rojasPor90 / 0.2) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.rojasPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.faltasCometidasPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Faltas cometidas / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar yellow" [style.width.%]="Math.min((stats.faltasCometidasPor90 / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.faltasCometidasPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.faltasRecibidasPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Faltas recibidas / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar assist" [style.width.%]="Math.min((stats.faltasRecibidasPor90 / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.faltasRecibidasPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.centrosPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Centros / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.centrosPor90 / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.centrosPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.entradasGanadasPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Entradas ganadas / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar" [style.width.%]="Math.min((stats.entradasGanadasPor90 / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.entradasGanadasPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.intercepcionesPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Intercepciones / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar" [style.width.%]="Math.min((stats.intercepcionesPor90 / 5) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.intercepcionesPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+          @if (has(stats.fueraDeJuegoPor90)) {
+          <div class="stat-row">
+            <span class="sr-label">Fuera de juego / 90'</span>
+            <div class="sr-bar-wrap">
+              <div class="sr-bar blue" [style.width.%]="Math.min((stats.fueraDeJuegoPor90 / 2) * 100, 100)"></div>
+            </div>
+            <span class="sr-val">{{ stats.fueraDeJuegoPor90 | number:'1.2-2' }}</span>
+          </div>
+          }
+        </div>
+        }
+
+      </div>
+      }
+
+      <!-- Sin estadísticas -->
+      @if (!stats) {
+      <div class="card empty-card">
+        <span>📭</span>
+        <p>No hay estadísticas disponibles para este jugador.</p>
+      </div>
+      }
+
+    </div><!-- /body-section -->
+  </div><!-- /body-layout -->
+  }
+</div>

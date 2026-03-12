@@ -16,4 +16,7 @@ export class TeamSeasonStatsService {
   getStatsTable() {
     return this.http.get<any[]>(`${this.api}/stats-table`);
   }
+  getById(id: string) {
+    return this.http.get<any>(`${this.api}/get/${id}`);
+  }
 }

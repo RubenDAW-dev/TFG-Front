@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 Chart.register(...registerables);
 
@@ -18,7 +19,7 @@ interface StatDef { key: string; label: string; }
   selector: 'app-comparador',
   templateUrl: './comparador.html',
   styleUrls: ['./comparador.css'],
-  imports: [CommonModule,FormsModule]
+  imports: [CommonModule,FormsModule,NgSelectModule]
 })
 export class Comparador implements OnInit, AfterViewChecked {
 

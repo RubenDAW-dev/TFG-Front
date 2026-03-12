@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { Table } from 'primeng/table';
 
 import { TeamSeasonStatsService } from '../services/team-season-stats.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-equipos',
@@ -19,7 +20,8 @@ import { TeamSeasonStatsService } from '../services/team-season-stats.service';
     FormsModule,
     TableModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    RouterLink
   ]
 })
 export class Equipos implements OnInit {
@@ -47,12 +49,19 @@ export class Equipos implements OnInit {
       this.teams = res;
       this.totalRecords = res.length;
       this.loading = false;
+
+      setTimeout(() => {
+        if (this.dt) {
+          this.dt.sortField = 'puntos'; 
+          this.dt.sortOrder = -1;       
+          this.dt.sortSingle();        
+        }
+      }, 0);
+
       this.cdr.detectChanges();
     },
     error: (err) => {
       console.error('Error completo:', err);
-      console.error('Status:', err.status);
-      console.error('Mensaje:', err.error);
       this.loading = false;
     }
   });

@@ -202,8 +202,8 @@ export class PartidoDetalle implements OnInit {
   labels: string[]
 ): Chart {
   const combined = rawA.map((_, i) => Math.max(rawA[i], rawB[i], 1));
-  const normA = rawA.map((v, i) => Math.round((v / combined[i]) * 100));
-  const normB = rawB.map((v, i) => Math.round((v / combined[i]) * 100));
+  const normA = rawA.map((v, i) => (v / combined[i]) * 100);
+  const normB = rawB.map((v, i) => (v / combined[i]) * 100);
 
   const tooltipLabel = (context: any) => {
     const isA = context.datasetIndex === 0;

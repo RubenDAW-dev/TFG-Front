@@ -55,4 +55,8 @@ export class PlayerSeasonStatsService {
   getTeams() {
     return this.http.get<any[]>(`${this.teamsApi}/getAll`);
   }
+
+  getById(playerId: string) {
+    return this.http.get<any[]>(`${this.api}/get/${playerId}`);
+  }
 }

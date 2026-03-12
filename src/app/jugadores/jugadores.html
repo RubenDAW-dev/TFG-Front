@@ -1,0 +1,210 @@
+<div class="jugadores-wrapper">
+  <div class="jugadores-content">
+    <h1 class="page-title">Estadísticas de Jugadores</h1>
+
+    <div class="panel-card">
+
+      <!-- POPOVER DE FILTROS -->
+      <p-popover #filterMenu [style]="{ width: '320px' }" appendTo="body">
+        <div class="filter-popover">
+          <h3 class="filter-title">Filtrar por equipo</h3>
+
+          <div class="filter-field">
+            <label>Equipo</label>
+            <p-select [options]="teams" [(ngModel)]="selectedTeam" placeholder="Todos los equipos" optionLabel="nombre"
+              optionValue="id" appendTo="body" styleClass="w-full">
+            </p-select>
+          </div>
+
+          <div class="filter-actions">
+            <p-button label="Limpiar" severity="secondary" [text]="true" (click)="clearFilters(); filterMenu.hide()">
+            </p-button>
+
+            <p-button label="Aplicar" icon="pi pi-check" (click)="applyFilters(); filterMenu.hide()">
+            </p-button>
+          </div>
+        </div>
+      </p-popover>
+
+      <!-- PESTAÑAS -->
+      <div class="tabs-bar">
+        <button class="tab-btn" [class.active]="activeTab === 'basicas'" (click)="activeTab = 'basicas'">
+          <i class="pi pi-user"></i> Básicas
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'ofensivas'" (click)="activeTab = 'ofensivas'">
+          <i class="pi pi-bolt"></i> Ofensivas
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'defensivas'" (click)="activeTab = 'defensivas'">
+          <i class="pi pi-shield"></i> Defensivas
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'por90'" (click)="activeTab = 'por90'">
+          <i class="pi pi-chart-bar"></i> Por 90 min
+        </button>
+      </div>
+
+      <!-- TABLA -->
+      <p-table #dt [value]="players" [paginator]="true" [rows]="currentRows"
+        [globalFilterFields]="['playerName','teamName']" sortMode="single" dataKey="playerId" [loading]="loading"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} jugadores"
+        styleClass="p-datatable-striped">
+
+        <!-- CAPTION -->
+        <ng-template pTemplate="caption">
+          <div class="caption-bar">
+            <p-button label="Filtros" icon="pi pi-filter" severity="secondary" [outlined]="true"
+              (click)="filterMenu.toggle($event)">
+            </p-button>
+
+            <div class="search-wrapper">
+              <i class="pi pi-search search-icon"></i>
+              <input pInputText type="text" class="search-input"
+                (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar jugador..." />
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- SELECTOR IZQUIERDO DEL PAGINADOR -->
+        <ng-template pTemplate="paginatorleft">
+          <div class="rows-select-wrapper">
+            <span class="rows-label">Filas por página:</span>
+            <select class="rows-select" [(ngModel)]="currentRows" (change)="onRowsChange(currentRows)">
+              <option *ngFor="let r of rowOptions" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+        </ng-template>
+
+        <!-- CABECERA -->
+        <ng-template pTemplate="header">
+          <tr>
+            <!-- Fijas -->
+            <th pSortableColumn="playerName">
+              Jugador <p-sortIcon field="playerName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="teamName">
+              Equipo <p-sortIcon field="teamName"></p-sortIcon>
+            </th>
+
+            <!-- BÁSICAS -->
+            @if (activeTab === 'basicas') {
+            <th pSortableColumn="partidos">PJ <p-sortIcon field="partidos"></p-sortIcon></th>
+            <th pSortableColumn="minutos">Min <p-sortIcon field="minutos"></p-sortIcon></th>
+            <th pSortableColumn="goles">Goles <p-sortIcon field="goles"></p-sortIcon></th>
+            <th pSortableColumn="asistencias">Asist <p-sortIcon field="asistencias"></p-sortIcon></th>
+            <th pSortableColumn="amarillas">TA <p-sortIcon field="amarillas"></p-sortIcon></th>
+            <th pSortableColumn="rojas">TR <p-sortIcon field="rojas"></p-sortIcon></th>
+            }
+
+            <!-- OFENSIVAS -->
+            @if (activeTab === 'ofensivas') {
+            <th pSortableColumn="goles">Goles <p-sortIcon field="goles"></p-sortIcon></th>
+            <th pSortableColumn="asistencias">Asist <p-sortIcon field="asistencias"></p-sortIcon></th>
+            <th pSortableColumn="disparos">Disp <p-sortIcon field="disparos"></p-sortIcon></th>
+            <th pSortableColumn="disparosPuerta">DP <p-sortIcon field="disparosPuerta"></p-sortIcon></th>
+            <th pSortableColumn="penaltisMarcados">PEN <p-sortIcon field="penaltisMarcados"></p-sortIcon></th>
+            <th pSortableColumn="penaltisIntentados">PEN INT <p-sortIcon field="penaltisIntentados"></p-sortIcon></th>
+            <th pSortableColumn="precisionTiro">%Prec <p-sortIcon field="precisionTiro"></p-sortIcon></th>
+            <th pSortableColumn="autogoles">AG <p-sortIcon field="autogoles"></p-sortIcon></th>
+            }
+
+            <!-- DEFENSIVAS -->
+            @if (activeTab === 'defensivas') {
+            <th pSortableColumn="faltasCometidas">FC <p-sortIcon field="faltasCometidas"></p-sortIcon></th>
+            <th pSortableColumn="faltasRecibidas">FR <p-sortIcon field="faltasRecibidas"></p-sortIcon></th>
+            <th pSortableColumn="entradasGanadas">Entradas <p-sortIcon field="entradasGanadas"></p-sortIcon></th>
+            <th pSortableColumn="intercepciones">Interc <p-sortIcon field="intercepciones"></p-sortIcon></th>
+            <th pSortableColumn="centros">Centros <p-sortIcon field="centros"></p-sortIcon></th>
+            <th pSortableColumn="fueraDeJuego">FJ <p-sortIcon field="fueraDeJuego"></p-sortIcon></th>
+            }
+
+            <!-- POR 90 -->
+            @if (activeTab === 'por90') {
+            <th pSortableColumn="golesPor90">G/90 <p-sortIcon field="golesPor90"></p-sortIcon></th>
+            <th pSortableColumn="asistenciasPor90">A/90 <p-sortIcon field="asistenciasPor90"></p-sortIcon></th>
+            <th pSortableColumn="disparosPor90">Disp/90 <p-sortIcon field="disparosPor90"></p-sortIcon></th>
+            <th pSortableColumn="disparosPuertaPor90">DP/90 <p-sortIcon field="disparosPuertaPor90"></p-sortIcon></th>
+            <th pSortableColumn="amarillasPor90">TA/90 <p-sortIcon field="amarillasPor90"></p-sortIcon></th>
+            <th pSortableColumn="rojasPor90">TR/90 <p-sortIcon field="rojasPor90"></p-sortIcon></th>
+            <th pSortableColumn="faltasCometidasPor90">FC/90 <p-sortIcon field="faltasCometidasPor90"></p-sortIcon></th>
+            <th pSortableColumn="faltasRecibidasPor90">FR/90 <p-sortIcon field="faltasRecibidasPor90"></p-sortIcon></th>
+            <th pSortableColumn="entradasGanadasPor90">Entr/90 <p-sortIcon field="entradasGanadasPor90"></p-sortIcon>
+            </th>
+            <th pSortableColumn="intercepcionesPor90">Int/90 <p-sortIcon field="intercepcionesPor90"></p-sortIcon></th>
+            <th pSortableColumn="centrosPor90">Cen/90 <p-sortIcon field="centrosPor90"></p-sortIcon></th>
+            <th pSortableColumn="fueraDeJuegoPor90">FJ/90 <p-sortIcon field="fueraDeJuegoPor90"></p-sortIcon></th>
+            }
+          </tr>
+        </ng-template>
+
+        <!-- CUERPO -->
+        <ng-template pTemplate="body" let-p>
+          <tr>
+            <!-- Fijas -->
+            <td><a [routerLink]="['/jugadores', p.playerId]" class="player-link">
+                {{ p.playerName }}
+              </a></td>
+            <td>{{ p.teamName }}</td>
+
+            <!-- BÁSICAS -->
+            @if (activeTab === 'basicas') {
+            <td>{{ p.partidos }}</td>
+            <td>{{ p.minutos }}</td>
+            <td><b>{{ p.goles }}</b></td>
+            <td><b>{{ p.asistencias }}</b></td>
+            <td>{{ p.amarillas }}</td>
+            <td>{{ p.rojas }}</td>
+            }
+
+            <!-- OFENSIVAS -->
+            @if (activeTab === 'ofensivas') {
+            <td><b>{{ p.goles }}</b></td>
+            <td><b>{{ p.asistencias }}</b></td>
+            <td>{{ p.disparos }}</td>
+            <td>{{ p.disparosPuerta }}</td>
+            <td>{{ p.penaltisMarcados }}</td>
+            <td>{{ p.penaltisIntentados }}</td>
+            <td>{{ p.precisionTiro | number:'1.0-1' }}%</td>
+            <td>{{ p.autogoles }}</td>
+            }
+
+            <!-- DEFENSIVAS -->
+            @if (activeTab === 'defensivas') {
+            <td>{{ p.faltasCometidas }}</td>
+            <td>{{ p.faltasRecibidas }}</td>
+            <td>{{ p.entradasGanadas }}</td>
+            <td>{{ p.intercepciones }}</td>
+            <td>{{ p.centros }}</td>
+            <td>{{ p.fueraDeJuego }}</td>
+            }
+
+            <!-- POR 90 -->
+            @if (activeTab === 'por90') {
+            <td>{{ p.golesPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.asistenciasPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.disparosPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.disparosPuertaPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.amarillasPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.rojasPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.faltasCometidasPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.faltasRecibidasPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.entradasGanadasPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.intercepcionesPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.centrosPor90 | number:'1.2-2' }}</td>
+            <td>{{ p.fueraDeJuegoPor90 | number:'1.2-2' }}</td>
+            }
+          </tr>
+        </ng-template>
+
+        <!-- MENSAJE VACÍO -->
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8" class="text-center p-4" style="color: #a0aec0;">
+              No se encontraron jugadores.
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+</div>

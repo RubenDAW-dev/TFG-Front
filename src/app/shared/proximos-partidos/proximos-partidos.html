@@ -1,0 +1,69 @@
+<!-- proximos-partidos.html -->
+<div class="upcoming-card">
+
+  <h3 class="upcoming-title">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+    </svg>
+    Próximos partidos
+  </h3>
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="upcoming-loading">
+      <div class="mini-spinner"></div>
+    </div>
+  }
+
+  <!-- Sin partidos -->
+  @if (!loading && empty) {
+    <p class="upcoming-empty">No hay próximos partidos programados.</p>
+  }
+
+  <!-- Lista de partidos -->
+  @if (!loading && !empty) {
+    <div class="match-list">
+      @for (match of matches; track match.id) {
+        <a class="match-item" [class.home]="isHome(match)" [class.away]="!isHome(match)" [routerLink]="['/partidos', match.id]">
+
+          <!-- Jornada + fecha -->
+          <div class="match-meta">
+            <span class="match-jornada">J{{ match.wk }}</span>
+            <span class="match-date">{{ formatDate(match.date) }}</span>
+            @if (match.time) {
+              <span class="match-time">{{ match.time }}</span>
+            }
+          </div>
+
+          <!-- Equipos -->
+          <div class="match-teams">
+            <span class="team-name" [class.highlight]="match.homeTeamId === teamId">
+              {{ match.homeTeam }}
+            </span>
+            <span class="match-vs">vs</span>
+            <span class="team-name" [class.highlight]="match.awayTeamId === teamId">
+              {{ match.awayTeam }}
+            </span>
+          </div>
+
+          <!-- Sede -->
+          @if (match.venue) {
+            <div class="match-venue">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+              {{ match.venue }}
+            </div>
+          }
+
+          <!-- Badge local/visitante -->
+          <span class="loc-badge" [class.home-badge]="isHome(match)" [class.away-badge]="!isHome(match)">
+            {{ isHome(match) ? 'Local' : 'Visitante' }}
+          </span>
+        </a>
+      }
+    </div>
+  }
+
+</div>

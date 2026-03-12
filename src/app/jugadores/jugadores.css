@@ -331,7 +331,19 @@
 .tab-btn i {
   font-size: 0.8rem;
 }
-
+.player-link {
+  color: #c084fc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s, opacity 0.2s;
+}
+ 
+.player-link:hover {
+  color: #a855f7;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+ 
 
 
 @media (max-width: 768px) {

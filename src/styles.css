@@ -1,4 +1,5 @@
 @import "primeicons/primeicons.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
 
 /* Asegura que la raíz puede medir toda la altura */
 html, body, app-root {

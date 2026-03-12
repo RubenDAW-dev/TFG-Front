@@ -20,10 +20,9 @@
     <div class="selector-panel left-panel">
       <div class="selector-label">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} A</div>
       <div class="custom-select-wrapper" [class.selected]="seleccionA">
-        <select class="custom-select select-a" [(ngModel)]="seleccionA" (change)="onCambioA()">
-          <option value="">— Elige —</option>
-          <option *ngFor="let item of listaOpciones" [value]="item.id">{{ item.nombre }}</option>
-        </select>
+        <ng-select [items]="listaOpciones" bindLabel="nombre" bindValue="id" placeholder="— Elige —"
+          [(ngModel)]="seleccionA" (change)="onCambioA()" [searchable]="true">
+        </ng-select>
         <span class="select-arrow">▾</span>
       </div>
       <div class="team-badge badge-a" *ngIf="seleccionA">
@@ -45,10 +44,9 @@
     <div class="selector-panel right-panel">
       <div class="selector-label">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} B</div>
       <div class="custom-select-wrapper" [class.selected]="seleccionB">
-        <select class="custom-select select-b" [(ngModel)]="seleccionB" (change)="onCambioB()">
-          <option value="">— Elige —</option>
-          <option *ngFor="let item of listaOpciones" [value]="item.id">{{ item.nombre }}</option>
-        </select>
+        <ng-select [items]="listaOpciones" bindLabel="nombre" bindValue="id" placeholder="— Elige —"
+          [(ngModel)]="seleccionB" (change)="onCambioB()" [searchable]="true">
+        </ng-select>
         <span class="select-arrow">▾</span>
       </div>
       <div class="team-badge badge-b" *ngIf="seleccionB">
@@ -69,11 +67,10 @@
       </div>
       <div class="stats-list">
         <div class="stat-row" *ngFor="let stat of statsComunes; let i = index"
-             [class.winner]="ganador(stat.key) === 'A'">
+          [class.winner]="ganador(stat.key) === 'A'">
           <span class="stat-value val-a">{{ formatVal(datosA[stat.key]) }}</span>
           <span class="stat-bar-wrapper">
-            <span class="stat-bar bar-a"
-                  [style.width.%]="getPct(datosA[stat.key], datosB[stat.key])"></span>
+            <span class="stat-bar bar-a" [style.width.%]="getPct(datosA[stat.key], datosB[stat.key])"></span>
           </span>
           <span class="stat-label">{{ stat.label }}</span>
           <span class="winner-icon" *ngIf="ganador(stat.key) === 'A'">▲</span>
@@ -110,13 +107,11 @@
         <span class="stats-team-name">{{ getNombre(seleccionB) }}</span>
       </div>
       <div class="stats-list">
-        <div class="stat-row" *ngFor="let stat of statsComunes"
-             [class.winner]="ganador(stat.key) === 'B'">
+        <div class="stat-row" *ngFor="let stat of statsComunes" [class.winner]="ganador(stat.key) === 'B'">
           <span class="winner-icon" *ngIf="ganador(stat.key) === 'B'">▲</span>
           <span class="stat-label">{{ stat.label }}</span>
           <span class="stat-bar-wrapper">
-            <span class="stat-bar bar-b"
-                  [style.width.%]="getPct(datosB[stat.key], datosA[stat.key])"></span>
+            <span class="stat-bar bar-b" [style.width.%]="getPct(datosB[stat.key], datosA[stat.key])"></span>
           </span>
           <span class="stat-value val-b">{{ formatVal(datosB[stat.key]) }}</span>
         </div>

@@ -7,14 +7,14 @@ export class PlayersService {
 
   private api = environment.apiUrl + '/players';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllPlayers() {
     return this.http.get<any[]>(`${this.api}`);
   }
 
   getPlayer(id: string) {
-    return this.http.get<any>(`${this.api}/${id}`);
+    return this.http.get<any>(`${this.api}/get/${id}`);
   }
 
   getPlayerSeasonStats(id: string) {
