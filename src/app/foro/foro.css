@@ -137,6 +137,7 @@
   border: 1px solid rgba(168, 85, 247, 0.3);
   border-radius: 8px;
   padding: 10px 14px;
+  min-width: auto;
   color: #e0e0e0;
   font-family: inherit;
   font-size: 0.9rem;
@@ -200,7 +201,7 @@
 }
 
 .form-group-flex {
-  flex: 1;
+  flex: 0 0 250px;
   margin-bottom: 0;
 }
 
@@ -703,6 +704,53 @@
   text-decoration: underline;
 }
 
+/* ── NG-SELECT (mismo estilo que .form-select) ───────────────────────────── */
+
+:host ::ng-deep .ng-select {
+  width:100%;
+}
+
+:host ::ng-deep .ng-select .ng-select-container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
+  align-items: center;
+  color: #e0e0e0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* focus igual que form-select */
+:host ::ng-deep .ng-select.ng-select-focused .ng-select-container {
+  border-color: rgba(168, 85, 247, 0.7);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15);
+}
+
+/* input de búsqueda */
+:host ::ng-deep .ng-select .ng-input input {
+  color: #e0e0e0;
+}
+
+/* placeholder */
+:host ::ng-deep .ng-select .ng-input input::placeholder {
+  color: #718096;
+}
+
+/* dropdown igual que options */
+:host ::ng-deep .ng-dropdown-panel {
+  background: #0f142d;
+}
+
+:host ::ng-deep .ng-dropdown-panel .ng-option {
+  color: #0f142d;
+}
+:host ::ng-deep .ng-dropdown-panel {
+  position: absolute !important;
+  z-index: 2000 !important;
+}
 /* ── SPINNER ──────────────────────────────────────────────────────────────── */
 .spinner {
   display: inline-block;

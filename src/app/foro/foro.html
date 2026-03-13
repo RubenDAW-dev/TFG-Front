@@ -9,14 +9,10 @@
       <div class="header-left">
         <h1 class="page-title">FORO</h1>
         <span class="topics-count" *ngIf="!cargandoLista">
-          {{ topics?.length ?? 0 }} topics
+          {{ topics.length }} topics
         </span>
       </div>
-      <button
-        class="btn-nuevo"
-        *ngIf="authService.isAuthenticated()"
-        (click)="toggleFormNuevo()"
-      >
+      <button class="btn-nuevo" *ngIf="authService.isAuthenticated()" (click)="toggleFormNuevo()">
         {{ mostrarFormNuevo ? '✕ Cancelar' : '+ Nuevo topic' }}
       </button>
     </div>
@@ -28,24 +24,15 @@
 
       <div class="form-group">
         <label class="form-label">Título del topic</label>
-        <input
-          class="form-input"
-          [(ngModel)]="nuevoTitulo"
-          placeholder="Ej: ¿Qué le pasa al Madrid esta temporada?"
-          maxlength="200"
-        />
+        <input class="form-input" [(ngModel)]="nuevoTitulo" placeholder="Ej: ¿Qué le pasa al Madrid esta temporada?"
+          maxlength="200" />
         <span class="form-hint">{{ nuevoTitulo.length }}/200</span>
       </div>
 
       <div class="form-group">
         <label class="form-label">Mensaje</label>
-        <textarea
-          class="form-textarea"
-          [(ngModel)]="nuevoTexto"
-          placeholder="Desarrolla tu pregunta o debate..."
-          rows="4"
-          maxlength="5000"
-        ></textarea>
+        <textarea class="form-textarea" [(ngModel)]="nuevoTexto" placeholder="Desarrolla tu pregunta o debate..."
+          rows="4" maxlength="5000"></textarea>
         <span class="form-hint">{{ nuevoTexto.length }}/5000</span>
       </div>
 
@@ -53,11 +40,7 @@
         <!-- Tipo -->
         <div class="form-group form-group-sm">
           <label class="form-label">Categoría</label>
-          <select
-            class="form-select"
-            [(ngModel)]="targetTipo"
-            (ngModelChange)="onTargetTipoChange()"
-          >
+          <select class="form-select" [(ngModel)]="targetTipo" (ngModelChange)="onTargetTipoChange()">
             <option value="equipo">⚽ Equipo</option>
             <option value="jugador">👤 Jugador</option>
             <option value="partido">🗓 Partido</option>
@@ -69,31 +52,17 @@
           <label class="form-label">
             {{ targetTipo === 'equipo' ? 'Equipo' : targetTipo === 'jugador' ? 'Jugador' : 'Partido' }}
           </label>
-          <div class="select-wrapper">
-            <select
-              class="form-select form-select-full"
-              [(ngModel)]="selectedTargetId"
-              [disabled]="cargandoOpciones"
-            >
-              <option value="" disabled>
-                {{ cargandoOpciones ? 'Cargando...' : '— Selecciona —' }}
-              </option>
-              <option *ngFor="let op of opcionesSelect" [value]="op.id">
-                {{ op.nombre }}
-              </option>
-            </select>
+            <ng-select class="ng-select-custom" [items]="opcionesSelect" bindLabel="nombre" bindValue="id"
+              [(ngModel)]="selectedTargetId" [loading]="cargandoOpciones" [searchable]="true" [clearable]="false"
+              placeholder="Buscar...">
+            </ng-select>
             <span class="select-spinner" *ngIf="cargandoOpciones"></span>
-          </div>
         </div>
       </div>
 
       <div class="form-actions">
         <button class="btn-ghost-sm" (click)="toggleFormNuevo()">Cancelar</button>
-        <button
-          class="btn-primary"
-          (click)="enviarTopic()"
-          [disabled]="enviandoTopic"
-        >
+        <button class="btn-primary" (click)="enviarTopic()" [disabled]="enviandoTopic">
           <span *ngIf="!enviandoTopic">Publicar topic</span>
           <span *ngIf="enviandoTopic" class="spinner"></span>
         </button>
@@ -107,12 +76,8 @@
     </div>
 
     <ul class="topics-list" *ngIf="!cargandoLista">
-      <li
-        class="topic-row"
-        *ngFor="let t of topics; trackBy: trackById"
-        (click)="abrirHilo(t)"
-      >
-        <div class="topic-avatar">{{ t.usuarioNombre?.charAt(0)?.toUpperCase() }}</div>
+      <li class="topic-row" *ngFor="let t of topics; trackBy: trackById" (click)="abrirHilo(t)">
+        <div class="topic-avatar">{{ t.usuarioNombre.charAt(0).toUpperCase() }}</div>
         <div class="topic-content">
           <div class="topic-title">{{ t.titulo }}</div>
           <div class="topic-meta">
@@ -129,7 +94,7 @@
         </div>
       </li>
 
-      <li class="empty-state" *ngIf="topics?.length === 0">
+      <li class="empty-state" *ngIf="topics.length === 0">
         <span class="empty-icon">⚽</span>
         <p>Aún no hay topics. ¡Sé el primero en abrir un debate!</p>
       </li>
@@ -153,18 +118,14 @@
 
       <div class="topic-card">
         <div class="topic-card-header">
-          <div class="avatar">{{ topicActivo.usuarioNombre?.charAt(0)?.toUpperCase() }}</div>
+          <div class="avatar">{{ topicActivo.usuarioNombre.charAt(0).toUpperCase() }}</div>
           <div class="topic-card-meta">
             <span class="usuario-nombre">{{ topicActivo.usuarioNombre }}</span>
             <span class="fecha">{{ topicActivo.fecha | date:'dd MMM yyyy' }}</span>
             <span class="tag-target">{{ targetLabel(topicActivo) }}</span>
           </div>
-          <button
-            class="btn-ghost-icon btn-delete"
-            *ngIf="puedeEditar(topicActivo.usuarioId)"
-            (click)="eliminar(topicActivo.id, true)"
-            title="Eliminar topic"
-          >🗑</button>
+          <button class="btn-ghost-icon btn-delete" *ngIf="puedeEditar(topicActivo.usuarioId)"
+            (click)="eliminar(topicActivo.id, true)" title="Eliminar topic">🗑</button>
         </div>
         <h2 class="topic-titulo">{{ topicActivo.titulo }}</h2>
         <p class="topic-cuerpo">{{ topicActivo.comentario }}</p>
@@ -178,18 +139,15 @@
 
       <ul class="respuestas-list" *ngIf="topicActivo.respuestas?.length">
         <li class="respuesta-item" *ngFor="let r of topicActivo.respuestas; trackBy: trackById">
-          <div class="avatar avatar-sm">{{ r.usuarioNombre?.charAt(0)?.toUpperCase() }}</div>
+          <div class="avatar avatar-sm">{{ r.usuarioNombre.charAt(0).toUpperCase() }}</div>
           <div class="respuesta-body">
             <div class="respuesta-meta">
               <span class="usuario-nombre">{{ r.usuarioNombre }}</span>
               <span class="fecha">{{ r.fecha | date:'dd MMM yyyy' }}</span>
             </div>
             <p class="respuesta-texto">{{ r.comentario }}</p>
-            <button
-              class="btn-ghost-sm btn-delete-sm"
-              *ngIf="puedeEditar(r.usuarioId)"
-              (click)="eliminar(r.id)"
-            >🗑 Eliminar</button>
+            <button class="btn-ghost-sm btn-delete-sm" *ngIf="puedeEditar(r.usuarioId)" (click)="eliminar(r.id)">🗑
+              Eliminar</button>
           </div>
         </li>
       </ul>
@@ -197,20 +155,11 @@
       <div class="form-respuesta" *ngIf="authService.isAuthenticated(); else loginMsg">
         <div class="avatar">{{ authService.currentUser()?.nombre?.charAt(0)?.toUpperCase() }}</div>
         <div class="respuesta-input-col">
-          <textarea
-            class="form-textarea"
-            [(ngModel)]="respuestaTexto"
-            placeholder="Añade tu respuesta al debate..."
-            rows="3"
-            maxlength="5000"
-          ></textarea>
+          <textarea class="form-textarea" [(ngModel)]="respuestaTexto" placeholder="Añade tu respuesta al debate..."
+            rows="3" maxlength="5000"></textarea>
           <div class="form-actions">
             <span class="form-hint">{{ respuestaTexto.length }}/5000</span>
-            <button
-              class="btn-primary"
-              (click)="enviarRespuesta()"
-              [disabled]="!respuestaTexto.trim() || enviandoResp"
-            >
+            <button class="btn-primary" (click)="enviarRespuesta()" [disabled]="!respuestaTexto.trim() || enviandoResp">
               <span *ngIf="!enviandoResp">Responder</span>
               <span *ngIf="enviandoResp" class="spinner"></span>
             </button>
