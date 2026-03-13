@@ -6,11 +6,12 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { PlayersService } from '../../services/players.service';
 import { PlayerSeasonStatsService } from '../../services/player-season-stats.service';
 import { ProximosPartidos } from "../../shared/proximos-partidos/proximos-partidos";
+import { AnterioresPartidos } from '../../shared/anteriores-partidos/anteriores-partidos';
 
 @Component({
   selector: 'app-player-detail',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, ProximosPartidos],
+  imports: [CommonModule, DecimalPipe, ProximosPartidos, AnterioresPartidos],
   templateUrl: './jugadores-detalle.html',
   styleUrl: './jugadores-detalle.css'
 })

@@ -1,0 +1,231 @@
+<div class="foro-page">
+
+  <!-- ══════════════════════════════════════════════════
+       VISTA: LISTA DE TOPICS
+  ══════════════════════════════════════════════════ -->
+  <ng-container *ngIf="vista === 'lista'">
+
+    <div class="page-header">
+      <div class="header-left">
+        <h1 class="page-title">FORO</h1>
+        <span class="topics-count" *ngIf="!cargandoLista">
+          {{ topics?.length ?? 0 }} topics
+        </span>
+      </div>
+      <button
+        class="btn-nuevo"
+        *ngIf="authService.isAuthenticated()"
+        (click)="toggleFormNuevo()"
+      >
+        {{ mostrarFormNuevo ? '✕ Cancelar' : '+ Nuevo topic' }}
+      </button>
+    </div>
+
+    <!-- Formulario nuevo topic -->
+    <div class="form-nuevo-topic" *ngIf="mostrarFormNuevo">
+
+      <div class="form-alert" *ngIf="errorForm">⚠️ {{ errorForm }}</div>
+
+      <div class="form-group">
+        <label class="form-label">Título del topic</label>
+        <input
+          class="form-input"
+          [(ngModel)]="nuevoTitulo"
+          placeholder="Ej: ¿Qué le pasa al Madrid esta temporada?"
+          maxlength="200"
+        />
+        <span class="form-hint">{{ nuevoTitulo.length }}/200</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mensaje</label>
+        <textarea
+          class="form-textarea"
+          [(ngModel)]="nuevoTexto"
+          placeholder="Desarrolla tu pregunta o debate..."
+          rows="4"
+          maxlength="5000"
+        ></textarea>
+        <span class="form-hint">{{ nuevoTexto.length }}/5000</span>
+      </div>
+
+      <div class="form-row">
+        <!-- Tipo -->
+        <div class="form-group form-group-sm">
+          <label class="form-label">Categoría</label>
+          <select
+            class="form-select"
+            [(ngModel)]="targetTipo"
+            (ngModelChange)="onTargetTipoChange()"
+          >
+            <option value="equipo">⚽ Equipo</option>
+            <option value="jugador">👤 Jugador</option>
+            <option value="partido">🗓 Partido</option>
+          </select>
+        </div>
+
+        <!-- Select entidad -->
+        <div class="form-group form-group-flex">
+          <label class="form-label">
+            {{ targetTipo === 'equipo' ? 'Equipo' : targetTipo === 'jugador' ? 'Jugador' : 'Partido' }}
+          </label>
+          <div class="select-wrapper">
+            <select
+              class="form-select form-select-full"
+              [(ngModel)]="selectedTargetId"
+              [disabled]="cargandoOpciones"
+            >
+              <option value="" disabled>
+                {{ cargandoOpciones ? 'Cargando...' : '— Selecciona —' }}
+              </option>
+              <option *ngFor="let op of opcionesSelect" [value]="op.id">
+                {{ op.nombre }}
+              </option>
+            </select>
+            <span class="select-spinner" *ngIf="cargandoOpciones"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-ghost-sm" (click)="toggleFormNuevo()">Cancelar</button>
+        <button
+          class="btn-primary"
+          (click)="enviarTopic()"
+          [disabled]="enviandoTopic"
+        >
+          <span *ngIf="!enviandoTopic">Publicar topic</span>
+          <span *ngIf="enviandoTopic" class="spinner"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="alert-error" *ngIf="errorLista">⚠️ {{ errorLista }}</div>
+
+    <div class="skeleton-list" *ngIf="cargandoLista">
+      <div class="skeleton-topic" *ngFor="let i of [1,2,3,4,5]"></div>
+    </div>
+
+    <ul class="topics-list" *ngIf="!cargandoLista">
+      <li
+        class="topic-row"
+        *ngFor="let t of topics; trackBy: trackById"
+        (click)="abrirHilo(t)"
+      >
+        <div class="topic-avatar">{{ t.usuarioNombre?.charAt(0)?.toUpperCase() }}</div>
+        <div class="topic-content">
+          <div class="topic-title">{{ t.titulo }}</div>
+          <div class="topic-meta">
+            <span class="meta-usuario">{{ t.usuarioNombre }}</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-fecha">{{ t.fecha | date:'dd MMM yyyy' }}</span>
+            <span class="meta-sep">·</span>
+            <span class="meta-tag">{{ targetLabel(t) }}</span>
+          </div>
+        </div>
+        <div class="topic-stats">
+          <span class="stat-respuestas">💬 {{ t.totalRespuestas }}</span>
+          <span class="topic-arrow">›</span>
+        </div>
+      </li>
+
+      <li class="empty-state" *ngIf="topics?.length === 0">
+        <span class="empty-icon">⚽</span>
+        <p>Aún no hay topics. ¡Sé el primero en abrir un debate!</p>
+      </li>
+    </ul>
+
+  </ng-container>
+
+
+  <!-- ══════════════════════════════════════════════════
+       VISTA: HILO DEL TOPIC
+  ══════════════════════════════════════════════════ -->
+  <ng-container *ngIf="vista === 'hilo'">
+
+    <button class="btn-back" (click)="volverALista()">← Volver al foro</button>
+
+    <div class="skeleton-list" *ngIf="cargandoHilo">
+      <div class="skeleton-topic" *ngFor="let i of [1,2,3]"></div>
+    </div>
+
+    <ng-container *ngIf="!cargandoHilo && topicActivo">
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="avatar">{{ topicActivo.usuarioNombre?.charAt(0)?.toUpperCase() }}</div>
+          <div class="topic-card-meta">
+            <span class="usuario-nombre">{{ topicActivo.usuarioNombre }}</span>
+            <span class="fecha">{{ topicActivo.fecha | date:'dd MMM yyyy' }}</span>
+            <span class="tag-target">{{ targetLabel(topicActivo) }}</span>
+          </div>
+          <button
+            class="btn-ghost-icon btn-delete"
+            *ngIf="puedeEditar(topicActivo.usuarioId)"
+            (click)="eliminar(topicActivo.id, true)"
+            title="Eliminar topic"
+          >🗑</button>
+        </div>
+        <h2 class="topic-titulo">{{ topicActivo.titulo }}</h2>
+        <p class="topic-cuerpo">{{ topicActivo.comentario }}</p>
+      </div>
+
+      <div class="alert-error" *ngIf="errorHilo">⚠️ {{ errorHilo }}</div>
+
+      <div class="respuestas-header" *ngIf="topicActivo.respuestas?.length">
+        {{ topicActivo.respuestas!.length }} respuestas
+      </div>
+
+      <ul class="respuestas-list" *ngIf="topicActivo.respuestas?.length">
+        <li class="respuesta-item" *ngFor="let r of topicActivo.respuestas; trackBy: trackById">
+          <div class="avatar avatar-sm">{{ r.usuarioNombre?.charAt(0)?.toUpperCase() }}</div>
+          <div class="respuesta-body">
+            <div class="respuesta-meta">
+              <span class="usuario-nombre">{{ r.usuarioNombre }}</span>
+              <span class="fecha">{{ r.fecha | date:'dd MMM yyyy' }}</span>
+            </div>
+            <p class="respuesta-texto">{{ r.comentario }}</p>
+            <button
+              class="btn-ghost-sm btn-delete-sm"
+              *ngIf="puedeEditar(r.usuarioId)"
+              (click)="eliminar(r.id)"
+            >🗑 Eliminar</button>
+          </div>
+        </li>
+      </ul>
+
+      <div class="form-respuesta" *ngIf="authService.isAuthenticated(); else loginMsg">
+        <div class="avatar">{{ authService.currentUser()?.nombre?.charAt(0)?.toUpperCase() }}</div>
+        <div class="respuesta-input-col">
+          <textarea
+            class="form-textarea"
+            [(ngModel)]="respuestaTexto"
+            placeholder="Añade tu respuesta al debate..."
+            rows="3"
+            maxlength="5000"
+          ></textarea>
+          <div class="form-actions">
+            <span class="form-hint">{{ respuestaTexto.length }}/5000</span>
+            <button
+              class="btn-primary"
+              (click)="enviarRespuesta()"
+              [disabled]="!respuestaTexto.trim() || enviandoResp"
+            >
+              <span *ngIf="!enviandoResp">Responder</span>
+              <span *ngIf="enviandoResp" class="spinner"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #loginMsg>
+        <div class="login-prompt">
+          🔒 <a routerLink="/login">Inicia sesión</a> para responder en el foro.
+        </div>
+      </ng-template>
+
+    </ng-container>
+
+  </ng-container>
+
+</div>

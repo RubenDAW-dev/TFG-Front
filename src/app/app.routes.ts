@@ -13,6 +13,7 @@ import { Partidos } from './partidos/partidos';
 import { PartidoDetalle } from './partidos/partido-detalle/partido-detalle';
 import { PlayerDetailComponent } from './jugadores/jugadores-detalle/jugadores-detalle';
 import { EquiposDetalle } from './equipos/equipos-detalle/equipos-detalle';
+import { Foro } from '../app/foro/foro';
 
 export const routes: Routes = [
   // Públicas — sin guard
@@ -30,6 +31,7 @@ export const routes: Routes = [
   { path: 'comparador', component: Comparador, canActivate: [authGuard] },
   { path: 'partidos', component: Partidos, canActivate: [authGuard] },
   { path: 'partidos/:id', component: PartidoDetalle, canActivate: [authGuard] },
+  { path: 'foro', component: Foro, canActivate: [authGuard] },
 
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   { path: '**', redirectTo: 'dashboard' }

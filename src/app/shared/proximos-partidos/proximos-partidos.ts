@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatchesService } from '../../services/matches.service';
 import { TeamFutureMatchDTO } from '../../shared/models/team-future-match.dto';
 import { RouterLink } from '@angular/router';
+import { TeamPastMatchDTO } from '../models/team-past-match.dto';
 
 @Component({
   selector: 'app-proximos-partidos',
@@ -15,7 +16,8 @@ export class ProximosPartidos implements OnChanges {
   @Input() teamId!: string;
   @Input() teamName?: string;
  
-  matches: TeamFutureMatchDTO[] = [];
+  futurematches: TeamFutureMatchDTO[] = [];
+
   loading = true;
   empty = false;
  
@@ -36,13 +38,13 @@ export class ProximosPartidos implements OnChanges {
  
     this.matchesService.getNextMatchesByTeam(this.teamId).subscribe({
       next: (data) => {
-        this.matches = data ?? [];
-        this.empty = this.matches.length === 0;
+        this.futurematches = data ?? [];
+        this.empty = this.futurematches.length === 0;
         this.loading = false;
         this.cdr.detectChanges();
       },
       error: () => {
-        this.matches = [];
+        this.futurematches = [];
         this.empty = true;
         this.loading = false;
         this.cdr.detectChanges();

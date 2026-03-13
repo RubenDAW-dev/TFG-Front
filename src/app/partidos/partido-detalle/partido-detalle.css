@@ -1,11 +1,3 @@
-/* =========================================================
-   FUENTES
-========================================================= */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap');
-
-/* =========================================================
-   RESET + BODY — (arregla fondo blanco y márgenes)
-========================================================= */
 * {
   margin: 0;
   padding: 0;
@@ -116,7 +108,7 @@ body {
 h2 {
   font-family: 'Barlow Condensed', sans-serif;
   color: #c084fc;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 700;
   margin: 0 0 20px 0;
   text-transform: uppercase;
@@ -507,7 +499,7 @@ h2 {
 .stat-label {
   text-align: center;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -598,7 +590,7 @@ h2 {
   padding: 10px 12px;
   text-align: center;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.68rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;

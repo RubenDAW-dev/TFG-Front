@@ -395,6 +395,13 @@
       </div>
       }
 
+          @if (team.id) {
+    <aside class="body-sidebar">
+      <app-anteriores-partidos [teamId]="team.id" [teamName]="team.nombre">
+      </app-anteriores-partidos>
+    </aside>
+    }
+
     </div> <!-- /body-section -->
   </div> <!-- /body-layout -->
   }

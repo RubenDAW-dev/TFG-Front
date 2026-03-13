@@ -4,10 +4,14 @@
   @if (players && players.length > 0) {
     <div class="flex-1">
       @for (p of players; track $index) {
-        <div class="flex">
+        <div 
+          class="flex hover-row"
+          [routerLink]="['/jugadores', p.playerId]"
+          style="cursor:pointer"
+        >
           <div class="w-10">{{ $index + 1 }}</div>
-          <div>{{ p.playerName }}</div>
-          <div class="text-red-600">{{ p.valor }}</div>
+          <div class="flex-1">{{ p.playerName }}</div>
+          <div class="text-red-600 font-bold">{{ p.valor }}</div>
         </div>
       }
     </div>

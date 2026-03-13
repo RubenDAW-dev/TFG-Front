@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { FutureMatchDTO } from '../shared/models/future-match.dto';
 import { MatchEntity } from '../shared/models/match.entity';
 import { TeamFutureMatchDTO } from '../shared/models/team-future-match.dto';
+import { TeamPastMatchDTO } from '../shared/models/team-past-match.dto';
 
 @Injectable({ providedIn: 'root' })
 export class MatchesService {
@@ -42,5 +43,8 @@ export class MatchesService {
   }
   getNextMatchesByTeam(teamId: string): Observable<TeamFutureMatchDTO[]> {
     return this.http.get<TeamFutureMatchDTO[]>(`${this.api}/next/${teamId}`);
+  }
+  getLastMatchesByTeam(teamId: string): Observable<TeamPastMatchDTO[]> {
+    return this.http.get<TeamPastMatchDTO[]>(`${this.api}/last/${teamId}`);
   }
 }

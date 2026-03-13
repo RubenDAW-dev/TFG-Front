@@ -5,7 +5,7 @@
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
     </svg>
-    Próximos partidos
+    Partidos anteriores
   </h3>
 
   <!-- Loading -->
@@ -23,7 +23,7 @@
   <!-- Lista de partidos -->
   @if (!loading && !empty) {
     <div class="match-list">
-      @for (match of futurematches; track match.id) {
+      @for (match of pastmatches; track match.id) {
         <a class="match-item" [class.home]="isHome(match)" [class.away]="!isHome(match)" [routerLink]="['/partidos', match.id]">
 
           <!-- Jornada + fecha -->
@@ -43,6 +43,9 @@
             <span class="match-vs">vs</span>
             <span class="team-name" [class.highlight]="match.awayTeamId === teamId">
               {{ match.awayTeam }}
+            </span>
+            <span class="match-score">
+              {{ match.score }}
             </span>
           </div>
 

@@ -464,7 +464,12 @@
         <p>No hay estadísticas disponibles para este jugador.</p>
       </div>
       }
-
+      @if (player.team?.id) {
+      <aside class="body-sidebar">
+        <app-anteriores-partidos [teamId]="player.team.id" [teamName]="player.team.nombre">
+        </app-anteriores-partidos>
+      </aside>
+      }
     </div><!-- /body-section -->
   </div><!-- /body-layout -->
   }

@@ -1,12 +1,23 @@
-<h2 class="section-title">Últimos partidos</h2>
+<h2 class="section-title">Partidos Pasados</h2>
+<div class="matches-grid-2col" *ngIf="matches.length > 0; else noPastMatches">
+  <div
+    class="match-row current"
+    *ngFor="let match of matches"
+    [ngClass]="getResultClass(match)"
+    [routerLink]="['/partidos', match.id]"
+    style="cursor:pointer"
+  >
+    <span class="col-left">{{ match.homeTeam }}</span>
 
-<div *ngIf="matches.length === 0" class="empty">No hay datos disponibles.</div>
+    <!-- Con resultado -->
+    <span class="col-center strong" *ngIf="match.score && match.score.trim() !== ''">
+      {{ match.score }}
+    </span>
 
-<div *ngFor="let m of matches" class="match-row three-cols">
-  <span class="col left team ellipsis">{{ m.homeTeam }}</span>
-
-  <!-- Resultado centrado -->
-  <span class="col center strong">{{ m.score }}</span>
-
-  <span class="col right team ellipsis">{{ m.awayTeam }}</span>
+    <span class="col-right">{{ match.awayTeam }}</span>
+  </div>
 </div>
+
+<ng-template #noPastMatches>
+  <div class="empty">No hay datos disponibles.</div>
+</ng-template>

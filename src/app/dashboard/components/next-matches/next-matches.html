@@ -2,14 +2,21 @@
 
 <div *ngIf="matches.length === 0" class="empty">No hay datos disponibles.</div>
 
-<div *ngFor="let m of matches" class="match-row three-cols">
-  <span class="col left team ellipsis">{{ m.homeTeam }}</span>
+<div class="matches-grid-2col" *ngIf="matches.length > 0">
+  <div
+    class="match-row"
+    *ngFor="let match of matches"
+    [routerLink]="['/partidos', match.id]"
+    style="cursor:pointer"
+  >
+    <span class="col-left">{{ match.homeTeam }}</span>
 
-  <!-- Fecha/hora centrado -->
-  <span class="col center muted">
-    <span class="day">{{ m.day }}</span>
-    <span class="time">{{ m.time }}</span>
-  </span>
+    <!-- Fecha/hora centrado -->
+    <span class="col-center">
+      <span class="day">{{ match.day }} </span>
+      <span class="time">{{ match.time }}</span>
+    </span>
 
-  <span class="col right team ellipsis">{{ m.awayTeam }}</span>
+    <span class="col-right">{{ match.awayTeam }}</span>
+  </div>
 </div>

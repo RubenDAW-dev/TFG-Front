@@ -11,11 +11,12 @@ import { TeamSeasonStatsService } from '../../services/team-season-stats.service
 
 // Si quieres reusar el widget de próximos partidos como en jugadores:
 import { ProximosPartidos } from '../../shared/proximos-partidos/proximos-partidos';
+import { AnterioresPartidos } from '../../shared/anteriores-partidos/anteriores-partidos';
 
 @Component({
   selector: 'app-equipos-detalle',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, ProximosPartidos],
+  imports: [CommonModule, DecimalPipe, ProximosPartidos, AnterioresPartidos],
   templateUrl: './equipos-detalle.html',
   styleUrl: './equipos-detalle.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

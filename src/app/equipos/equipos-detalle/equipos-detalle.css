@@ -4,11 +4,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
 :host {
-  --bg: #0b0d12;
-  --surface: #13161f;
-  --surface-2: #1a1e2a;
+  --bg: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  --surface: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
   --border: rgba(255, 255, 255, 0.07);
-  --accent: #00e5a0;
+  --accent: #c084fc;
   --accent-dim: rgba(0, 229, 160, 0.1);
   --blue: #3d9cff;
   --blue-dim: rgba(61, 156, 255, 0.12);
@@ -186,7 +185,7 @@
   height: 110px;
   border-radius: 50%;
   background: var(--accent-dim);
-  border: 2px solid rgba(0, 229, 160, 0.35);
+  border: 2px solid #c084fc;
   display: flex;
   align-items: center;
   justify-content: center;
