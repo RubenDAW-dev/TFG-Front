@@ -51,7 +51,7 @@ export class AdminJugadoresComponent implements OnInit {
 
   // BÚSQUEDA Y FILTRADO
   busqueda = '';
-  filtroEquipo = '';
+  filtroEquipo: string | null = null;
   jugadoresFiltrados: any[] = [];
 
   // PAGINACIÓN
@@ -200,9 +200,6 @@ export class AdminJugadoresComponent implements OnInit {
 
   private confirmarEliminar(): void {
     this.enviandoModal = true;
-    // Aquí llamarías al servicio para eliminar
-    // this.playersService.eliminar(this.jugadorSeleccionado.id)
-
     this.error = 'La funcionalidad de eliminar requiere endpoints en el backend';
     this.enviandoModal = false;
     this.cerrarModal();
@@ -235,7 +232,7 @@ export class AdminJugadoresComponent implements OnInit {
 
   limpiarFiltros(): void {
     this.busqueda = '';
-    this.filtroEquipo = '';
+    this.filtroEquipo = null;
     this.jugadoresFiltrados = [...this.jugadores];
     this.totalRecords = this.jugadores.length;
     this.first = 0;
@@ -254,7 +251,6 @@ export class AdminJugadoresComponent implements OnInit {
     const fin = inicio + this.rows;
     return this.jugadoresFiltrados.slice(inicio, fin);
   }
-  // Agregar estos métodos a tu AdminJugadoresComponent
 
   cerrarFormulario(): void {
     this.mostrarForm = false;
@@ -264,6 +260,7 @@ export class AdminJugadoresComponent implements OnInit {
   }
 
   toggleForm(): void {
+    this.resetForm();
     this.mostrarForm = !this.mostrarForm;
     if (!this.mostrarForm) {
       this.resetForm();
