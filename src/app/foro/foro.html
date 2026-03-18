@@ -199,12 +199,17 @@
         <ng-container *ngIf="editandoId === topicActivo.id">
           <div class="form-group">
             <label class="form-label">Editar título</label>
-            <input class="form-input" [(ngModel)]="editandoTexto" maxlength="200" />
-            <span class="form-hint">{{ editandoTexto.length }}/200</span>
+            <input class="form-input" [(ngModel)]="editandoTitulo" maxlength="200" />
+            <span class="form-hint">{{ editandoTitulo.length }}/200</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Editar mensaje</label>
+            <textarea class="form-textarea" [(ngModel)]="editandoComentario" rows="4" maxlength="5000"></textarea>
+            <span class="form-hint">{{ editandoComentario.length }}/5000</span>
           </div>
           <div class="form-actions">
             <button class="btn-ghost-sm" (click)="cancelarEdicion()">Cancelar</button>
-            <button class="btn-primary" (click)="guardarEdicion(topicActivo.id, true)" [disabled]="enviandoEdicion">
+            <button class="btn-primary" (click)="guardarEdicion(topicActivo.id, true)" [disabled]="enviandoEdicion || !editandoTitulo.trim() || !editandoComentario.trim()">
               <span *ngIf="!enviandoEdicion">Guardar</span>
               <span *ngIf="enviandoEdicion" class="spinner"></span>
             </button>

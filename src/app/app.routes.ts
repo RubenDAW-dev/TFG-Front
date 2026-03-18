@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: 'register', component: Register },
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'reset-password', component: ResetPassword },
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'home', component: DashboardComponent},
   
    // Protegidas — requieren login
   { path: 'jugadores', component: Jugadores, canActivate: [authGuard] },

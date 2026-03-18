@@ -52,6 +52,8 @@ export class Foro implements OnInit {
   // EDICIÓN
   editandoId: number | null = null;
   editandoTexto = '';
+  editandoTitulo = '';
+  editandoComentario = '';
   enviandoEdicion = false;
 
   constructor(
@@ -317,18 +319,32 @@ export class Foro implements OnInit {
 
   iniciarEdicion(comentario: ComentarioResponseDTO, esTopic = false): void {
     this.editandoId = comentario.id;
-    this.editandoTexto = esTopic ? (comentario.titulo ?? '') : (comentario.comentario ?? '');
+    if (esTopic) {
+      this.editandoTitulo = comentario.titulo || '';
+      this.editandoComentario = comentario.comentario || '';
+    } else {
+      this.editandoTexto = comentario.comentario || '';
+    }
   }
 
   cancelarEdicion(): void {
     this.editandoId = null;
     this.editandoTexto = '';
+    this.editandoTitulo = '';
+    this.editandoComentario = '';
   }
 
   guardarEdicion(comentarioId: number, esTopic = false): void {
-    if (!this.editandoTexto.trim()) {
-      this.errorHilo = 'El texto no puede estar vacío.';
-      return;
+    if (esTopic) {
+      if (!this.editandoTitulo.trim() || !this.editandoComentario.trim()) {
+        this.errorHilo = 'Título y mensaje no pueden estar vacíos.';
+        return;
+      }
+    } else {
+      if (!this.editandoTexto.trim()) {
+        this.errorHilo = 'El texto no puede estar vacío.';
+        return;
+      }
     }
 
     this.enviandoEdicion = true;
@@ -339,7 +355,8 @@ export class Foro implements OnInit {
     };
     
     if (esTopic) {
-      dto.titulo = this.editandoTexto.trim();
+      dto.titulo = this.editandoTitulo.trim();
+      dto.comentario = this.editandoComentario.trim();
     } else {
       dto.comentario = this.editandoTexto.trim();
     }
@@ -349,6 +366,8 @@ export class Foro implements OnInit {
         this.enviandoEdicion = false;
         this.editandoId = null;
         this.editandoTexto = '';
+        this.editandoTitulo = '';
+        this.editandoComentario = '';
         if (this.topicActivo) {
           this.abrirHilo(this.topicActivo);
         }
