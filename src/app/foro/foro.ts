@@ -25,14 +25,20 @@ export class Foro implements OnInit {
   topicActivo: ComentarioResponseDTO | null = null;
 
   topics: ComentarioResponseDTO[] = [];
+  topicsOriginal: ComentarioResponseDTO[] = [];
   cargandoLista = false;
   errorLista: string | null = null;
+
+  // BÚSQUEDA Y FILTRADO
+  busquedaTexto = '';
+  filtroTarget: 'todos' | 'equipo' | 'jugador' | 'partido' = 'todos';
+  filtroTargetId = '';
 
   mostrarFormNuevo = false;
   nuevoTitulo = '';
   nuevoTexto = '';
   targetTipo: TargetTipo = 'equipo';
-  selectedTargetId = '';          // id seleccionado en el <select>
+  selectedTargetId = '';
   opcionesSelect: SearchItemDTO[] = [];
   cargandoOpciones = false;
   enviandoTopic = false;
@@ -42,6 +48,11 @@ export class Foro implements OnInit {
   respuestaTexto = '';
   enviandoResp = false;
   errorHilo: string | null = null;
+
+  // EDICIÓN
+  editandoId: number | null = null;
+  editandoTexto = '';
+  enviandoEdicion = false;
 
   constructor(
     private comentarioService: ComentarioService,
@@ -62,6 +73,7 @@ export class Foro implements OnInit {
     this.comentarioService.foroTopics().subscribe({
       next: (data) => {
         this.topics = Array.isArray(data) ? data : [];
+        this.topicsOriginal = [...this.topics];
         this.cargandoLista = false;
         this.cdr.detectChanges();
       },
@@ -71,6 +83,55 @@ export class Foro implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  // ── BÚSQUEDA Y FILTRADO ────────────────────────────────────────────────────
+
+  onBusquedaChange(): void {
+    this.aplicarFiltros();
+  }
+
+  onFiltroTargetChange(): void {
+    this.filtroTargetId = '';
+    this.cargarOpcionesFiltro();
+  }
+
+  aplicarFiltros(): void {
+    let resultado = [...this.topicsOriginal];
+
+    // Filtro por texto
+    if (this.busquedaTexto.trim()) {
+      const busqueda = this.busquedaTexto.toLowerCase();
+      resultado = resultado.filter(t =>
+        t.titulo.toLowerCase().includes(busqueda) ||
+        t.comentario.toLowerCase().includes(busqueda) ||
+        t.usuarioNombre.toLowerCase().includes(busqueda) ||
+        (t.targetNombre ? t.targetNombre.toLowerCase().includes(busqueda) : false)
+      );
+    }
+
+    // Filtro por target
+    if (this.filtroTarget !== 'todos') {
+      resultado = resultado.filter(t => {
+        if (this.filtroTarget === 'equipo') return t.equipoId !== null;
+        if (this.filtroTarget === 'jugador') return t.jugadorId !== null;
+        if (this.filtroTarget === 'partido') return t.partidoId !== null;
+        return true;
+      });
+
+      // Filtro específico por ID
+      if (this.filtroTargetId) {
+        resultado = resultado.filter(t => {
+          if (this.filtroTarget === 'equipo') return t.equipoId === this.filtroTargetId;
+          if (this.filtroTarget === 'jugador') return t.jugadorId === this.filtroTargetId;
+          if (this.filtroTarget === 'partido') return t.partidoId === Number(this.filtroTargetId);
+          return true;
+        });
+      }
+    }
+
+    this.topics = resultado;
+    this.cdr.detectChanges();
   }
 
   abrirHilo(topic: ComentarioResponseDTO): void {
@@ -97,6 +158,7 @@ export class Foro implements OnInit {
     this.topicActivo = null;
     this.respuestaTexto = '';
     this.errorHilo = null;
+    this.editandoId = null;
     this.cargarTopics();
   }
 
@@ -130,10 +192,40 @@ export class Foro implements OnInit {
         this.opcionesSelect = data;
         this.cargandoOpciones = false;
         this.cdr.detectChanges();
-        console.log('Opciones para ' + this.targetTipo, data);
       },
       error: () => {
         this.cargandoOpciones = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  cargarOpcionesFiltro(): void {
+    this.cargandoOpciones = true;
+    this.opcionesSelect = [];
+
+    if (this.filtroTarget === 'todos') {
+      this.cargandoOpciones = false;
+      this.aplicarFiltros();
+      this.cdr.detectChanges();
+      return;
+    }
+
+    let obs$;
+    if (this.filtroTarget === 'equipo') obs$ = this.searchService.buscarEquipos('');
+    else if (this.filtroTarget === 'jugador') obs$ = this.searchService.buscarJugadores('');
+    else obs$ = this.searchService.buscarPartidos('');
+
+    obs$.subscribe({
+      next: (data) => {
+        this.opcionesSelect = data;
+        this.cargandoOpciones = false;
+        this.aplicarFiltros();
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.cargandoOpciones = false;
+        this.aplicarFiltros();
         this.cdr.detectChanges();
       }
     });
@@ -208,8 +300,6 @@ export class Foro implements OnInit {
         this.abrirHilo(this.topicActivo!);
       },
       error: (err) => {
-        // 403 suele ser error de serialización en el backend — el comentario
-        // sí se creó, recargamos el hilo igualmente
         if (err.status === 403 || err.status === 500) {
           this.respuestaTexto = '';
           this.enviandoResp = false;
@@ -223,6 +313,53 @@ export class Foro implements OnInit {
     });
   }
 
+  // ── EDITAR COMENTARIO ──────────────────────────────────────────────────────
+
+  iniciarEdicion(comentario: ComentarioResponseDTO, esTopic = false): void {
+    this.editandoId = comentario.id;
+    this.editandoTexto = esTopic ? (comentario.titulo ?? '') : (comentario.comentario ?? '');
+  }
+
+  cancelarEdicion(): void {
+    this.editandoId = null;
+    this.editandoTexto = '';
+  }
+
+  guardarEdicion(comentarioId: number, esTopic = false): void {
+    if (!this.editandoTexto.trim()) {
+      this.errorHilo = 'El texto no puede estar vacío.';
+      return;
+    }
+
+    this.enviandoEdicion = true;
+    this.errorHilo = null;
+
+    const dto: any = {
+      id: comentarioId,
+    };
+    
+    if (esTopic) {
+      dto.titulo = this.editandoTexto.trim();
+    } else {
+      dto.comentario = this.editandoTexto.trim();
+    }
+
+    this.comentarioService.actualizar(dto).subscribe({
+      next: () => {
+        this.enviandoEdicion = false;
+        this.editandoId = null;
+        this.editandoTexto = '';
+        if (this.topicActivo) {
+          this.abrirHilo(this.topicActivo);
+        }
+      },
+      error: () => {
+        this.errorHilo = 'Error al guardar la edición.';
+        this.enviandoEdicion = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   // ── ELIMINAR ──────────────────────────────────────────────────────────────
 
@@ -241,10 +378,9 @@ export class Foro implements OnInit {
   }
 
   targetLabel(topic: ComentarioResponseDTO): string {
-    if (topic.equipoId) return '🛡 ' + (topic.targetNombre || topic.equipoId);
-    if (topic.jugadorId) return '👤 ' + (topic.targetNombre || topic.jugadorId);
-    if (topic.partidoId) return '⚽ ' + (topic.targetNombre || 'Partido ' + topic.partidoId);
-    this.cdr.detectChanges();
+    if (topic.equipoId) return '🛡 ' + (topic.targetNombre || topic.equipoId || '');
+    if (topic.jugadorId) return '👤 ' + (topic.targetNombre || topic.jugadorId || '');
+    if (topic.partidoId) return '⚽ ' + (topic.targetNombre || ('Partido ' + topic.partidoId) || '');
     return '';
   }
 

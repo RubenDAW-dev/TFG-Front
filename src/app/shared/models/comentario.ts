@@ -1,6 +1,6 @@
 export interface ComentarioResponseDTO {
   id: number;
-  titulo?: string;
+  titulo: string;
   comentario: string;
   fecha: string;
   usuarioId: number;

@@ -69,6 +69,61 @@
       </div>
     </div>
 
+    <!-- ══════════════════════════════════════════════════
+         BÚSQUEDA Y FILTRADO
+    ══════════════════════════════════════════════════ -->
+    <div class="search-filter-section" *ngIf="!cargandoLista">
+      
+      <div class="search-box">
+        <input 
+          class="search-input" 
+          type="text" 
+          [(ngModel)]="busquedaTexto" 
+          (ngModelChange)="onBusquedaChange()"
+          placeholder="🔍 Buscar en títulos, mensajes y autores..." 
+        />
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-group">
+          <label class="filter-label">Filtrar por:</label>
+          <select class="filter-select" [(ngModel)]="filtroTarget" (ngModelChange)="onFiltroTargetChange()">
+            <option value="todos">📋 Todos</option>
+            <option value="equipo">⚽ Equipos</option>
+            <option value="jugador">👤 Jugadores</option>
+            <option value="partido">🗓 Partidos</option>
+          </select>
+        </div>
+
+        <div class="filter-group" *ngIf="filtroTarget !== 'todos'">
+          <label class="filter-label">
+            {{ filtroTarget === 'equipo' ? 'Equipo' : filtroTarget === 'jugador' ? 'Jugador' : 'Partido' }}:
+          </label>
+          <ng-select 
+            class="filter-ng-select"
+            [items]="opcionesSelect" 
+            bindLabel="nombre" 
+            bindValue="id"
+            [(ngModel)]="filtroTargetId" 
+            [loading]="cargandoOpciones" 
+            [searchable]="true" 
+            [clearable]="true"
+            placeholder="Selecciona..."
+            (ngModelChange)="aplicarFiltros()"
+          >
+          </ng-select>
+        </div>
+
+        <button 
+          class="btn-limpiar-filtros" 
+          *ngIf="busquedaTexto || filtroTarget !== 'todos' || filtroTargetId"
+          (click)="busquedaTexto = ''; filtroTarget = 'todos'; filtroTargetId = ''; aplicarFiltros()"
+        >
+          ✕ Limpiar filtros
+        </button>
+      </div>
+    </div>
+
     <div class="alert-error" *ngIf="errorLista">⚠️ {{ errorLista }}</div>
 
     <div class="skeleton-list" *ngIf="cargandoLista">
@@ -96,7 +151,7 @@
 
       <li class="empty-state" *ngIf="topics.length === 0">
         <span class="empty-icon">⚽</span>
-        <p>Aún no hay topics. ¡Sé el primero en abrir un debate!</p>
+        <p>{{ busquedaTexto || filtroTarget !== 'todos' ? 'No hay topics con esos filtros.' : 'Aún no hay topics. ¡Sé el primero en abrir un debate!' }}</p>
       </li>
     </ul>
 
@@ -116,6 +171,7 @@
 
     <ng-container *ngIf="!cargandoHilo && topicActivo">
 
+      <!-- TOPIC PRINCIPAL CON EDICIÓN -->
       <div class="topic-card">
         <div class="topic-card-header">
           <div class="avatar">{{ topicActivo.usuarioNombre.charAt(0).toUpperCase() }}</div>
@@ -124,15 +180,41 @@
             <span class="fecha">{{ topicActivo.fecha | date:'dd MMM yyyy' }}</span>
             <span class="tag-target">{{ targetLabel(topicActivo) }}</span>
           </div>
-          <button class="btn-ghost-icon btn-delete" *ngIf="puedeEditar(topicActivo.usuarioId)"
-            (click)="eliminar(topicActivo.id, true)" title="Eliminar topic">🗑</button>
+          <div class="topic-actions" *ngIf="puedeEditar(topicActivo.usuarioId)">
+            <button class="btn-ghost-icon" 
+              *ngIf="editandoId !== topicActivo.id"
+              (click)="iniciarEdicion(topicActivo, true)" title="Editar topic">✎</button>
+            <button class="btn-ghost-icon btn-delete" 
+              (click)="eliminar(topicActivo.id, true)" title="Eliminar topic">🗑</button>
+          </div>
         </div>
-        <h2 class="topic-titulo">{{ topicActivo.titulo }}</h2>
-        <p class="topic-cuerpo">{{ topicActivo.comentario }}</p>
+
+        <!-- MODO LECTURA: Título y contenido -->
+        <ng-container *ngIf="editandoId !== topicActivo.id">
+          <h2 class="topic-titulo">{{ topicActivo.titulo }}</h2>
+          <p class="topic-cuerpo">{{ topicActivo.comentario }}</p>
+        </ng-container>
+
+        <!-- MODO EDICIÓN: Campos editables -->
+        <ng-container *ngIf="editandoId === topicActivo.id">
+          <div class="form-group">
+            <label class="form-label">Editar título</label>
+            <input class="form-input" [(ngModel)]="editandoTexto" maxlength="200" />
+            <span class="form-hint">{{ editandoTexto.length }}/200</span>
+          </div>
+          <div class="form-actions">
+            <button class="btn-ghost-sm" (click)="cancelarEdicion()">Cancelar</button>
+            <button class="btn-primary" (click)="guardarEdicion(topicActivo.id, true)" [disabled]="enviandoEdicion">
+              <span *ngIf="!enviandoEdicion">Guardar</span>
+              <span *ngIf="enviandoEdicion" class="spinner"></span>
+            </button>
+          </div>
+        </ng-container>
       </div>
 
       <div class="alert-error" *ngIf="errorHilo">⚠️ {{ errorHilo }}</div>
 
+      <!-- RESPUESTAS -->
       <div class="respuestas-header" *ngIf="topicActivo.respuestas?.length">
         {{ topicActivo.respuestas!.length }} respuestas
       </div>
@@ -144,14 +226,37 @@
             <div class="respuesta-meta">
               <span class="usuario-nombre">{{ r.usuarioNombre }}</span>
               <span class="fecha">{{ r.fecha | date:'dd MMM yyyy' }}</span>
+              <div class="respuesta-actions" *ngIf="puedeEditar(r.usuarioId)">
+                <button class="btn-ghost-sm-xs" 
+                  *ngIf="editandoId !== r.id"
+                  (click)="iniciarEdicion(r, false)" title="Editar">✎</button>
+                <button class="btn-ghost-sm-xs btn-delete-sm" 
+                  (click)="eliminar(r.id)" title="Eliminar">🗑</button>
+              </div>
             </div>
-            <p class="respuesta-texto">{{ r.comentario }}</p>
-            <button class="btn-ghost-sm btn-delete-sm" *ngIf="puedeEditar(r.usuarioId)" (click)="eliminar(r.id)">🗑
-              Eliminar</button>
+
+            <!-- MODO LECTURA: Contenido -->
+            <ng-container *ngIf="editandoId !== r.id">
+              <p class="respuesta-texto">{{ r.comentario }}</p>
+            </ng-container>
+
+            <!-- MODO EDICIÓN: Campo editable -->
+            <ng-container *ngIf="editandoId === r.id">
+              <textarea class="form-textarea" [(ngModel)]="editandoTexto" rows="3" maxlength="5000"></textarea>
+              <span class="form-hint">{{ editandoTexto.length }}/5000</span>
+              <div class="form-actions form-actions-sm">
+                <button class="btn-ghost-sm" (click)="cancelarEdicion()">Cancelar</button>
+                <button class="btn-primary" (click)="guardarEdicion(r.id, false)" [disabled]="enviandoEdicion">
+                  <span *ngIf="!enviandoEdicion">Guardar</span>
+                  <span *ngIf="enviandoEdicion" class="spinner"></span>
+                </button>
+              </div>
+            </ng-container>
           </div>
         </li>
       </ul>
 
+      <!-- FORMULARIO RESPUESTA -->
       <div class="form-respuesta" *ngIf="authService.isAuthenticated(); else loginMsg">
         <div class="avatar">{{ authService.currentUser()?.nombre?.charAt(0)?.toUpperCase() }}</div>
         <div class="respuesta-input-col">

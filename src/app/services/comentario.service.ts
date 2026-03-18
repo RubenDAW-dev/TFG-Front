@@ -15,6 +15,10 @@ export class ComentarioService {
   crear(dto: CrearComentarioDTO): Observable<ComentarioResponseDTO> {
     return this.http.post<ComentarioResponseDTO>(`${this.base}/create`, dto);
   }
+
+  actualizar(dto: any): Observable<ComentarioResponseDTO> {
+    return this.http.put<ComentarioResponseDTO>(`${this.base}/update`, dto);
+  }
  
   eliminar(id: number): Observable<string> {
     return this.http.delete(`${this.base}/delete/${id}`, { responseType: 'text' });
