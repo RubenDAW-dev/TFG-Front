@@ -29,11 +29,21 @@
 
     <div class="hero-content">
 
-      <!-- Iniciales como avatar -->
-      <div class="avatar-initials">
-        {{ player.nombre?.charAt(0) ?? '?' }}
+      <!-- Avatar con imagen o iniciales -->
+      <div class="avatar-container">
+        @if (player.imageUrl) {
+          <img 
+            [src]="player.imageUrl" 
+            [alt]="player.nombre"
+            class="avatar-image"
+            (error)="onImageError($event)"
+          >
+        } @else {
+          <div class="avatar-initials">
+            {{ player.nombre?.charAt(0) ?? '?' }}
+          </div>
+        }
       </div>
-
       <!-- Nombre y meta -->
       <div class="hero-info">
         <button class="btn-back floating" (click)="goBack()">

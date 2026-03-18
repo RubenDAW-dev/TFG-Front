@@ -22,6 +22,7 @@ import { AnterioresPartidos } from '../../shared/anteriores-partidos/anteriores-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EquiposDetalle implements OnInit {
+
   team: any = null;     // { id, nombre, estadio, ciudad, capacidad }
   stats: any = null;    // TeamStatsRowDTO (o null si no hay)
   loading = true;
@@ -88,5 +89,21 @@ export class EquiposDetalle implements OnInit {
 
   has(val: any): boolean {
     return val !== null && val !== undefined;
+  }
+    onImageError(event: any): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+    
+    // Buscar o crear el contenedor de iniciales
+    const container = img.parentElement;
+    if (container) {
+      let initialsDiv = container.querySelector('.avatar-initials');
+      if (!initialsDiv) {
+        initialsDiv = document.createElement('div');
+        initialsDiv.className = 'avatar-initials';
+        initialsDiv.textContent = this.team?.nombre?.charAt(0) ?? '?';
+        container.appendChild(initialsDiv);
+      }
+    }
   }
 }

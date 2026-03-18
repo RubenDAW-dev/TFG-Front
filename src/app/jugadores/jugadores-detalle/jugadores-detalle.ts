@@ -76,6 +76,27 @@ export class PlayerDetailComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/jugadores']);
   }
+
+  /**
+   * Maneja errores al cargar la imagen
+   * Si la imagen no carga, muestra iniciales en su lugar
+   */
+  onImageError(event: any): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+    
+    // Buscar o crear el contenedor de iniciales
+    const container = img.parentElement;
+    if (container) {
+      let initialsDiv = container.querySelector('.avatar-initials');
+      if (!initialsDiv) {
+        initialsDiv = document.createElement('div');
+        initialsDiv.className = 'avatar-initials';
+        initialsDiv.textContent = this.player?.nombre?.charAt(0) ?? '?';
+        container.appendChild(initialsDiv);
+      }
+    }
+  }
  
   getPositionLabel(position: string): string {
     const map: Record<string, string> = {

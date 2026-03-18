@@ -36,10 +36,20 @@
         Volver a Equipos
       </button>
       <!-- Iniciales -->
-      <div class="avatar-initials">
-        {{ team.nombre?.charAt(0) ?? '?' }}
+      <div class="avatar-container">
+        @if (team.escudo) {
+          <img 
+            [src]="team.escudo" 
+            [alt]="team.nombre"
+            class="avatar-image"
+            (error)="onImageError($event)"
+          >
+        } @else {
+          <div class="avatar-initials">
+            {{ team.nombre?.charAt(0) ?? '?' }}
+          </div>
+        }
       </div>
-
       <div class="hero-info">
         <h1 class="team-name">{{ team.nombre }}</h1>
 

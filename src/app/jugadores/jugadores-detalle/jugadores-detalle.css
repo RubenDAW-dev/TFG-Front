@@ -193,21 +193,61 @@
   pointer-events: none;
 }
 
-/* Avatar iniciales */
-.avatar-initials {
-  width: 110px;
-  height: 110px;
+/* Avatar styles */
+.avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  background: var(--accent-dim);
-  border: 2px solid var(--accent);
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-d);
-  font-size: 3rem;
-  color: var(--accent);
   flex-shrink: 0;
-  letter-spacing: 2px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .avatar-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .avatar-initials {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .avatar-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatar-initials {
+    font-size: 32px;
+  }
 }
 
 /* Hero info */
