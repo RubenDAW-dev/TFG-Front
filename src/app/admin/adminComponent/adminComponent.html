@@ -1,0 +1,67 @@
+<div class="admin-container">
+
+  <!-- SIN ACCESO -->
+  <div class="sin-acceso" *ngIf="!tieneAcceso">
+    <div class="sin-acceso-content">
+      <span class="sin-acceso-icon">🔒</span>
+      <h1>Acceso denegado</h1>
+      <p>Solo los administradores pueden acceder a esta sección.</p>
+      <a routerLink="/" class="btn-primary">Volver al inicio</a>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <ng-container *ngIf="tieneAcceso">
+
+    <div class="admin-header">
+      <h1 class="admin-title">PANEL DE ADMINISTRACIÓN</h1>
+      <p class="admin-subtitle">Gestiona jugadores, equipos, partidos y comentarios del foro</p>
+    </div>
+
+    <!-- TABS DE NAVEGACIÓN -->
+    <div class="admin-tabs">
+      <button 
+        class="tab-btn" 
+        [class.tab-active]="currentRoute === 'jugadores'"
+        (click)="navigateTo('jugadores')"
+      >
+        👤 Jugadores
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.tab-active]="currentRoute === 'equipos'"
+        (click)="navigateTo('equipos')"
+      >
+        ⚽ Equipos
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.tab-active]="currentRoute === 'partidos'"
+        (click)="navigateTo('partidos')"
+      >
+        🗓 Partidos
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.tab-active]="currentRoute === 'usuarios'"
+        (click)="navigateTo('usuarios')"
+      >
+        👥 Usuarios
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.tab-active]="currentRoute === 'comentarios'"
+        (click)="navigateTo('comentarios')"
+      >
+        💬 Comentarios
+      </button>
+    </div>
+
+    <!-- CONTENIDO DE TABS (Child Routes) -->
+    <div class="tab-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </ng-container>
+
+</div>

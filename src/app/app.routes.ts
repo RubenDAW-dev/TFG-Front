@@ -14,6 +14,12 @@ import { PartidoDetalle } from './partidos/partido-detalle/partido-detalle';
 import { PlayerDetailComponent } from './jugadores/jugadores-detalle/jugadores-detalle';
 import { EquiposDetalle } from './equipos/equipos-detalle/equipos-detalle';
 import { Foro } from '../app/foro/foro';
+import { adminComponent } from './admin/adminComponent/adminComponent';
+import { AdminJugadoresComponent } from './admin/adminJugadoresComponent/adminJugadoresComponent';
+import { AdminEquiposComponent } from './admin/AdminEquiposComponent/AdminEquiposComponent';
+import { AdminPartidosComponent } from './admin/AdminPartidosComponent/AdminPartidosComponent';
+import { AdminUsuariosComponent } from './admin/AdminUsuariosComponent/AdminUsuariosComponent';
+import { AdminComentariosComponent } from './admin/AdminComentariosComponent/AdminComentariosComponent';
 
 export const routes: Routes = [
   // Públicas — sin guard
@@ -33,6 +39,21 @@ export const routes: Routes = [
   { path: 'partidos/:id', component: PartidoDetalle, canActivate: [authGuard] },
   { path: 'foro', component: Foro, canActivate: [authGuard] },
 
-  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-  { path: '**', redirectTo: 'dashboard' }
+  // Admin routes — solo para administradores
+  {
+    path: 'admin',
+    component: adminComponent,
+    canActivate: [adminGuard],
+    children: [
+      { path: '', redirectTo: 'jugadores', pathMatch: 'full' },
+      { path: 'jugadores', component: AdminJugadoresComponent },
+      { path: 'equipos', component: AdminEquiposComponent },
+      { path: 'partidos', component: AdminPartidosComponent },
+      { path: 'usuarios', component: AdminUsuariosComponent },
+      { path: 'comentarios', component: AdminComentariosComponent }
+    ]
+  },
+
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' }
 ];

@@ -10,7 +10,7 @@ export class PlayersService {
   constructor(private http: HttpClient) { }
 
   getAllPlayers() {
-    return this.http.get<any[]>(`${this.api}`);
+    return this.http.get<any[]>(`${this.api}/getAll`);
   }
 
   getPlayer(id: string) {

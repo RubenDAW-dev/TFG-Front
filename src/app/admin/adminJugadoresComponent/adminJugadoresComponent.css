@@ -1,0 +1,381 @@
+/* =========================================================
+   BASE
+========================================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================================================
+   CONTENEDOR / SECCIÓN
+========================================================= */
+.admin-section {
+  background: linear-gradient(135deg, rgba(15, 20, 45, 0.8) 0%, rgba(10, 14, 30, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  color: #e0e0e0;
+}
+
+.admin-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a855f7, transparent);
+  opacity: .5;
+}
+
+/* =========================================================
+   CABECERA
+========================================================= */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #c084fc, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header button {
+  background: linear-gradient(135deg, #a855f7, #c084fc) !important;
+  border: none !important;
+  padding: 10px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
+  transition: .3s;
+}
+
+.section-header button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+}
+
+/* =========================================================
+   FILTROS
+========================================================= */
+.filter-section {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  border-radius: 8px !important;
+  color: #e0e0e0 !important;
+  font-size: 13px !important;
+  transition: .2s;
+}
+
+.search-input:focus {
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.search-input::placeholder {
+  color: #8a8fa3 !important;
+}
+
+.filter-ng-select {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* === NG-SELECT DEL FILTRO (aislado por clase) === */
+:host ::ng-deep .filter-ng-select .ng-select-container {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-radius: 8px !important;
+  min-height: 36px !important;
+  color: #e0e0e0 !important;
+}
+
+:host ::ng-deep .filter-ng-select .ng-dropdown-panel {
+  background: #1e1e2e !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-radius: 8px !important;
+  margin-top: 4px !important;
+}
+
+:host ::ng-deep .filter-ng-select .ng-option {
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  color: #e0e0e0 !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .filter-ng-select .ng-option:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+}
+
+:host ::ng-deep .filter-ng-select .ng-option.ng-option-selected {
+  background: rgba(168, 85, 247, 0.3) !important;
+  font-weight: 600;
+}
+
+/* =========================================================
+   TABLA PRIMENG (tema oscuro)
+========================================================= */
+:host ::ng-deep .p-datatable {
+  background: transparent !important;
+  color: #e0e0e0 !important;
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+  font-weight: 700 !important;
+  padding: 10px 12px !important;
+  height: 40px !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr {
+  background: transparent !important;
+  color: #e0e0e0 !important;
+  border-color: rgba(168, 85, 247, 0.1) !important;
+  transition: background .2s !important;
+  height: 36px !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
+  background: rgba(168, 85, 247, 0.12) !important;
+}
+
+:host ::ng-deep .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even) {
+  background: rgba(168, 85, 247, 0.06) !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+  border-color: rgba(168, 85, 247, 0.1) !important;
+  padding: 8px 12px !important;
+  color: #e0e0e0 !important;
+  background: transparent !important;
+  height: 36px !important;
+}
+
+:host ::ng-deep .p-sortable-column-icon {
+  color: #a855f7 !important;
+}
+
+/* Paginador */
+:host ::ng-deep .p-paginator {
+  background: transparent !important;
+  color: #a0aec0 !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  padding: 12px 0 0 0 !important;
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
+  border-radius: 6px !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page:hover {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+}
+
+:host ::ng-deep .p-current-page-report {
+  color: #a0aec0 !important;
+  font-size: .85rem !important;
+}
+
+/* =========================================================
+   DIALOG / MODAL
+========================================================= */
+:host ::ng-deep .p-dialog {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+  background: linear-gradient(135deg, #1a1f3a, #0f142d) !important;
+  border-bottom: 2px solid rgba(168, 85, 247, 0.4) !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-title {
+  color: #c084fc !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
+  color: #e0e0e0 !important;
+  padding: 20px !important;
+}
+
+/* Footer botones */
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  color: #d4d4d4 !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text:hover {
+  background: rgba(168, 85, 247, 0.15) !important;
+  border-color: rgba(168, 85, 247, 0.6) !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success {
+  background: linear-gradient(135deg, #a855f7, #c084fc) !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success:hover {
+  filter: brightness(1.08);
+}
+
+/* =========================================================
+   FORMULARIO (labels arriba)
+========================================================= */
+.form-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+
+.form-group label {
+  order: 1 !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a0aec0;
+  margin-bottom: 2px;
+}
+
+.form-group input,
+.form-group .p-inputtext,
+.form-group .ng-select-container {
+  order: 2 !important;
+  width: 100% !important;
+}
+
+/* Inputs del modal (pInputText) */
+:host ::ng-deep .p-dialog .p-inputtext,
+:host ::ng-deep .p-dialog input.p-inputtext,
+:host ::ng-deep .p-dialog input[pinputtext] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
+  transition: .2s ease !important;
+}
+
+:host ::ng-deep .p-dialog .p-inputtext:focus,
+:host ::ng-deep .p-dialog input.p-inputtext:focus,
+:host ::ng-deep .p-dialog input[pinputtext]:focus {
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
+}
+
+:host ::ng-deep .p-dialog .p-inputtext::placeholder {
+  color: #8a8fa3 !important;
+}
+
+/* =========================================================
+   NG-SELECT DEL MODAL (aislado + overlay por delante)
+========================================================= */
+:host ::ng-deep .ng-select-custom {
+  width: 100% !important;
+}
+
+/* Control del modal */
+:host ::ng-deep .ng-select-custom .ng-select-container {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-radius: 8px !important;
+  min-height: 36px !important;
+  color: #e0e0e0 !important;
+}
+
+:host ::ng-deep .ng-select-custom.ng-select-focused .ng-select-container {
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 0 0 0.2rem rgba(168, 85, 247, 0.25) !important;
+  background: rgba(15, 20, 45, 1) !important;
+}
+
+/* --- Dropdown del select del modal por encima del dialog --- */
+:host ::ng-deep .ng-select-custom .ng-dropdown-panel {
+  position: absolute !important;
+  z-index: 99999 !important;
+}
+
+/* --- Label arriba, input / ng-select abajo --- */
+.form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.form-group label {
+  margin-bottom: 2px;
+}
+
+.form-group ng-select,
+.form-group .ng-select,
+.form-group .ng-select-container {
+  width: 100% !important;
+  order: 2 !important;
+}

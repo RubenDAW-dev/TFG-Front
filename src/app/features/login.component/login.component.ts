@@ -32,7 +32,12 @@ export class LoginComponent {
     this.auth.login(this.form.value as any).subscribe({
       next: (res) => {
         this.auth.setSession(res);
-        this.router.navigate(['/dashboard']);
+        // Redirigir a admin si es admin (rol === 1), sino a home
+        if (res.user.rol === 1) {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       },
       error: (err) => {
         this.error = typeof err?.error === 'string' ? err.error : 'Credenciales inválidas';

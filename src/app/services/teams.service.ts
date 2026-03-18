@@ -10,7 +10,7 @@ export class TeamsService {
   constructor(private http: HttpClient) {}
 
   getAllTeams() {
-    return this.http.get<any[]>(`${this.api}`);
+    return this.http.get<any[]>(`${this.api}/getAll`);
   }
 
   getTeam(id: string) {

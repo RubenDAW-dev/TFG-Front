@@ -1,0 +1,215 @@
+<div class="admin-section">
+
+  <div class="section-header">
+    <h2 class="section-title">👤 Gestión de Jugadores</h2>
+    <button pButton type="button" 
+            [label]="mostrarForm ? 'Cancelar' : 'Nuevo Jugador'"
+            [icon]="mostrarForm ? 'pi pi-times' : 'pi pi-plus'"
+            (click)="toggleForm()"
+            class="p-button-rounded p-button-success">
+    </button>
+  </div>
+
+  <!-- BÚSQUEDA Y FILTROS -->
+  <div class="filter-section">
+    <input 
+      type="text" 
+      pInputText
+      [(ngModel)]="busqueda" 
+      (ngModelChange)="onBusquedaChange()"
+      placeholder="🔍 Buscar por nombre, posición o nacionalidad..."
+      class="search-input"
+    />
+    <ng-select 
+      [items]="equipos" 
+      bindLabel="nombre" 
+      bindValue="id"
+      [(ngModel)]="filtroEquipo"
+      (ngModelChange)="onFiltroEquipoChange()"
+      placeholder="Todos los equipos"
+      [clearable]="true"
+      class="filter-ng-select">
+    </ng-select>
+    <button 
+      pButton type="button"
+      icon="pi pi-times"
+      *ngIf="busqueda || filtroEquipo"
+      (click)="limpiarFiltros()"
+      class="p-button-text"
+      label="Limpiar">
+    </button>
+  </div>
+
+  <!-- TABLA DE JUGADORES CON PAGINACIÓN -->
+  <p-table 
+    [value]="getJugadoresPaginados()" 
+    [loading]="cargando"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [paginator]="true"
+    [first]="first"
+    (onPageChange)="onPageChange($event)"
+    [rowsPerPageOptions]="[20, 50, 100]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} jugadores"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-striped">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+        <th pSortableColumn="posicion">Posición <p-sortIcon field="posicion"></p-sortIcon></th>
+        <th pSortableColumn="edad">Edad <p-sortIcon field="edad"></p-sortIcon></th>
+        <th>Nacionalidad</th>
+        <th>Equipo</th>
+        <th style="width: 10%">Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-jugador>
+      <tr>
+        <td><strong>{{ jugador.nombre }}</strong></td>
+        <td>{{ jugador.posicion }}</td>
+        <td>{{ jugador.edad }}</td>
+        <td>{{ jugador.nacionalidad }}</td>
+        <td>{{ getNombreEquipo(jugador.team?.id) }}</td>
+        <td>
+          <button pButton type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-warning p-button-sm"
+                  (click)="editarJugador(jugador)"
+                  pTooltip="Editar" 
+                  tooltipPosition="top">
+          </button>
+          <button pButton type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-danger p-button-sm"
+                  (click)="eliminarJugador(jugador.id, jugador.nombre)"
+                  pTooltip="Eliminar" 
+                  tooltipPosition="top"
+                  style="margin-left: 0.5rem;">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" style="text-align: center;">No hay jugadores</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</div>
+
+<!-- MODAL FORMULARIO -->
+<p-dialog 
+  [(visible)]="mostrarForm"
+  [header]="editandoId ? 'Editar Jugador' : 'Nuevo Jugador'"
+  [modal]="true"
+  [style]="{width: '50vw'}"
+  [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false">
+
+  <ng-template pTemplate="content">
+    <div class="form-modal">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" pInputText [(ngModel)]="formData.nombre" />
+        </div>
+
+        <div class="form-group">
+          <label>Posición</label>
+          <input type="text" pInputText [(ngModel)]="formData.posicion" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Edad</label>
+          <input type="number" pInputText [(ngModel)]="formData.edad" />
+        </div>
+
+        <div class="form-group">
+          <label>Nacionalidad</label>
+          <input type="text" pInputText [(ngModel)]="formData.nacionalidad" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Equipo</label>
+
+          <ng-select 
+            [items]="equipos" 
+            bindLabel="nombre" 
+            bindValue="id"
+            [(ngModel)]="formData.teamId"
+            placeholder="Selecciona un equipo"
+            [clearable]="true"
+            appendTo="body"
+            class="ng-select-custom">
+          </ng-select>
+
+        </div>
+
+        <div class="form-group">
+          <label>URL Imagen</label>
+          <input type="text" pInputText [(ngModel)]="formData.imageUrl" />
+        </div>
+      </div>
+
+      <div class="form-error" *ngIf="error">⚠️ {{ error }}</div>
+
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarFormulario()"
+            class="p-button-text">
+    </button>
+
+    <button pButton type="button" 
+            [label]="editandoId ? 'Actualizar' : 'Crear'"
+            (click)="guardarJugador()"
+            class="p-button-success">
+    </button>
+  </ng-template>
+
+</p-dialog>
+
+<!-- MODAL CONFIRMACIÓN -->
+<p-dialog 
+  [(visible)]="modalVisible"
+  [header]="modalTitulo"
+  [modal]="true"
+  [style]="{width: '40vw'}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false">
+
+  <ng-template pTemplate="content">
+    <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarModal()"
+            class="p-button-text"
+            [disabled]="enviandoModal">
+    </button>
+    <button pButton type="button" 
+            [label]="modalTipo === 'eliminar' ? 'Eliminar' : 'Guardar'"
+            (click)="confirmarAccion()"
+            [class]="modalTipo === 'eliminar' ? 'p-button-danger' : 'p-button-success'"
+            [loading]="enviandoModal"
+            [disabled]="enviandoModal">
+    </button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,93 @@
+<div class="admin-section">
+
+  <div class="section-header">
+    <h2 class="section-title">👥 Gestión de Usuarios</h2>
+  </div>
+
+  <!-- MENSAJES -->
+  <div class="msg-success" *ngIf="mensajeExito">✅ {{ mensajeExito }}</div>
+  <div class="msg-error" *ngIf="error">⚠️ {{ error }}</div>
+
+  <!-- BÚSQUEDA Y FILTROS -->
+  <div class="filter-section">
+    <input 
+      type="text" 
+      class="search-input" 
+      [(ngModel)]="busqueda" 
+      (ngModelChange)="onBusquedaChange()"
+      placeholder="🔍 Buscar por nombre o email..."
+    />
+    <select 
+      class="filter-select" 
+      [(ngModel)]="filtroRol" 
+      (ngModelChange)="onFiltroRolChange()"
+    >
+      <option value="">Todos los roles</option>
+      <option value="1">Administrador</option>
+      <option value="0">Usuario</option>
+    </select>
+    <button 
+      class="btn-limpiar" 
+      *ngIf="busqueda || filtroRol"
+      (click)="limpiarFiltros()"
+    >
+      ✕ Limpiar
+    </button>
+  </div>
+
+  <!-- TABLA DE USUARIOS -->
+  <div class="table-container">
+    <div class="loading" *ngIf="cargando">Cargando usuarios...</div>
+    
+    <table class="admin-table" *ngIf="!cargando">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuariosFiltrados" class="table-row">
+          <td class="col-nombre">{{ usuario.nombre }}</td>
+          <td class="col-email">{{ usuario.email }}</td>
+          <td class="col-rol">
+            <!-- MODO LECTURA -->
+            <ng-container *ngIf="editandoId !== usuario.id">
+              <span class="badge" [class.badge-admin]="usuario.rol === 1" [class.badge-user]="usuario.rol === 0">
+                {{ getRolNombre(usuario.rol) }}
+              </span>
+            </ng-container>
+
+            <!-- MODO EDICIÓN -->
+            <ng-container *ngIf="editandoId === usuario.id">
+              <select [(ngModel)]="editandoRol" class="edit-select">
+                <option [value]="1">Administrador</option>
+                <option [value]="0">Usuario</option>
+              </select>
+            </ng-container>
+          </td>
+          <td class="col-acciones">
+            <!-- BOTONES DE EDICIÓN -->
+            <ng-container *ngIf="editandoId !== usuario.id">
+              <button class="btn-edit" (click)="iniciarEdicionRol(usuario)" title="Cambiar rol">🔐</button>
+              <button class="btn-delete" (click)="eliminarUsuario(usuario.id, usuario.nombre)" title="Eliminar">🗑</button>
+            </ng-container>
+
+            <!-- BOTONES DE GUARDADO/CANCELADO -->
+            <ng-container *ngIf="editandoId === usuario.id">
+              <button class="btn-save" (click)="guardarRol(usuario.id)" title="Guardar">💾</button>
+              <button class="btn-cancel" (click)="cancelarEdicion()" title="Cancelar">✕</button>
+            </ng-container>
+          </td>
+        </tr>
+
+        <tr *ngIf="usuariosFiltrados.length === 0" class="empty-row">
+          <td colspan="4" class="empty-message">No hay usuarios que coincidan con los filtros</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

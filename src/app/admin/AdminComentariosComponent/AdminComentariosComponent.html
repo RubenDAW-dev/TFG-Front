@@ -1,0 +1,126 @@
+<div class="admin-section">
+
+  <div class="section-header">
+    <h2 class="section-title">💬 Moderación de Comentarios</h2>
+  </div>
+
+  <!-- MENSAJES -->
+  <div class="msg-success" *ngIf="mensajeExito">✅ {{ mensajeExito }}</div>
+  <div class="msg-error" *ngIf="error">⚠️ {{ error }}</div>
+
+  <!-- BÚSQUEDA Y FILTROS -->
+  <div class="filter-section">
+    <input 
+      type="text" 
+      class="search-input" 
+      [(ngModel)]="busqueda" 
+      (ngModelChange)="onBusquedaChange()"
+      placeholder="🔍 Buscar por título, contenido o autor..."
+    />
+    <select 
+      class="filter-select" 
+      [(ngModel)]="filtroTipo" 
+      (ngModelChange)="onFiltroTipoChange()"
+    >
+      <option value="">Todos los tipos</option>
+      <option value="topic">Topics</option>
+      <option value="respuesta">Respuestas</option>
+    </select>
+    <button 
+      class="btn-limpiar" 
+      *ngIf="busqueda || filtroTipo"
+      (click)="limpiarFiltros()"
+    >
+      ✕ Limpiar
+    </button>
+  </div>
+
+  <!-- TABLA DE COMENTARIOS -->
+  <div class="table-container">
+    <div class="loading" *ngIf="cargando">Cargando comentarios...</div>
+    
+    <table class="admin-table" *ngIf="!cargando">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Título/Contenido</th>
+          <th>Autor</th>
+          <th>Contexto</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comentario of comentariosFiltrados" class="table-row">
+          <td class="col-tipo">
+            <span class="badge-tipo" [class.badge-topic]="!comentario.comentarioPadreId" [class.badge-respuesta]="comentario.comentarioPadreId">
+              {{ getTipoComentario(comentario) }}
+            </span>
+          </td>
+          <td class="col-contenido">
+            <div class="contenido-preview">
+              <div class="contenido-titulo" *ngIf="comentario.titulo">{{ comentario.titulo }}</div>
+              <div class="contenido-texto">{{ comentario.comentario | slice:0:100 }}...</div>
+            </div>
+          </td>
+          <td class="col-autor">{{ comentario.usuarioNombre }}</td>
+          <td class="col-contexto">{{ getTargetLabel(comentario) }}</td>
+          <td class="col-fecha">{{ comentario.fecha | date:'dd/MM/yyyy' }}</td>
+          <td class="col-acciones">
+            <button class="btn-view" (click)="verDetalles(comentario)" title="Ver detalles">👁</button>
+            <button class="btn-delete" (click)="eliminarComentario(comentario.id, comentario.titulo)" title="Eliminar">🗑</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="comentariosFiltrados.length === 0" class="empty-row">
+          <td colspan="6" class="empty-message">No hay comentarios que coincidan con los filtros</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MODAL DE DETALLES -->
+  <div class="modal-overlay" *ngIf="mostrarDetalles" (click)="cerrarDetalles()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">{{ comentarioSeleccionado?.titulo || 'Detalles del Comentario' }}</h3>
+        <button class="btn-close" (click)="cerrarDetalles()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="detail-group">
+          <label>Autor:</label>
+          <p>{{ comentarioSeleccionado?.usuarioNombre }}</p>
+        </div>
+
+        <div class="detail-group">
+          <label>Tipo:</label>
+          <p>{{ getTipoComentario(comentarioSeleccionado) }}</p>
+        </div>
+
+        <div class="detail-group">
+          <label>Contexto:</label>
+          <p>{{ getTargetLabel(comentarioSeleccionado) }}</p>
+        </div>
+
+        <div class="detail-group">
+          <label>Fecha:</label>
+          <p>{{ comentarioSeleccionado?.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+
+        <div class="detail-group">
+          <label>Contenido:</label>
+          <div class="content-box">{{ comentarioSeleccionado?.comentario }}</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="cerrarDetalles()">Cerrar</button>
+        <button class="btn-delete" (click)="eliminarComentario(comentarioSeleccionado.id, comentarioSeleccionado.titulo)">
+          🗑 Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

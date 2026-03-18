@@ -1,0 +1,106 @@
+<div class="admin-section">
+
+  <div class="section-header">
+    <h2 class="section-title">⚽ Gestión de Equipos</h2>
+    <button class="btn-nuevo" (click)="toggleForm()">
+      {{ mostrarForm ? '✕ Cancelar' : '+ Nuevo Equipo' }}
+    </button>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div class="form-container" *ngIf="mostrarForm">
+    <div class="form-card">
+      <h3>{{ editandoId ? 'Editar Equipo' : 'Nuevo Equipo' }}</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" [(ngModel)]="formData.nombre" placeholder="Ej: Real Madrid" />
+        </div>
+        <div class="form-group">
+          <label>Ciudad</label>
+          <input type="text" [(ngModel)]="formData.ciudad" placeholder="Ej: Madrid" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estadio</label>
+          <input type="text" [(ngModel)]="formData.estadio" placeholder="Ej: Santiago Bernabéu" />
+        </div>
+        <div class="form-group">
+          <label>Capacidad</label>
+          <input type="number" [(ngModel)]="formData.capacidad" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>URL Escudo</label>
+          <input type="text" [(ngModel)]="formData.escudo" placeholder="https://..." />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-ghost" (click)="toggleForm()">Cancelar</button>
+        <button class="btn-primary" (click)="guardarEquipo()">
+          {{ editandoId ? 'Actualizar' : 'Crear' }}
+        </button>
+      </div>
+
+      <div class="form-error" *ngIf="error">⚠️ {{ error }}</div>
+    </div>
+  </div>
+
+  <!-- BÚSQUEDA Y FILTROS -->
+  <div class="filter-section">
+    <input 
+      type="text" 
+      class="search-input" 
+      [(ngModel)]="busqueda" 
+      (ngModelChange)="onBusquedaChange()"
+      placeholder="🔍 Buscar por nombre, ciudad o estadio..."
+    />
+    <button 
+      class="btn-limpiar" 
+      *ngIf="busqueda"
+      (click)="limpiarFiltros()"
+    >
+      ✕ Limpiar
+    </button>
+  </div>
+
+  <!-- TABLA DE EQUIPOS -->
+  <div class="table-container">
+    <div class="loading" *ngIf="cargando">Cargando equipos...</div>
+    
+    <table class="admin-table" *ngIf="!cargando">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Ciudad</th>
+          <th>Estadio</th>
+          <th>Capacidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let equipo of equiposFiltrados" class="table-row">
+          <td class="col-nombre">{{ equipo.nombre }}</td>
+          <td>{{ equipo.ciudad }}</td>
+          <td>{{ equipo.estadio }}</td>
+          <td class="col-capacidad">{{ equipo.capacidad | number }}</td>
+          <td class="col-acciones">
+            <button class="btn-edit" (click)="editarEquipo(equipo)" title="Editar">✎</button>
+            <button class="btn-delete" (click)="eliminarEquipo(equipo.id)" title="Eliminar">🗑</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="equiposFiltrados.length === 0" class="empty-row">
+          <td colspan="5" class="empty-message">No hay equipos que coincidan con los filtros</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
