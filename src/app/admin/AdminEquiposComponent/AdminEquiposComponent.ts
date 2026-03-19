@@ -47,12 +47,6 @@ export class AdminEquiposComponent implements OnInit {
   // BÚSQUEDA Y FILTRADO
   busqueda = '';
 
-  // PAGINACIÓN
-  totalRecords = 0;
-  rows = 20;
-  first = 0;
-  pagina = 1;
-
   constructor(
     private equiposService: TeamsService,
     private cdr: ChangeDetectorRef
@@ -68,7 +62,6 @@ export class AdminEquiposComponent implements OnInit {
     this.equiposService.getAllTeams().subscribe({
       next: (data) => {
         this.equipos = data || [];
-        this.totalRecords = this.equipos.length;
         this.aplicarFiltros();
         this.cargando = false;
         this.cdr.detectChanges();
@@ -94,15 +87,7 @@ export class AdminEquiposComponent implements OnInit {
     }
 
     this.equiposFiltrados = resultado;
-    this.totalRecords = resultado.length;
-    this.first = 0;
     this.cdr.detectChanges();
-  }
-
-  onPageChange(event: any): void {
-    this.first = event.first;
-    this.rows = event.rows;
-    this.pagina = (event.first / event.rows) + 1;
   }
 
   onBusquedaChange(): void {
@@ -172,8 +157,6 @@ export class AdminEquiposComponent implements OnInit {
   limpiarFiltros(): void {
     this.busqueda = '';
     this.equiposFiltrados = [...this.equipos];
-    this.totalRecords = this.equipos.length;
-    this.first = 0;
     this.cdr.detectChanges();
   }
 

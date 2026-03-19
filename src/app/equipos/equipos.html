@@ -21,9 +21,8 @@
                 </button>
             </div>
 
-            <p-table #dt [value]="teams" [paginator]="true" [rows]="currentRows" [globalFilterFields]="['teamName']"
+            <p-table #dt [value]="teams" [rows]="currentRows" [globalFilterFields]="['teamName']"
                 sortMode="single" dataKey="teamId" [loading]="loading" [showCurrentPageReport]="true"
-                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} equipos"
                 styleClass="p-datatable-striped">
 
                 <ng-template pTemplate="caption">
@@ -36,16 +35,6 @@
                         </div>
                     </div>
                 </ng-template>
-
-                <ng-template pTemplate="paginatorleft">
-                    <div class="rows-select-wrapper">
-                        <span class="rows-label">Filas por página:</span>
-                        <select class="rows-select" [(ngModel)]="currentRows" (change)="onRowsChange(currentRows)">
-                            <option *ngFor="let r of rowOptions" [value]="r">{{ r }}</option>
-                        </select>
-                    </div>
-                </ng-template>
-
                 <!-- CABECERA -->
                 <ng-template pTemplate="header">
                     <tr>

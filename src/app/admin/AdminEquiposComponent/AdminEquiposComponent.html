@@ -25,54 +25,47 @@
   </div>
 
   <!-- TABLA DE EQUIPOS CON PAGINACIÓN -->
-  <p-table 
-    [value]="equiposFiltrados" 
-    [loading]="cargando"
-    [rows]="rows"
-    [totalRecords]="totalRecords"
-    [paginator]="true"
-    [first]="first"
-    (onPageChange)="onPageChange($event)"
-    [rowsPerPageOptions]="[20, 50, 100]"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} equipos"
-    responsiveLayout="scroll"
-    styleClass="p-datatable-striped">
-    
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-        <th pSortableColumn="ciudad">Ciudad <p-sortIcon field="ciudad"></p-sortIcon></th>
-        <th>Estadio</th>
-        <th>Capacidad</th>
-        <th style="width: 10%">Acciones</th>
-      </tr>
-    </ng-template>
+  <p-table
+  [value]="equiposFiltrados"
+  [loading]="cargando"
+  responsiveLayout="scroll"
+  styleClass="p-datatable-striped">
 
-    <ng-template pTemplate="body" let-equipo>
-      <tr>
-        <td><strong>{{ equipo.nombre }}</strong></td>
-        <td>{{ equipo.ciudad }}</td>
-        <td>{{ equipo.estadio }}</td>
-        <td>{{ equipo.capacidad | number }}</td>
-        <td>
-          <button pButton type="button" 
-                  icon="pi pi-pencil" 
-                  class="p-button-rounded p-button-warning p-button-sm"
-                  (click)="editarEquipo(equipo)"
-                  pTooltip="Editar" 
-                  tooltipPosition="top">
-          </button>
-        </td>
-      </tr>
-    </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+      <th pSortableColumn="ciudad">Ciudad <p-sortIcon field="ciudad"></p-sortIcon></th>
+      <th>Estadio</th>
+      <th>Capacidad</th>
+      <th style="width: 10%">Acciones</th>
+    </tr>
+  </ng-template>
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="5" style="text-align: center;">No hay equipos</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <ng-template pTemplate="body" let-equipo>
+    <tr>
+      <td><strong>{{ equipo.nombre }}</strong></td>
+      <td>{{ equipo.ciudad }}</td>
+      <td>{{ equipo.estadio }}</td>
+      <td>{{ equipo.capacidad | number }}</td>
+      <td>
+        <button pButton type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-warning p-button-sm"
+                (click)="editarEquipo(equipo)"
+                pTooltip="Editar"
+                tooltipPosition="top">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5" style="text-align: center;">No hay equipos</td>
+    </tr>
+  </ng-template>
+
+</p-table>
 
 </div>
 
