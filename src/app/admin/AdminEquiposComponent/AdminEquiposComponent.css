@@ -1,11 +1,41 @@
-.admin-section {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 12px;
-  padding: 24px;
-  backdrop-filter: blur(10px);
+/* =========================================================
+   BASE
+========================================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* =========================================================
+   CONTENEDOR / SECCIÓN
+========================================================= */
+.admin-section {
+  background: linear-gradient(135deg, rgba(15, 20, 45, 0.8) 0%, rgba(10, 14, 30, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  color: #e0e0e0;
+}
+
+.admin-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a855f7, transparent);
+  opacity: .5;
+}
+
+/* =========================================================
+   CABECERA
+========================================================= */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -16,148 +46,34 @@
 }
 
 .section-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #c084fc, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.btn-nuevo {
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #a855f7, #c084fc);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
+.section-header button {
+  background: linear-gradient(135deg, #a855f7, #c084fc) !important;
+  border: none !important;
+  padding: 10px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
+  transition: .3s;
 }
 
-.btn-nuevo:hover {
+.section-header button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
 }
 
-.form-container {
-  margin-bottom: 24px;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.form-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  border-radius: 8px;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-}
-
-.form-card h3 {
-  margin-top: 0;
-  margin-bottom: 16px;
-  color: #fff;
-  font-size: 16px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.form-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #a0aec0;
-}
-
-.form-group input,
-.form-group select {
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 4px;
-  color: #e0e0e0;
-  font-size: 13px;
-  transition: all 0.3s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: rgba(168, 85, 247, 0.7);
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.form-group input::placeholder {
-  color: #718096;
-}
-
-.form-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  justify-content: flex-end;
-}
-
-.btn-ghost {
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  color: #a0aec0;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.btn-ghost:hover {
-  border-color: rgba(168, 85, 247, 0.7);
-  color: #e0e0e0;
-}
-
-.btn-primary {
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #a855f7, #c084fc);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-  transition: all 0.3s;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
-}
-
-.form-error {
-  color: #f56565;
-  font-size: 13px;
-  margin-top: 12px;
-}
-
+/* =========================================================
+   FILTROS
+========================================================= */
 .filter-section {
   display: flex;
   gap: 12px;
@@ -166,147 +82,330 @@
   align-items: center;
 }
 
-.search-input,
-.filter-select {
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 6px;
-  color: #e0e0e0;
-  font-size: 13px;
-  transition: all 0.3s;
+.search-input {
   flex: 1;
-  min-width: 150px;
+  min-width: 200px;
+  padding: 10px 14px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  border-radius: 8px !important;
+  color: #e0e0e0 !important;
+  font-size: 13px !important;
+  transition: .2s;
 }
 
-.search-input:focus,
-.filter-select:focus {
-  outline: none;
-  border-color: rgba(168, 85, 247, 0.7);
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15);
+.search-input:focus {
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
 }
 
 .search-input::placeholder {
-  color: #718096;
+  color: #8a8fa3 !important;
 }
 
-.btn-limpiar {
-  padding: 10px 14px;
-  background: transparent;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  color: #a0aec0;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  transition: all 0.3s;
-  white-space: nowrap;
+.filter-ng-select {
+  flex: 1;
+  min-width: 200px;
 }
 
-.btn-limpiar:hover {
-  border-color: rgba(168, 85, 247, 0.7);
-  color: #e0e0e0;
+/* === NG-SELECT DEL FILTRO (aislado por clase) === */
+:host ::ng-deep .filter-ng-select .ng-select-container {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-radius: 8px !important;
+  min-height: 36px !important;
+  color: #e0e0e0 !important;
 }
 
-.table-container {
-  overflow-x: auto;
+:host ::ng-deep .filter-ng-select .ng-dropdown-panel {
+  background: #1e1e2e !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  border-radius: 8px !important;
+  margin-top: 4px !important;
+  z-index: 10000 !important;
 }
 
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #a0aec0;
+:host ::ng-deep .filter-ng-select .ng-option {
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  color: #e0e0e0 !important;
+  background: transparent !important;
 }
 
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
+:host ::ng-deep .filter-ng-select .ng-option:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
 }
 
-.admin-table thead {
-  background: rgba(168, 85, 247, 0.1);
-  border-bottom: 2px solid rgba(168, 85, 247, 0.2);
-}
-
-.admin-table th {
-  padding: 12px 16px;
-  text-align: left;
-  color: #a0aec0;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.admin-table tbody tr {
-  border-bottom: 1px solid rgba(168, 85, 247, 0.1);
-  transition: all 0.3s;
-}
-
-.admin-table tbody tr:hover {
-  background: rgba(168, 85, 247, 0.08);
-}
-
-.admin-table td {
-  padding: 12px 16px;
-  color: #e0e0e0;
-}
-
-.col-nombre {
+:host ::ng-deep .filter-ng-select .ng-option.ng-option-selected {
+  background: rgba(168, 85, 247, 0.3) !important;
   font-weight: 600;
 }
 
-.col-capacidad {
-  text-align: center;
+/* =========================================================
+   TABLA PRIMENG (tema oscuro)
+========================================================= */
+:host ::ng-deep .p-datatable {
+  background: transparent !important;
+  color: #e0e0e0 !important;
+  font-size: 12px !important;
 }
 
-.col-acciones {
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+  font-weight: 700 !important;
+  padding: 10px 12px !important;
+  height: 40px !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr {
+  background: transparent !important;
+  color: #e0e0e0 !important;
+  border-color: rgba(168, 85, 247, 0.1) !important;
+  transition: background .2s !important;
+  height: 36px !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
+  background: rgba(168, 85, 247, 0.12) !important;
+}
+
+:host ::ng-deep .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even) {
+  background: rgba(168, 85, 247, 0.06) !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+  border-color: rgba(168, 85, 247, 0.1) !important;
+  padding: 8px 12px !important;
+  color: #e0e0e0 !important;
+  background: transparent !important;
+  height: 36px !important;
+}
+
+:host ::ng-deep .p-sortable-column-icon {
+  color: #a855f7 !important;
+}
+
+/* Paginador */
+:host ::ng-deep .p-paginator {
+  background: transparent !important;
+  color: #a0aec0 !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  padding: 12px 0 0 0 !important;
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
+  border-radius: 6px !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page:hover {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+}
+
+:host ::ng-deep .p-current-page-report {
+  color: #a0aec0 !important;
+  font-size: .85rem !important;
+}
+
+/* =========================================================
+   DIALOG / MODAL
+========================================================= */
+:host ::ng-deep .p-dialog {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+  background: linear-gradient(135deg, #1a1f3a, #0f142d) !important;
+  border-bottom: 2px solid rgba(168, 85, 247, 0.4) !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-title {
+  color: #c084fc !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
+  color: #e0e0e0 !important;
+  padding: 20px !important;
+  overflow: auto !important;
+}
+
+/* Footer botones */
+:host ::ng-deep .p-dialog .p-dialog-footer {
   display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.btn-edit,
-.btn-delete {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s;
-  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
 }
 
-.btn-edit {
-  background: rgba(72, 187, 120, 0.2);
-  color: #68d391;
-  border: 1px solid rgba(72, 187, 120, 0.3);
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  color: #d4d4d4 !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
 }
 
-.btn-edit:hover {
-  background: rgba(72, 187, 120, 0.3);
-  border-color: rgba(72, 187, 120, 0.5);
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text:hover {
+  background: rgba(168, 85, 247, 0.15) !important;
+  border-color: rgba(168, 85, 247, 0.6) !important;
 }
 
-.btn-delete {
-  background: rgba(245, 101, 101, 0.2);
-  color: #fc8181;
-  border: 1px solid rgba(245, 101, 101, 0.3);
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success {
+  background: linear-gradient(135deg, #a855f7, #c084fc) !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-weight: 600 !important;
 }
 
-.btn-delete:hover {
-  background: rgba(245, 101, 101, 0.3);
-  border-color: rgba(245, 101, 101, 0.5);
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success:hover {
+  filter: brightness(1.08);
 }
 
-.empty-row {
-  text-align: center;
+/* =========================================================
+   FORMULARIO (labels arriba)
+========================================================= */
+.form-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.empty-message {
-  color: #718096;
-  font-style: italic;
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+}
+
+.form-group label {
+  order: 1 !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a0aec0;
+  margin-bottom: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group .p-inputtext,
+.form-group .ng-select-container {
+  order: 2 !important;
+  width: 100% !important;
+}
+
+/* Inputs del modal (pInputText) */
+:host ::ng-deep .p-dialog .p-inputtext,
+:host ::ng-deep .p-dialog input.p-inputtext,
+:host ::ng-deep .p-dialog input[pinputtext] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
+  transition: .2s ease !important;
+}
+
+:host ::ng-deep .p-dialog .p-inputtext:focus,
+:host ::ng-deep .p-dialog input.p-inputtext:focus,
+:host ::ng-deep .p-dialog input[pinputtext]:focus {
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
+}
+
+:host ::ng-deep .p-dialog .p-inputtext::placeholder {
+  color: #8a8fa3 !important;
+}
+
+/* =========================================================
+   SELECT NATIVO ESTILIZADO (Solución para el dropdown)
+========================================================= */
+.custom-select-modal {
+  width: 100% !important;
+  padding: 8px 12px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  color: #e0e0e0 !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 20px !important;
+  padding-right: 32px !important;
+}
+
+.custom-select-modal:hover {
+  border-color: rgba(168, 85, 247, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.custom-select-modal:focus {
+  outline: none !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
+}
+
+/* Opciones del select en navegadores que lo permiten */
+.custom-select-modal option {
+  background: #1e1e2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
+}
+
+.custom-select-modal option:hover {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
+}
+
+.custom-select-modal option:checked {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
+}
+
+/* Firefox específicamente */
+.custom-select-modal option {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+.form-error {
+  padding: 10px 12px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  color: #fca5a5;
+  font-size: 13px;
+  margin-top: 8px;
 }

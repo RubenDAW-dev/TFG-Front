@@ -4,21 +4,18 @@
     <h2 class="section-title">💬 Moderación de Comentarios</h2>
   </div>
 
-  <!-- MENSAJES -->
-  <div class="msg-success" *ngIf="mensajeExito">✅ {{ mensajeExito }}</div>
-  <div class="msg-error" *ngIf="error">⚠️ {{ error }}</div>
-
   <!-- BÚSQUEDA Y FILTROS -->
   <div class="filter-section">
     <input 
       type="text" 
-      class="search-input" 
+      pInputText
       [(ngModel)]="busqueda" 
       (ngModelChange)="onBusquedaChange()"
       placeholder="🔍 Buscar por título, contenido o autor..."
+      class="search-input"
     />
     <select 
-      class="filter-select" 
+      class="custom-select-filtro"
       [(ngModel)]="filtroTipo" 
       (ngModelChange)="onFiltroTipoChange()"
     >
@@ -27,100 +24,172 @@
       <option value="respuesta">Respuestas</option>
     </select>
     <button 
-      class="btn-limpiar" 
+      pButton type="button"
+      icon="pi pi-times"
       *ngIf="busqueda || filtroTipo"
       (click)="limpiarFiltros()"
-    >
-      ✕ Limpiar
+      class="p-button-text"
+      label="Limpiar">
     </button>
   </div>
 
   <!-- TABLA DE COMENTARIOS -->
-  <div class="table-container">
-    <div class="loading" *ngIf="cargando">Cargando comentarios...</div>
+  <p-table 
+    [value]="comentariosFiltrados" 
+    [loading]="cargando"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [paginator]="true"
+    [first]="first"
+    (onPageChange)="onPageChange($event)"
+    [rowsPerPageOptions]="[20, 50, 100]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} comentarios"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-striped">
     
-    <table class="admin-table" *ngIf="!cargando">
-      <thead>
-        <tr>
-          <th>Tipo</th>
-          <th>Título/Contenido</th>
-          <th>Autor</th>
-          <th>Contexto</th>
-          <th>Fecha</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let comentario of comentariosFiltrados" class="table-row">
-          <td class="col-tipo">
-            <span class="badge-tipo" [class.badge-topic]="!comentario.comentarioPadreId" [class.badge-respuesta]="comentario.comentarioPadreId">
-              {{ getTipoComentario(comentario) }}
-            </span>
-          </td>
-          <td class="col-contenido">
-            <div class="contenido-preview">
-              <div class="contenido-titulo" *ngIf="comentario.titulo">{{ comentario.titulo }}</div>
-              <div class="contenido-texto">{{ comentario.comentario | slice:0:100 }}...</div>
-            </div>
-          </td>
-          <td class="col-autor">{{ comentario.usuarioNombre }}</td>
-          <td class="col-contexto">{{ getTargetLabel(comentario) }}</td>
-          <td class="col-fecha">{{ comentario.fecha | date:'dd/MM/yyyy' }}</td>
-          <td class="col-acciones">
-            <button class="btn-view" (click)="verDetalles(comentario)" title="Ver detalles">👁</button>
-            <button class="btn-delete" (click)="eliminarComentario(comentario.id, comentario.titulo)" title="Eliminar">🗑</button>
-          </td>
-        </tr>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Tipo</th>
+        <th>Título/Contenido</th>
+        <th pSortableColumn="usuarioNombre">Autor <p-sortIcon field="usuarioNombre"></p-sortIcon></th>
+        <th>Contexto</th>
+        <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
+        <th style="width: 10%">Acciones</th>
+      </tr>
+    </ng-template>
 
-        <tr *ngIf="comentariosFiltrados.length === 0" class="empty-row">
-          <td colspan="6" class="empty-message">No hay comentarios que coincidan con los filtros</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <ng-template pTemplate="body" let-comentario>
+      <tr>
+        <td>
+          <span class="badge-tipo" [class.badge-topic]="!comentario.comentarioPadreId" [class.badge-respuesta]="comentario.comentarioPadreId">
+            {{ getTipoComentario(comentario) }}
+          </span>
+        </td>
+        <td>
+          <div class="contenido-preview">
+            <div class="contenido-titulo" *ngIf="comentario.titulo">{{ comentario.titulo }}</div>
+            <div class="contenido-texto">{{ comentario.comentario | slice:0:80 }}...</div>
+          </div>
+        </td>
+        <td><strong>{{ comentario.usuarioNombre }}</strong></td>
+        <td>{{ getTargetLabel(comentario) }}</td>
+        <td>{{ comentario.fecha | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <button pButton type="button" 
+                  icon="pi pi-eye" 
+                  class="p-button-rounded p-button-info p-button-sm"
+                  (click)="verDetalles(comentario)"
+                  pTooltip="Ver detalles" 
+                  tooltipPosition="top">
+          </button>
+          <button pButton type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-danger p-button-sm"
+                  (click)="eliminarComentario(comentario.id, comentario.titulo)"
+                  pTooltip="Eliminar" 
+                  tooltipPosition="top"
+                  style="margin-left: 0.5rem;">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
 
-  <!-- MODAL DE DETALLES -->
-  <div class="modal-overlay" *ngIf="mostrarDetalles" (click)="cerrarDetalles()">
-    <div class="modal-card" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3 class="modal-title">{{ comentarioSeleccionado?.titulo || 'Detalles del Comentario' }}</h3>
-        <button class="btn-close" (click)="cerrarDetalles()">✕</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="detail-group">
-          <label>Autor:</label>
-          <p>{{ comentarioSeleccionado?.usuarioNombre }}</p>
-        </div>
-
-        <div class="detail-group">
-          <label>Tipo:</label>
-          <p>{{ getTipoComentario(comentarioSeleccionado) }}</p>
-        </div>
-
-        <div class="detail-group">
-          <label>Contexto:</label>
-          <p>{{ getTargetLabel(comentarioSeleccionado) }}</p>
-        </div>
-
-        <div class="detail-group">
-          <label>Fecha:</label>
-          <p>{{ comentarioSeleccionado?.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
-        </div>
-
-        <div class="detail-group">
-          <label>Contenido:</label>
-          <div class="content-box">{{ comentarioSeleccionado?.comentario }}</div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-ghost" (click)="cerrarDetalles()">Cerrar</button>
-        <button class="btn-delete" (click)="eliminarComentario(comentarioSeleccionado.id, comentarioSeleccionado.titulo)">
-          🗑 Eliminar
-        </button>
-      </div>
-    </div>
-  </div>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" style="text-align: center;">No hay comentarios</td>
+      </tr>
+    </ng-template>
+  </p-table>
 
 </div>
+
+<!-- MODAL DETALLES -->
+<p-dialog 
+  [(visible)]="mostrarDetalles"
+  [header]="comentarioSeleccionado?.titulo || 'Detalles del Comentario'"
+  [modal]="true"
+  [style]="{width: '50vw', 'z-index': 1000}"
+  [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+
+  <ng-template pTemplate="content">
+    <div class="form-modal">
+
+      <div class="form-group">
+        <label>Autor:</label>
+        <p style="color: #c084fc; font-weight: 600;">{{ comentarioSeleccionado?.usuarioNombre }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo:</label>
+        <p>{{ getTipoComentario(comentarioSeleccionado) }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Contexto:</label>
+        <p>{{ getTargetLabel(comentarioSeleccionado) }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha:</label>
+        <p>{{ comentarioSeleccionado?.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Contenido:</label>
+        <div class="content-box">{{ comentarioSeleccionado?.comentario }}</div>
+      </div>
+
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cerrar" 
+            (click)="cerrarDetalles()"
+            class="p-button-text">
+    </button>
+
+    <button pButton type="button" 
+            label="Eliminar"
+            (click)="eliminarComentario(comentarioSeleccionado.id, comentarioSeleccionado.titulo)"
+            class="p-button-danger">
+    </button>
+  </ng-template>
+
+</p-dialog>
+
+<!-- MODAL CONFIRMACIÓN -->
+<p-dialog 
+  [(visible)]="modalVisible"
+  [header]="modalTitulo"
+  [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1001}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false">
+
+  <ng-template pTemplate="content">
+    <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarModal()"
+            class="p-button-text"
+            [disabled]="enviandoModal">
+    </button>
+    <button pButton type="button" 
+            label="Eliminar"
+            (click)="confirmarAccion()"
+            class="p-button-danger"
+            [loading]="enviandoModal"
+            [disabled]="enviandoModal">
+    </button>
+  </ng-template>
+</p-dialog>

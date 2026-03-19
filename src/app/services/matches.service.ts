@@ -10,7 +10,6 @@ import { TeamPastMatchDTO } from '../shared/models/team-past-match.dto';
 
 @Injectable({ providedIn: 'root' })
 export class MatchesService {
-
   private api = environment.apiUrl + '/matches';
 
   constructor(private http: HttpClient) { }
@@ -26,6 +25,7 @@ export class MatchesService {
   getLastMatches(): Observable<PastMatchDTO[]> {
     return this.http.get<PastMatchDTO[]>(`${this.api}/last`);
   }
+
   getNextMatches(): Observable<FutureMatchDTO[]> {
     return this.http.get<FutureMatchDTO[]>(`${this.api}/next`);
   }
@@ -41,10 +41,20 @@ export class MatchesService {
   getByWeek(wk: number): Observable<MatchEntity[]> {
     return this.http.get<MatchEntity[]>(`${this.api}/week/${wk}`);
   }
+
   getNextMatchesByTeam(teamId: string): Observable<TeamFutureMatchDTO[]> {
     return this.http.get<TeamFutureMatchDTO[]>(`${this.api}/next/${teamId}`);
   }
+
   getLastMatchesByTeam(teamId: string): Observable<TeamPastMatchDTO[]> {
     return this.http.get<TeamPastMatchDTO[]>(`${this.api}/last/${teamId}`);
+  }
+
+  // MÉTODO ACTUALIZAR
+  update(id: number, formData: any): Observable<any> {
+    return this.http.put<any>(`${this.api}/update`, {
+      id: id,
+      ...formData
+    });
   }
 }

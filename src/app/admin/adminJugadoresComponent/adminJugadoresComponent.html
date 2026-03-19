@@ -42,7 +42,7 @@
 
   <!-- TABLA DE JUGADORES CON PAGINACIÓN -->
   <p-table 
-    [value]="getJugadoresPaginados()" 
+    [value]="jugadoresFiltrados" 
     [loading]="cargando"
     [rows]="rows"
     [totalRecords]="totalRecords"
@@ -107,10 +107,12 @@
   [(visible)]="mostrarForm"
   [header]="editandoId ? 'Editar Jugador' : 'Nuevo Jugador'"
   [modal]="true"
-  [style]="{width: '50vw'}"
+  [style]="{width: '50vw', 'z-index': 1000}"
   [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
   [draggable]="false"
-  [resizable]="false">
+  [resizable]="false"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
 
   <ng-template pTemplate="content">
     <div class="form-modal">
@@ -142,18 +144,12 @@
       <div class="form-row">
         <div class="form-group">
           <label>Equipo</label>
-
-          <ng-select 
-            [items]="equipos" 
-            bindLabel="nombre" 
-            bindValue="id"
-            [(ngModel)]="formData.teamId"
-            placeholder="Selecciona un equipo"
-            [clearable]="true"
-            appendTo="body"
-            class="ng-select-custom">
-          </ng-select>
-
+          <select [(ngModel)]="formData.teamId" class="custom-select-modal">
+            <option [value]="''">Selecciona un equipo</option>
+            <option *ngFor="let equipo of equipos" [value]="equipo.id">
+              {{ equipo.nombre }}
+            </option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -188,7 +184,7 @@
   [(visible)]="modalVisible"
   [header]="modalTitulo"
   [modal]="true"
-  [style]="{width: '40vw'}"
+  [style]="{width: '40vw', 'z-index': 1001}"
   [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
   [draggable]="false"
   [resizable]="false">

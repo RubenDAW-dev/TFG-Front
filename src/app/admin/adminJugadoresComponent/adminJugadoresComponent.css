@@ -51,6 +51,7 @@
   letter-spacing: 2px;
   background: linear-gradient(90deg, #c084fc, #a855f7);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -122,6 +123,7 @@
   border: 1px solid rgba(168, 85, 247, 0.3) !important;
   border-radius: 8px !important;
   margin-top: 4px !important;
+  z-index: 10000 !important;
 }
 
 :host ::ng-deep .filter-ng-select .ng-option {
@@ -235,6 +237,7 @@
   background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
   color: #e0e0e0 !important;
   padding: 20px !important;
+  overflow: auto !important;
 }
 
 /* Footer botones */
@@ -303,6 +306,7 @@
 }
 
 .form-group input,
+.form-group select,
 .form-group .p-inputtext,
 .form-group .ng-select-container {
   order: 2 !important;
@@ -335,47 +339,73 @@
 }
 
 /* =========================================================
-   NG-SELECT DEL MODAL (aislado + overlay por delante)
+   SELECT NATIVO ESTILIZADO (Solución para el dropdown)
 ========================================================= */
-:host ::ng-deep .ng-select-custom {
+.custom-select-modal {
   width: 100% !important;
-}
-
-/* Control del modal */
-:host ::ng-deep .ng-select-custom .ng-select-container {
+  padding: 8px 12px !important;
   background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
-  border-radius: 8px !important;
-  min-height: 36px !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
   color: #e0e0e0 !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 20px !important;
+  padding-right: 32px !important;
 }
 
-:host ::ng-deep .ng-select-custom.ng-select-focused .ng-select-container {
+.custom-select-modal:hover {
+  border-color: rgba(168, 85, 247, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.custom-select-modal:focus {
+  outline: none !important;
   border-color: rgba(168, 85, 247, 0.8) !important;
-  box-shadow: 0 0 0 0.2rem rgba(168, 85, 247, 0.25) !important;
-  background: rgba(15, 20, 45, 1) !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
 }
 
-/* --- Dropdown del select del modal por encima del dialog --- */
-:host ::ng-deep .ng-select-custom .ng-dropdown-panel {
-  position: absolute !important;
-  z-index: 99999 !important;
+/* Opciones del select en navegadores que lo permiten */
+.custom-select-modal option {
+  background: #1e1e2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
 }
 
-/* --- Label arriba, input / ng-select abajo --- */
-.form-group {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 6px !important;
+.custom-select-modal option:hover {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
 }
 
-.form-group label {
-  margin-bottom: 2px;
+.custom-select-modal option:checked {
+  background: rgba(168, 85, 247, 0.3) !important;
+  color: #c084fc !important;
 }
 
-.form-group ng-select,
-.form-group .ng-select,
-.form-group .ng-select-container {
-  width: 100% !important;
-  order: 2 !important;
+/* Firefox específicamente */
+.custom-select-modal option {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+.form-error {
+  padding: 10px 12px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  color: #fca5a5;
+  font-size: 13px;
+  margin-top: 8px;
 }

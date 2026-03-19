@@ -4,21 +4,18 @@
     <h2 class="section-title">👥 Gestión de Usuarios</h2>
   </div>
 
-  <!-- MENSAJES -->
-  <div class="msg-success" *ngIf="mensajeExito">✅ {{ mensajeExito }}</div>
-  <div class="msg-error" *ngIf="error">⚠️ {{ error }}</div>
-
   <!-- BÚSQUEDA Y FILTROS -->
   <div class="filter-section">
     <input 
       type="text" 
-      class="search-input" 
+      pInputText
       [(ngModel)]="busqueda" 
       (ngModelChange)="onBusquedaChange()"
       placeholder="🔍 Buscar por nombre o email..."
+      class="search-input"
     />
     <select 
-      class="filter-select" 
+      class="custom-select-filtro"
       [(ngModel)]="filtroRol" 
       (ngModelChange)="onFiltroRolChange()"
     >
@@ -27,67 +24,166 @@
       <option value="0">Usuario</option>
     </select>
     <button 
-      class="btn-limpiar" 
+      pButton type="button"
+      icon="pi pi-times"
       *ngIf="busqueda || filtroRol"
       (click)="limpiarFiltros()"
-    >
-      ✕ Limpiar
+      class="p-button-text"
+      label="Limpiar">
     </button>
   </div>
 
   <!-- TABLA DE USUARIOS -->
-  <div class="table-container">
-    <div class="loading" *ngIf="cargando">Cargando usuarios...</div>
+  <p-table 
+    [value]="usuariosFiltrados" 
+    [loading]="cargando"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [paginator]="true"
+    [first]="first"
+    (onPageChange)="onPageChange($event)"
+    [rowsPerPageOptions]="[20, 50, 100]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuarios"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-striped">
     
-    <table class="admin-table" *ngIf="!cargando">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of usuariosFiltrados" class="table-row">
-          <td class="col-nombre">{{ usuario.nombre }}</td>
-          <td class="col-email">{{ usuario.email }}</td>
-          <td class="col-rol">
-            <!-- MODO LECTURA -->
-            <ng-container *ngIf="editandoId !== usuario.id">
-              <span class="badge" [class.badge-admin]="usuario.rol === 1" [class.badge-user]="usuario.rol === 0">
-                {{ getRolNombre(usuario.rol) }}
-              </span>
-            </ng-container>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th>Rol</th>
+        <th style="width: 10%">Acciones</th>
+      </tr>
+    </ng-template>
 
-            <!-- MODO EDICIÓN -->
-            <ng-container *ngIf="editandoId === usuario.id">
-              <select [(ngModel)]="editandoRol" class="edit-select">
-                <option [value]="1">Administrador</option>
-                <option [value]="0">Usuario</option>
-              </select>
-            </ng-container>
-          </td>
-          <td class="col-acciones">
-            <!-- BOTONES DE EDICIÓN -->
-            <ng-container *ngIf="editandoId !== usuario.id">
-              <button class="btn-edit" (click)="iniciarEdicionRol(usuario)" title="Cambiar rol">🔐</button>
-              <button class="btn-delete" (click)="eliminarUsuario(usuario.id, usuario.nombre)" title="Eliminar">🗑</button>
-            </ng-container>
+    <ng-template pTemplate="body" let-usuario>
+      <tr>
+        <td><strong>{{ usuario.nombre }}</strong></td>
+        <td>{{ usuario.email }}</td>
+        <td>
+          <span class="badge-rol" [class.badge-admin]="usuario.rol === 1" [class.badge-user]="usuario.rol === 0">
+            {{ getRolNombre(usuario.rol) }}
+          </span>
+        </td>
+        <td>
+          <button pButton type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-warning p-button-sm"
+                  (click)="abrirModalRol(usuario)"
+                  pTooltip="Cambiar rol" 
+                  tooltipPosition="top">
+          </button>
+          <button pButton type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-danger p-button-sm"
+                  (click)="eliminarUsuario(usuario.id, usuario.nombre)"
+                  pTooltip="Eliminar" 
+                  tooltipPosition="top"
+                  style="margin-left: 0.5rem;">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
 
-            <!-- BOTONES DE GUARDADO/CANCELADO -->
-            <ng-container *ngIf="editandoId === usuario.id">
-              <button class="btn-save" (click)="guardarRol(usuario.id)" title="Guardar">💾</button>
-              <button class="btn-cancel" (click)="cancelarEdicion()" title="Cancelar">✕</button>
-            </ng-container>
-          </td>
-        </tr>
-
-        <tr *ngIf="usuariosFiltrados.length === 0" class="empty-row">
-          <td colspan="4" class="empty-message">No hay usuarios que coincidan con los filtros</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" style="text-align: center;">No hay usuarios</td>
+      </tr>
+    </ng-template>
+  </p-table>
 
 </div>
+
+<!-- MODAL CAMBIAR ROL (directo, sin confirmación extra) -->
+<p-dialog 
+  [(visible)]="mostrarModalRol"
+  [header]="'Cambiar Rol de Usuario'"
+  [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1000}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+
+  <ng-template pTemplate="content">
+    <div class="form-modal">
+
+      <div class="form-group">
+        <label>Usuario:</label>
+        <p style="color: #c084fc; font-weight: 600;">{{ usuarioSeleccionado?.nombre }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Email:</label>
+        <p>{{ usuarioSeleccionado?.email }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Rol Actual:</label>
+        <p>{{ getRolNombre(usuarioSeleccionado?.rol) }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Nuevo Rol</label>
+        <select [(ngModel)]="nuevoRol" class="custom-select-modal">
+          <option [value]="0">Usuario</option>
+          <option [value]="1">Administrador</option>
+        </select>
+      </div>
+
+      <div class="form-error" *ngIf="error">⚠️ {{ error }}</div>
+
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarModalRol()"
+            class="p-button-text"
+            [disabled]="enviandoModal">
+    </button>
+
+    <button pButton type="button" 
+            label="Guardar"
+            (click)="guardarRol()"
+            class="p-button-success"
+            [loading]="enviandoModal"
+            [disabled]="enviandoModal">
+    </button>
+  </ng-template>
+
+</p-dialog>
+
+<!-- MODAL CONFIRMACIÓN (SOLO PARA ELIMINAR) -->
+<p-dialog 
+  [(visible)]="modalVisible"
+  [header]="modalTitulo"
+  [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1001}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false">
+
+  <ng-template pTemplate="content">
+    <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarModal()"
+            class="p-button-text"
+            [disabled]="enviandoModal">
+    </button>
+    <button pButton type="button" 
+            label="Eliminar"
+            (click)="confirmarAccion()"
+            class="p-button-danger"
+            [loading]="enviandoModal"
+            [disabled]="enviandoModal">
+    </button>
+  </ng-template>
+</p-dialog>

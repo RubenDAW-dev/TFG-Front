@@ -2,105 +2,188 @@
 
   <div class="section-header">
     <h2 class="section-title">⚽ Gestión de Equipos</h2>
-    <button class="btn-nuevo" (click)="toggleForm()">
-      {{ mostrarForm ? '✕ Cancelar' : '+ Nuevo Equipo' }}
+    <button pButton type="button" 
+            [label]="mostrarForm ? 'Cancelar' : 'Nuevo Equipo'"
+            [icon]="mostrarForm ? 'pi pi-times' : 'pi pi-plus'"
+            (click)="toggleForm()"
+            class="p-button-rounded p-button-success">
     </button>
-  </div>
-
-  <!-- FORMULARIO -->
-  <div class="form-container" *ngIf="mostrarForm">
-    <div class="form-card">
-      <h3>{{ editandoId ? 'Editar Equipo' : 'Nuevo Equipo' }}</h3>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" [(ngModel)]="formData.nombre" placeholder="Ej: Real Madrid" />
-        </div>
-        <div class="form-group">
-          <label>Ciudad</label>
-          <input type="text" [(ngModel)]="formData.ciudad" placeholder="Ej: Madrid" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Estadio</label>
-          <input type="text" [(ngModel)]="formData.estadio" placeholder="Ej: Santiago Bernabéu" />
-        </div>
-        <div class="form-group">
-          <label>Capacidad</label>
-          <input type="number" [(ngModel)]="formData.capacidad" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>URL Escudo</label>
-          <input type="text" [(ngModel)]="formData.escudo" placeholder="https://..." />
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn-ghost" (click)="toggleForm()">Cancelar</button>
-        <button class="btn-primary" (click)="guardarEquipo()">
-          {{ editandoId ? 'Actualizar' : 'Crear' }}
-        </button>
-      </div>
-
-      <div class="form-error" *ngIf="error">⚠️ {{ error }}</div>
-    </div>
   </div>
 
   <!-- BÚSQUEDA Y FILTROS -->
   <div class="filter-section">
     <input 
       type="text" 
-      class="search-input" 
+      pInputText
       [(ngModel)]="busqueda" 
       (ngModelChange)="onBusquedaChange()"
       placeholder="🔍 Buscar por nombre, ciudad o estadio..."
+      class="search-input"
     />
     <button 
-      class="btn-limpiar" 
+      pButton type="button"
+      icon="pi pi-times"
       *ngIf="busqueda"
       (click)="limpiarFiltros()"
-    >
-      ✕ Limpiar
+      class="p-button-text"
+      label="Limpiar">
     </button>
   </div>
 
-  <!-- TABLA DE EQUIPOS -->
-  <div class="table-container">
-    <div class="loading" *ngIf="cargando">Cargando equipos...</div>
+  <!-- TABLA DE EQUIPOS CON PAGINACIÓN -->
+  <p-table 
+    [value]="equiposFiltrados" 
+    [loading]="cargando"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [paginator]="true"
+    [first]="first"
+    (onPageChange)="onPageChange($event)"
+    [rowsPerPageOptions]="[20, 50, 100]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} equipos"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-striped">
     
-    <table class="admin-table" *ngIf="!cargando">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Ciudad</th>
-          <th>Estadio</th>
-          <th>Capacidad</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let equipo of equiposFiltrados" class="table-row">
-          <td class="col-nombre">{{ equipo.nombre }}</td>
-          <td>{{ equipo.ciudad }}</td>
-          <td>{{ equipo.estadio }}</td>
-          <td class="col-capacidad">{{ equipo.capacidad | number }}</td>
-          <td class="col-acciones">
-            <button class="btn-edit" (click)="editarEquipo(equipo)" title="Editar">✎</button>
-            <button class="btn-delete" (click)="eliminarEquipo(equipo.id)" title="Eliminar">🗑</button>
-          </td>
-        </tr>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+        <th pSortableColumn="ciudad">Ciudad <p-sortIcon field="ciudad"></p-sortIcon></th>
+        <th>Estadio</th>
+        <th>Capacidad</th>
+        <th style="width: 10%">Acciones</th>
+      </tr>
+    </ng-template>
 
-        <tr *ngIf="equiposFiltrados.length === 0" class="empty-row">
-          <td colspan="5" class="empty-message">No hay equipos que coincidan con los filtros</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <ng-template pTemplate="body" let-equipo>
+      <tr>
+        <td><strong>{{ equipo.nombre }}</strong></td>
+        <td>{{ equipo.ciudad }}</td>
+        <td>{{ equipo.estadio }}</td>
+        <td>{{ equipo.capacidad | number }}</td>
+        <td>
+          <button pButton type="button" 
+                  icon="pi pi-pencil" 
+                  class="p-button-rounded p-button-warning p-button-sm"
+                  (click)="editarEquipo(equipo)"
+                  pTooltip="Editar" 
+                  tooltipPosition="top">
+          </button>
+          <button pButton type="button" 
+                  icon="pi pi-trash" 
+                  class="p-button-rounded p-button-danger p-button-sm"
+                  (click)="eliminarEquipo(equipo.id, equipo.nombre)"
+                  pTooltip="Eliminar" 
+                  tooltipPosition="top"
+                  style="margin-left: 0.5rem;">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" style="text-align: center;">No hay equipos</td>
+      </tr>
+    </ng-template>
+  </p-table>
 
 </div>
+
+<!-- MODAL FORMULARIO -->
+<p-dialog 
+  [(visible)]="mostrarForm"
+  [header]="editandoId ? 'Editar Equipo' : 'Nuevo Equipo'"
+  [modal]="true"
+  [style]="{width: '50vw', 'z-index': 1000}"
+  [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+
+  <ng-template pTemplate="content">
+    <div class="form-modal">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" pInputText [(ngModel)]="formData.nombre" placeholder="Ej: Real Madrid" />
+        </div>
+
+        <div class="form-group">
+          <label>Ciudad</label>
+          <input type="text" pInputText [(ngModel)]="formData.ciudad" placeholder="Ej: Madrid" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estadio</label>
+          <input type="text" pInputText [(ngModel)]="formData.estadio" placeholder="Ej: Santiago Bernabéu" />
+        </div>
+
+        <div class="form-group">
+          <label>Capacidad</label>
+          <input type="number" pInputText [(ngModel)]="formData.capacidad" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>URL Escudo</label>
+          <input type="text" pInputText [(ngModel)]="formData.escudo" placeholder="https://..." />
+        </div>
+      </div>
+
+      <div class="form-error" *ngIf="error">⚠️ {{ error }}</div>
+
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarFormulario()"
+            class="p-button-text">
+    </button>
+
+    <button pButton type="button" 
+            [label]="editandoId ? 'Actualizar' : 'Crear'"
+            (click)="guardarEquipo()"
+            class="p-button-success">
+    </button>
+  </ng-template>
+
+</p-dialog>
+
+<!-- MODAL CONFIRMACIÓN -->
+<p-dialog 
+  [(visible)]="modalVisible"
+  [header]="modalTitulo"
+  [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1001}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false">
+
+  <ng-template pTemplate="content">
+    <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarModal()"
+            class="p-button-text"
+            [disabled]="enviandoModal">
+    </button>
+    <button pButton type="button" 
+            [label]="modalTipo === 'eliminar' ? 'Eliminar' : 'Guardar'"
+            (click)="confirmarAccion()"
+            [class]="modalTipo === 'eliminar' ? 'p-button-danger' : 'p-button-success'"
+            [loading]="enviandoModal"
+            [disabled]="enviandoModal">
+    </button>
+  </ng-template>
+</p-dialog>

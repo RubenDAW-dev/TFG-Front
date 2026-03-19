@@ -1,13 +1,28 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 import { MatchesService } from '../../services/matches.service';
 import { TeamsService } from '../../services/teams.service';
 
 @Component({
   selector: 'app-admin-partidos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DialogModule,
+    ButtonModule,
+    PaginatorModule,
+    InputTextModule,
+    TableModule,
+    TooltipModule
+  ],
   templateUrl: './AdminPartidosComponent.html',
   styleUrls: ['./AdminPartidosComponent.css']
 })
@@ -40,6 +55,19 @@ export class AdminPartidosComponent implements OnInit {
   filtroSemana = '';
   partidosFiltrados: any[] = [];
 
+  // PAGINACIÓN
+  totalRecords = 0;
+  rows = 20;
+  first = 0;
+  pagina = 1;
+
+  // MODAL CONFIRMACIÓN
+  modalVisible = false;
+  modalTitulo = '';
+  modalMensaje = '';
+  modalAccionConfirmar: (() => void) | null = null;
+  enviandoModal = false;
+
   constructor(
     private matchesService: MatchesService,
     private teamsService: TeamsService,
@@ -51,13 +79,17 @@ export class AdminPartidosComponent implements OnInit {
     this.cargarEquipos();
   }
 
+  // ====================================
+  // CARGAR DATOS
+  // ====================================
   cargarPartidos(): void {
     this.cargando = true;
     this.error = null;
     this.matchesService.getAll().subscribe({
       next: (data) => {
         this.partidos = data || [];
-        this.partidosFiltrados = [...this.partidos];
+        this.totalRecords = this.partidos.length;
+        this.aplicarFiltros();
         this.cargando = false;
         this.cdr.detectChanges();
       },
@@ -81,16 +113,22 @@ export class AdminPartidosComponent implements OnInit {
     });
   }
 
+  // ====================================
+  // FILTROS Y BÚSQUEDA
+  // ====================================
   aplicarFiltros(): void {
     let resultado = [...this.partidos];
 
     if (this.busqueda.trim()) {
       const busquedaLower = this.busqueda.toLowerCase();
-      resultado = resultado.filter(p =>
-        p.homeTeam?.nombre?.toLowerCase().includes(busquedaLower) ||
-        p.awayTeam?.nombre?.toLowerCase().includes(busquedaLower) ||
-        p.venue?.toLowerCase().includes(busquedaLower)
-      );
+      resultado = resultado.filter(p => {
+        const homeTeam = this.getNombreEquipo(p.homeTeam?.id)?.toLowerCase() || '';
+        const awayTeam = this.getNombreEquipo(p.awayTeam?.id)?.toLowerCase() || '';
+        const venue = p.venue?.toLowerCase() || '';
+        return homeTeam.includes(busquedaLower) ||
+               awayTeam.includes(busquedaLower) ||
+               venue.includes(busquedaLower);
+      });
     }
 
     if (this.filtroSemana) {
@@ -98,6 +136,8 @@ export class AdminPartidosComponent implements OnInit {
     }
 
     this.partidosFiltrados = resultado;
+    this.totalRecords = resultado.length;
+    this.first = 0;
     this.cdr.detectChanges();
   }
 
@@ -105,13 +145,44 @@ export class AdminPartidosComponent implements OnInit {
     this.aplicarFiltros();
   }
 
-  toggleForm(): void {
-    this.mostrarForm = !this.mostrarForm;
-    if (!this.mostrarForm) {
-      this.resetForm();
-    }
+  onFiltroSemanaChange(): void {
+    this.aplicarFiltros();
   }
 
+  limpiarFiltros(): void {
+    this.busqueda = '';
+    this.filtroSemana = '';
+    this.partidosFiltrados = [...this.partidos];
+    this.totalRecords = this.partidos.length;
+    this.first = 0;
+    this.cdr.detectChanges();
+  }
+
+  // ====================================
+  // PAGINACIÓN
+  // ====================================
+  onPageChange(event: any): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.pagina = (event.first / event.rows) + 1;
+  }
+
+  getPartidosPaginados(): any[] {
+    const inicio = this.first;
+    const fin = inicio + this.rows;
+    return this.partidosFiltrados.slice(inicio, fin);
+  }
+
+  // ====================================
+  // UTILIDADES
+  // ====================================
+  getNombreEquipo(teamId: string): string {
+    return this.equipos.find(e => e.id === teamId)?.nombre || 'N/A';
+  }
+
+  // ====================================
+  // FORM - SOLO EDITAR
+  // ====================================
   editarPartido(partido: any): void {
     this.editandoId = partido.id;
     this.formData = {
@@ -128,23 +199,6 @@ export class AdminPartidosComponent implements OnInit {
       referee: partido.referee
     };
     this.mostrarForm = true;
-  }
-
-  guardarPartido(): void {
-    if (!this.formData.homeTeamId || !this.formData.awayTeamId) {
-      this.error = 'Ambos equipos son obligatorios';
-      return;
-    }
-
-    this.error = 'La funcionalidad de actualizar requiere endpoints en el backend';
-    this.cdr.detectChanges();
-  }
-
-  eliminarPartido(id: number): void {
-    if (!confirm('¿Eliminar este partido?')) return;
-    
-    this.error = 'La funcionalidad de eliminar requiere endpoints en el backend';
-    this.cdr.detectChanges();
   }
 
   resetForm(): void {
@@ -164,15 +218,81 @@ export class AdminPartidosComponent implements OnInit {
     };
   }
 
-  getNombreEquipo(teamId: string): string {
-    return this.equipos.find(e => e.id === teamId)?.nombre || 'N/A';
+  guardarPartido(): void {
+    if (!this.editandoId) {
+      this.error = 'No hay partido seleccionado';
+      return;
+    }
+
+    const homeTeam = this.getNombreEquipo(this.formData.homeTeamId);
+    const awayTeam = this.getNombreEquipo(this.formData.awayTeamId);
+
+    this.modalTitulo = 'Confirmar Edición';
+    this.modalMensaje = `¿Estás seguro de que deseas actualizar el partido <strong>${homeTeam} vs ${awayTeam}</strong>?`;
+    this.modalAccionConfirmar = () => this.confirmarGuardar();
+    this.modalVisible = true;
   }
 
-  limpiarFiltros(): void {
-    this.busqueda = '';
-    this.filtroSemana = '';
-    this.partidosFiltrados = [...this.partidos];
+  private confirmarGuardar(): void {
+    this.enviandoModal = true;
+
+    this.matchesService.update(this.editandoId!, this.formData).subscribe({
+      next: (response) => {
+        // Actualizar en el array local
+        const index = this.partidos.findIndex(p => p.id === this.editandoId);
+        if (index !== -1) {
+          this.partidos[index] = {
+            ...this.partidos[index],
+            ...this.formData
+          };
+        }
+        this.aplicarFiltros();
+        this.error = null;
+        this.enviandoModal = false;
+        this.cerrarFormulario();
+        this.cerrarModal();
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Error al actualizar el partido';
+        this.enviandoModal = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  cerrarFormulario(): void {
+    this.mostrarForm = false;
+    this.resetForm();
+    this.error = null;
     this.cdr.detectChanges();
   }
 
+  // ====================================
+  // MODAL CONFIRMACIÓN
+  // ====================================
+  cerrarModal(): void {
+    this.modalVisible = false;
+    this.modalAccionConfirmar = null;
+    this.cdr.detectChanges();
+  }
+
+  confirmarAccion(): void {
+    if (this.modalAccionConfirmar) {
+      this.modalAccionConfirmar();
+    }
+  }
+
+  // ====================================
+  // DIALOG LIFECYCLE
+  // ====================================
+  onDialogShow(): void {
+    this.cdr.detectChanges();
+  }
+
+  onDialogHide(): void {
+    this.resetForm();
+    this.error = null;
+    this.cdr.detectChanges();
+  }
 }
