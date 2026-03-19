@@ -24,4 +24,10 @@ export class PlayersService {
   getPlayersByTeam(teamId: string) {
     return this.http.get<any[]>(`${this.api}/team/${teamId}`);
   }
+  updatePlayer(id: string, payload: any) {
+    return this.http.put<any>(`${this.api}/update/${id}`, payload);
+  }
+  createPlayer(payload: any){
+    return this.http.put<any>(`${this.api}/create`, payload);
+  }
 }

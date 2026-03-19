@@ -7,7 +7,7 @@ export class TeamsService {
 
   private api = environment.apiUrl + '/teams';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllTeams() {
     return this.http.get<any[]>(`${this.api}/getAll`);
@@ -23,5 +23,8 @@ export class TeamsService {
 
   getTeamPlayers(id: string) {
     return this.http.get<any[]>(`${this.api}/get/${id}/players`);
+  }
+  updateTeam(id: string, payload: any) {
+    return this.http.put<any>(`${this.api}/update/${id}`, payload);
   }
 }

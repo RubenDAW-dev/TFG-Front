@@ -22,8 +22,8 @@ import { ComentarioService } from '../../services/comentario.service';
     TableModule,
     TooltipModule
   ],
-  templateUrl: './adminComentariosComponent.html',
-  styleUrls: ['./adminComentariosComponent.css']
+  templateUrl: './AdminComentariosComponent.html',
+  styleUrls: ['./AdminComentariosComponent.css']
 })
 export class AdminComentariosComponent implements OnInit {
 
@@ -51,6 +51,7 @@ export class AdminComentariosComponent implements OnInit {
   modalTitulo = '';
   modalMensaje = '';
   modalAccionConfirmar: (() => void) | null = null;
+  comentarioAEliminar: any = null;
   enviandoModal = false;
 
   constructor(
@@ -68,7 +69,8 @@ export class AdminComentariosComponent implements OnInit {
   cargarComentarios(): void {
     this.cargando = true;
     this.error = null;
-    this.comentarioService.foroTopics().subscribe({
+
+    this.comentarioService.todosLosComentarios().subscribe({
       next: (data) => {
         this.comentarios = data || [];
         this.totalRecords = this.comentarios.length;
@@ -139,12 +141,6 @@ export class AdminComentariosComponent implements OnInit {
     this.pagina = (event.first / event.rows) + 1;
   }
 
-  getComentariosPaginados(): any[] {
-    const inicio = this.first;
-    const fin = inicio + this.rows;
-    return this.comentariosFiltrados.slice(inicio, fin);
-  }
-
   // ====================================
   // UTILIDADES
   // ====================================
@@ -167,6 +163,7 @@ export class AdminComentariosComponent implements OnInit {
   }
 
   cerrarDetalles(): void {
+    this.onDialogHide();
     this.mostrarDetalles = false;
     this.comentarioSeleccionado = null;
     this.cdr.detectChanges();
@@ -176,22 +173,20 @@ export class AdminComentariosComponent implements OnInit {
   // ELIMINAR
   // ====================================
   eliminarComentario(id: string, titulo: string): void {
-    this.comentarioSeleccionado = { id, titulo };
+    this.comentarioAEliminar = { id, titulo };
     this.modalTitulo = 'Eliminar Comentario';
     this.modalMensaje = `¿Estás seguro de que deseas eliminar este comentario? Esta acción no se puede deshacer.`;
     this.modalAccionConfirmar = () => this.confirmarEliminar();
-    this.cerrarDetalles();
-    this.modalVisible = true;
+    this.mostrarDetalles = false;  // Cierra el modal de detalles
+    this.modalVisible = true;  // Abre el modal de confirmación
   }
 
   private confirmarEliminar(): void {
     this.enviandoModal = true;
-    
-    // Llamar al servicio para eliminar
-    this.comentarioService.eliminar(Number(this.comentarioSeleccionado.id)).subscribe({
+
+    this.comentarioService.eliminar(Number(this.comentarioAEliminar.id)).subscribe({
       next: () => {
-        // Eliminar del array local
-        this.comentarios = this.comentarios.filter(c => c.id !== this.comentarioSeleccionado.id);
+        this.comentarios = this.comentarios.filter(c => c.id !== Number(this.comentarioAEliminar.id));
         this.aplicarFiltros();
         this.error = null;
         this.enviandoModal = false;
@@ -212,7 +207,7 @@ export class AdminComentariosComponent implements OnInit {
   cerrarModal(): void {
     this.modalVisible = false;
     this.modalAccionConfirmar = null;
-    this.comentarioSeleccionado = null;
+    this.comentarioAEliminar = null;
     this.cdr.detectChanges();
   }
 
@@ -230,6 +225,8 @@ export class AdminComentariosComponent implements OnInit {
   }
 
   onDialogHide(): void {
+    this.mostrarDetalles = false;
+    this.comentarioSeleccionado = null;
     this.error = null;
     this.cdr.detectChanges();
   }

@@ -48,7 +48,7 @@ export class AdminJugadoresComponent implements OnInit {
     teamId: ''
   };
 
-  // BÚSQUEDA Y FILTRADO
+  // BÚSQUEDA Y FILTRO
   busqueda = '';
   filtroEquipo: string | null = null;
   jugadoresFiltrados: any[] = [];
@@ -59,7 +59,7 @@ export class AdminJugadoresComponent implements OnInit {
   first = 0;
   pagina = 1;
 
-  // MODAL PRIMENG
+  // MODAL CONFIRMACIÓN (guardar/eliminar)
   modalVisible = false;
   modalTipo: 'eliminar' | 'guardar' = 'eliminar';
   modalTitulo = '';
@@ -128,7 +128,7 @@ export class AdminJugadoresComponent implements OnInit {
 
     this.jugadoresFiltrados = resultado;
     this.totalRecords = resultado.length;
-    this.first = 0; // Reset a primera página
+    this.first = 0;
     this.cdr.detectChanges();
   }
 
@@ -178,14 +178,37 @@ export class AdminJugadoresComponent implements OnInit {
 
   private confirmarGuardar(): void {
     this.enviandoModal = true;
-    // Aquí llamarías al servicio para guardar
-    // this.playersService.actualizar(...)
 
-    // Por ahora solo mostramos un mensaje
-    this.error = 'La funcionalidad de actualizar requiere endpoints en el backend';
-    this.enviandoModal = false;
-    this.cerrarModal();
-    this.cdr.detectChanges();
+    // Construir payload para el backend (DTO)
+    const payload = {
+      nombre: this.formData.nombre?.trim(),
+      posicion: this.formData.posicion?.trim(),
+      edad: Number(this.formData.edad) || 0,
+      nacionalidad: this.formData.nacionalidad?.trim() || null,
+      imageUrl: this.formData.imageUrl?.trim() || null,
+      teamId: this.formData.teamId || null
+    };
+
+    const obs$ = this.editandoId
+      ? this.playersService.updatePlayer(this.editandoId, payload)
+      : this.playersService.createPlayer(payload);
+
+    obs$.subscribe({
+      next: () => {
+        this.error = null;
+        this.enviandoModal = false;
+        this.modalVisible = false;
+        this.mostrarForm = false;
+        this.resetForm();
+        this.cargarJugadores(); // refrescar tabla
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.error = (err?.error?.message || 'Error al guardar el jugador');
+        this.enviandoModal = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   eliminarJugador(id: string, nombre: string): void {
@@ -193,16 +216,12 @@ export class AdminJugadoresComponent implements OnInit {
     this.modalTipo = 'eliminar';
     this.modalTitulo = 'Eliminar Jugador';
     this.modalMensaje = `¿Estás seguro de que deseas eliminar a <strong>${nombre}</strong>? Esta acción no se puede deshacer.`;
-    this.modalAccionConfirmar = () => this.confirmarEliminar();
+    // this.modalAccionConfirmar = () => this.confirmarEliminar(); // Implementa cuando tengas endpoint
     this.modalVisible = true;
   }
 
   private confirmarEliminar(): void {
-    this.enviandoModal = true;
-    this.error = 'La funcionalidad de eliminar requiere endpoints en el backend';
-    this.enviandoModal = false;
-    this.cerrarModal();
-    this.cdr.detectChanges();
+    // Implementar cuando tengas endpoint de eliminar
   }
 
   cerrarModal(): void {
@@ -244,7 +263,6 @@ export class AdminJugadoresComponent implements OnInit {
     }
   }
 
-  // Obtener jugadores paginados
   getJugadoresPaginados(): any[] {
     const inicio = this.first;
     const fin = inicio + this.rows;
@@ -267,7 +285,6 @@ export class AdminJugadoresComponent implements OnInit {
     }
   }
 
-  // Métodos para manejar el dialog
   onDialogShow(): void {
     this.cdr.detectChanges();
   }

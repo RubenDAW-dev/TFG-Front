@@ -15,7 +15,7 @@
       class="search-input"
     />
     <select 
-      class="custom-select-filtro"
+      class="filter-select"
       [(ngModel)]="filtroTipo" 
       (ngModelChange)="onFiltroTipoChange()"
     >
@@ -104,7 +104,6 @@
 
 </div>
 
-<!-- MODAL DETALLES -->
 <p-dialog 
   [(visible)]="mostrarDetalles"
   [header]="comentarioSeleccionado?.titulo || 'Detalles del Comentario'"
@@ -149,12 +148,6 @@
 
   <ng-template pTemplate="footer">
     <button pButton type="button" 
-            label="Cerrar" 
-            (click)="cerrarDetalles()"
-            class="p-button-text">
-    </button>
-
-    <button pButton type="button" 
             label="Eliminar"
             (click)="eliminarComentario(comentarioSeleccionado.id, comentarioSeleccionado.titulo)"
             class="p-button-danger">
@@ -163,7 +156,7 @@
 
 </p-dialog>
 
-<!-- MODAL CONFIRMACIÓN -->
+<!-- MODAL CONFIRMACIÓN ✅ IGUAL QUE ADMINEQUIPOS -->
 <p-dialog 
   [(visible)]="modalVisible"
   [header]="modalTitulo"

@@ -30,7 +30,7 @@
   right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, #a855f7, transparent);
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /* =========================================================
@@ -55,22 +55,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-.section-header button {
-  background: linear-gradient(135deg, #a855f7, #c084fc) !important;
-  border: none !important;
-  padding: 10px 24px !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  color: #fff !important;
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
-  transition: .3s;
-}
-
-.section-header button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
-}
-
 /* =========================================================
    FILTROS
 ========================================================= */
@@ -91,7 +75,7 @@
   border-radius: 8px !important;
   color: #e0e0e0 !important;
   font-size: 13px !important;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .search-input:focus {
@@ -104,42 +88,44 @@
   color: #8a8fa3 !important;
 }
 
-.filter-ng-select {
-  flex: 1;
-  min-width: 200px;
-}
-
-/* === NG-SELECT DEL FILTRO (aislado por clase) === */
-:host ::ng-deep .filter-ng-select .ng-select-container {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
-  border-radius: 8px !important;
-  min-height: 36px !important;
-  color: #e0e0e0 !important;
-}
-
-:host ::ng-deep .filter-ng-select .ng-dropdown-panel {
-  background: #1e1e2e !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
-  border-radius: 8px !important;
-  margin-top: 4px !important;
-  z-index: 10000 !important;
-}
-
-:host ::ng-deep .filter-ng-select .ng-option {
+/* ========== SELECT FILTRO ESTILIZADO ========== */
+.filter-select {
   padding: 10px 14px !important;
-  font-size: 13px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  border-radius: 8px !important;
   color: #e0e0e0 !important;
-  background: transparent !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  font-family: inherit !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 20px !important;
+  padding-right: 32px !important;
+  min-width: 150px;
 }
 
-:host ::ng-deep .filter-ng-select .ng-option:hover {
-  background: rgba(168, 85, 247, 0.2) !important;
+.filter-select:hover {
+  border-color: rgba(168, 85, 247, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-:host ::ng-deep .filter-ng-select .ng-option.ng-option-selected {
-  background: rgba(168, 85, 247, 0.3) !important;
-  font-weight: 600;
+.filter-select:focus {
+  outline: none !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.filter-select option {
+  background: #1e1e2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
 }
 
 /* =========================================================
@@ -164,7 +150,7 @@
   background: transparent !important;
   color: #e0e0e0 !important;
   border-color: rgba(168, 85, 247, 0.1) !important;
-  transition: background .2s !important;
+  transition: background 0.2s !important;
   height: 36px !important;
 }
 
@@ -210,7 +196,7 @@
 
 :host ::ng-deep .p-current-page-report {
   color: #a0aec0 !important;
-  font-size: .85rem !important;
+  font-size: 0.85rem !important;
 }
 
 /* =========================================================
@@ -240,7 +226,6 @@
   overflow: auto !important;
 }
 
-/* Footer botones */
 :host ::ng-deep .p-dialog .p-dialog-footer {
   display: flex;
   gap: 12px;
@@ -262,8 +247,8 @@
   border-color: rgba(168, 85, 247, 0.6) !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success {
-  background: linear-gradient(135deg, #a855f7, #c084fc) !important;
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-danger {
+  background: linear-gradient(135deg, #ef4444, #f87171) !important;
   border: none !important;
   padding: 8px 16px !important;
   border-radius: 8px !important;
@@ -271,12 +256,12 @@
   font-weight: 600 !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success:hover {
+:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-danger:hover {
   filter: brightness(1.08);
 }
 
 /* =========================================================
-   FORMULARIO (labels arriba)
+   FORMULARIO (Modal)
 ========================================================= */
 .form-modal {
   display: flex;
@@ -284,128 +269,141 @@
   gap: 16px;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
 .form-group {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 6px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .form-group label {
-  order: 1 !important;
   font-size: 13px;
   font-weight: 600;
   color: #a0aec0;
-  margin-bottom: 2px;
 }
 
-.form-group input,
-.form-group select,
-.form-group .p-inputtext,
-.form-group .ng-select-container {
-  order: 2 !important;
-  width: 100% !important;
-}
-
-/* Inputs del modal (pInputText) */
-:host ::ng-deep .p-dialog .p-inputtext,
-:host ::ng-deep .p-dialog input.p-inputtext,
-:host ::ng-deep .p-dialog input[pinputtext] {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(168, 85, 247, 0.4) !important;
-  color: #e0e0e0 !important;
-  padding: 8px 12px !important;
-  font-size: 13px !important;
-  border-radius: 6px !important;
-  transition: .2s ease !important;
-}
-
-:host ::ng-deep .p-dialog .p-inputtext:focus,
-:host ::ng-deep .p-dialog input.p-inputtext:focus,
-:host ::ng-deep .p-dialog input[pinputtext]:focus {
-  border-color: rgba(168, 85, 247, 0.8) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
-}
-
-:host ::ng-deep .p-dialog .p-inputtext::placeholder {
-  color: #8a8fa3 !important;
-}
-
-/* =========================================================
-   SELECT NATIVO ESTILIZADO (Solución para el dropdown)
-========================================================= */
-.custom-select-modal {
-  width: 100% !important;
-  padding: 8px 12px !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(168, 85, 247, 0.4) !important;
-  color: #e0e0e0 !important;
-  font-size: 13px !important;
-  border-radius: 6px !important;
-  font-family: inherit !important;
-  cursor: pointer !important;
-  transition: all .2s ease !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 8px center !important;
-  background-size: 20px !important;
-  padding-right: 32px !important;
-}
-
-.custom-select-modal:hover {
-  border-color: rgba(168, 85, 247, 0.6) !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.custom-select-modal:focus {
-  outline: none !important;
-  border-color: rgba(168, 85, 247, 0.8) !important;
-  background-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
-}
-
-/* Opciones del select en navegadores que lo permiten */
-.custom-select-modal option {
-  background: #1e1e2e !important;
-  color: #e0e0e0 !important;
-  padding: 8px 12px !important;
-}
-
-.custom-select-modal option:hover {
-  background: rgba(168, 85, 247, 0.3) !important;
-  color: #c084fc !important;
-}
-
-.custom-select-modal option:checked {
-  background: rgba(168, 85, 247, 0.3) !important;
-  color: #c084fc !important;
-}
-
-/* Firefox específicamente */
-.custom-select-modal option {
-  background: #1a1a2e;
+.form-group p {
   color: #e0e0e0;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
 }
 
 /* =========================================================
-   ERROR MESSAGE
+   CONTENT BOX
 ========================================================= */
-.form-error {
-  padding: 10px 12px;
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+.content-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(168, 85, 247, 0.1);
   border-radius: 6px;
-  color: #fca5a5;
+  padding: 12px;
+  color: #e0e0e0;
   font-size: 13px;
-  margin-top: 8px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   BADGES
+========================================================= */
+.badge-tipo {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.badge-topic {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.badge-respuesta {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* =========================================================
+   CONTENIDO PREVIEW
+========================================================= */
+.contenido-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contenido-titulo {
+  font-weight: 600;
+  color: #c084fc;
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contenido-texto {
+  color: #a0aec0;
+  font-size: 12px;
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
+   BOTONES TABLA
+========================================================= */
+:host ::ng-deep .p-button.p-button-info {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #3b82f6 !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+:host ::ng-deep .p-button.p-button-info:hover {
+  background: rgba(59, 130, 246, 0.3) !important;
+  border-color: rgba(59, 130, 246, 0.6) !important;
+}
+
+:host ::ng-deep .p-button.p-button-danger {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+:host ::ng-deep .p-button.p-button-danger:hover {
+  background: rgba(239, 68, 68, 0.3) !important;
+  border-color: rgba(239, 68, 68, 0.6) !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 768px) {
+  .admin-section {
+    padding: 20px;
+  }
+
+  .section-header {
+    flex-direction: column;
+  }
+
+  .filter-section {
+    flex-direction: column;
+  }
+
+  .search-input,
+  .filter-select {
+    width: 100%;
+  }
+
+  .contenido-preview {
+    max-width: 200px;
+  }
 }
