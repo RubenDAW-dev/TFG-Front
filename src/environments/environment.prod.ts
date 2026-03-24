@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://futstats360.azurewebsites.net/api'
+  apiUrl: 'tfg-backend-villar-ezdce8e4axegchdt.spaincentral-01.azurewebsites.net'
 };
