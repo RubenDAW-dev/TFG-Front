@@ -6,9 +6,14 @@ const PORT = process.env.PORT || 8080;
 
 const distPath = path.join(__dirname, 'dist/tfg/browser');
 
-app.use(express.static(distPath));
+// Servir archivos estáticos
+app.use(express.static(distPath, {
+  maxAge: '1y',
+  index: false // IMPORTANTE
+}));
 
-app.get('/*', (req, res) => {
+// Todas las rutas → Angular
+app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
