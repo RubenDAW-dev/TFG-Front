@@ -16,6 +16,7 @@ export class App {
 
   // señal reactiva para saber si ocultar
   hideLayoutSignal = signal(false);
+  title = "FutStats360";
 
   constructor() {
   this.router.events
