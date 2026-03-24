@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:8080/api'
+  apiUrl: 'https://tfg-backend-villar-ezdce8e4axegchdt.spaincentral-01.azurewebsites.net/api'
 };
