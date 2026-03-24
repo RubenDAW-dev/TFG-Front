@@ -26,12 +26,12 @@ jobs:
       - name: Build Angular
         run: npm run build --if-present
 
-      # Subimos SOLO la carpeta final del build Angular
+      # OJO: subimos SOLO el dist final
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: angular-build
-          path: dist/TFG/browser
+          path: dist/TFG-Front/browser
 
   deploy:
     runs-on: ubuntu-latest
