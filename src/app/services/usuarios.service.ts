@@ -40,4 +40,8 @@ export class UsuariosService {
   cambiarRol(id: number, nuevoRol: number): Observable<UsuarioDTO> {
     return this.http.put<UsuarioDTO>(`${this.api}/${id}/rol`, { rol: nuevoRol });
   }
+
+  resetPassword(id: number, newPassword: string): Observable<void> {
+    return this.http.post<void>(`${this.api}/${id}/reset-password/${newPassword}`, {});
+  }
 }

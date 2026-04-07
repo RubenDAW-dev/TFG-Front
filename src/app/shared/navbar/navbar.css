@@ -65,12 +65,25 @@
   padding: 8px 2px;
   border-bottom: 2px solid transparent;
   transition: 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a i {
+  font-size: 1rem;
+  color: #c084fc;
 }
 
 .nav-links a:hover {
   color: #c084fc;
   text-shadow: 0 0 10px rgba(192,132,252,0.5);
 }
+
+.nav-links a:hover i {
+  transform: translateX(1px);
+}
+
 
 .nav-links a.active {
   border-bottom-color: #a855f7;

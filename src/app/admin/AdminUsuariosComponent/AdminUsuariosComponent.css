@@ -145,6 +145,37 @@
 /* =========================================================
    TABLA PRIMENG (tema oscuro)
 ========================================================= */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.action-buttons button {
+  margin: 0 !important;
+  width: 2.4rem !important;
+  min-width: 2.4rem !important;
+  height: 2.4rem !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 1024px) {
+  .action-buttons {
+    gap: 0.2rem;
+  }
+}
+
+.truncate-cell {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 :host ::ng-deep .p-datatable {
   background: transparent !important;
   color: #e0e0e0 !important;

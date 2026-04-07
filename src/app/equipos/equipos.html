@@ -27,6 +27,10 @@
 
                 <ng-template pTemplate="caption">
                     <div class="caption-bar">
+                        <p-button label="Filtros" icon="pi pi-filter" severity="secondary" [outlined]="true"
+                          (click)="filterMenu.toggle($event)">
+                        </p-button>
+
                         <div class="search-wrapper">
                             <i class="pi pi-search search-icon"></i>
                             <input pInputText type="text" class="search-input"
@@ -34,15 +38,37 @@
                                 placeholder="Buscar equipo..." />
                         </div>
                     </div>
+
+                    <p-popover #filterMenu [style]="{ width: '320px' }" appendTo="body">
+                      <div class="filter-popover">
+                        <h3 class="filter-title">Filtrar por ciudad</h3>
+
+                        <div class="filter-field">
+                          <label>Ciudad</label>
+                          <p-select [options]="cities" [(ngModel)]="selectedCity" placeholder="Todas las ciudades"
+                            optionLabel="label" optionValue="value" appendTo="body" styleClass="w-full">
+                          </p-select>
+                        </div>
+
+                        <div class="filter-actions">
+                          <p-button label="Limpiar" severity="secondary" [text]="true"
+                            (click)="clearFilters(); filterMenu.hide()">
+                          </p-button>
+
+                          <p-button label="Aplicar" icon="pi pi-check" (click)="applyFilters(); filterMenu.hide()">
+                          </p-button>
+                        </div>
+                      </div>
+                    </p-popover>
                 </ng-template>
                 <!-- CABECERA -->
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="teamName">Equipo <p-sortIcon field="teamName"></p-sortIcon></th>
+                        <th>Pos</th>
+                        <th pSortableColumn="teamName"> Equipo <p-sortIcon field="teamName"></p-sortIcon></th>
 
                         <!-- CLASIFICACIÓN -->
                         @if (activeTab === 'clasificacion') {
-                            <th pSortableColumn="posicion">Pos</th>
                             <th pSortableColumn="puntos">Pts <p-sortIcon field="puntos"></p-sortIcon></th>
                             <th pSortableColumn="partidos">PJ <p-sortIcon field="partidos"></p-sortIcon></th>
                             <th pSortableColumn="victorias">V <p-sortIcon field="victorias"></p-sortIcon></th>
@@ -91,15 +117,18 @@
                 <!-- CUERPO -->
                 <ng-template pTemplate="body" let-t let-i="rowIndex">
                     <tr>
+                        <td>{{ i + 1 }}</td>
                         <td>
-                            <a [routerLink]="['/equipos', t.teamId]" class="team-link">
-                                {{ t.teamName }}
-                            </a>
+                            <div class="team-cell">
+                                <img *ngIf="t.imagenUrl" [src]="t.imagenUrl" alt="{{ t.teamName }}" class="team-shield">
+                                <a [routerLink]="['/equipos', t.teamId]" class="team-link">
+                                    {{ t.teamName }}
+                                </a>
+                            </div>
                         </td>
 
                         <!-- CLASIFICACIÓN -->
                         @if (activeTab === 'clasificacion') {
-                            <td>{{ i + 1 }}</td>
                             <td><b style="color: #c084fc">{{ t.puntos }}</b></td>
                             <td>{{ t.partidos }}</td>
                             <td>{{ t.victorias }}</td>
@@ -149,7 +178,7 @@
 
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="9" class="text-center p-4" style="color: #a0aec0;">
+                        <td colspan="10" class="text-center p-4" style="color: #a0aec0;">
                             No se encontraron equipos.
                         </td>
                     </tr>

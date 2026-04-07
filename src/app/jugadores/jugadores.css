@@ -331,6 +331,26 @@
 .tab-btn i {
   font-size: 0.8rem;
 }
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-image {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.player-cell:hover .player-image {
+  opacity: 1;
+}
+
 .player-link {
   color: #c084fc;
   text-decoration: none;

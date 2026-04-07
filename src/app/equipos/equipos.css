@@ -98,11 +98,46 @@
   font-size: 0.8rem;
 }
 
+
+.filter-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px;
+}
+
+.filter-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #c084fc;
+  margin: 0;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #a0aec0;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(168, 85, 247, 0.15);
+}
+
 /* ── CAPTION ── */
 .caption-bar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
   width: 100%;
   padding-bottom: 16px;
@@ -282,6 +317,24 @@
   background: rgba(168, 85, 247, 0.25) !important;
 }
 
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-shield {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 4px;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.team-cell:hover .team-shield {
+  opacity: 1;
+}
 
 .team-link {
   color: #c084fc;

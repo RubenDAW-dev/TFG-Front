@@ -50,38 +50,46 @@
     
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-        <th>Rol</th>
-        <th style="width: 10%">Acciones</th>
+        <th pSortableColumn="nombre" style="width: 26%; min-width: 180px;">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+        <th pSortableColumn="email" style="width: 30%; min-width: 180px;">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th style="width: 16%; min-width: 120px;">Rol</th>
+        <th style="width: 160px; min-width: 150px;">Acciones</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-usuario>
       <tr>
-        <td><strong>{{ usuario.nombre }}</strong></td>
-        <td>{{ usuario.email }}</td>
+        <td><strong class="truncate-cell">{{ usuario.nombre }}</strong></td>
+        <td><span class="truncate-cell">{{ usuario.email }}</span></td>
         <td>
           <span class="badge-rol" [class.badge-admin]="usuario.rol === 1" [class.badge-user]="usuario.rol === 0">
             {{ getRolNombre(usuario.rol) }}
           </span>
         </td>
         <td>
-          <button pButton type="button" 
-                  icon="pi pi-pencil" 
-                  class="p-button-rounded p-button-warning p-button-sm"
-                  (click)="abrirModalRol(usuario)"
-                  pTooltip="Cambiar rol" 
-                  tooltipPosition="top">
-          </button>
-          <button pButton type="button" 
-                  icon="pi pi-trash" 
-                  class="p-button-rounded p-button-danger p-button-sm"
-                  (click)="eliminarUsuario(usuario.id, usuario.nombre)"
-                  pTooltip="Eliminar" 
-                  tooltipPosition="top"
-                  style="margin-left: 0.5rem;">
-          </button>
+          <div class="action-buttons">
+            <button pButton type="button" 
+                    icon="pi pi-pencil" 
+                    class="p-button-rounded p-button-warning p-button-sm"
+                    (click)="abrirModalRol(usuario)"
+                    pTooltip="Cambiar rol" 
+                    tooltipPosition="top">
+            </button>
+            <button pButton type="button"
+                    icon="pi pi-key"
+                    class="p-button-rounded p-button-success p-button-sm"
+                    (click)="abrirModalPassword(usuario)"
+                    pTooltip="Resetear contraseña"
+                    tooltipPosition="top">
+            </button>
+            <button pButton type="button" 
+                    icon="pi pi-trash" 
+                    class="p-button-rounded p-button-danger p-button-sm"
+                    (click)="eliminarUsuario(usuario.id, usuario.nombre)"
+                    pTooltip="Eliminar" 
+                    tooltipPosition="top">
+            </button>
+          </div>
         </td>
       </tr>
     </ng-template>
@@ -155,6 +163,64 @@
     </button>
   </ng-template>
 
+</p-dialog>
+
+<!-- MODAL RESET CONTRASEÑA -->
+<p-dialog 
+  [(visible)]="mostrarModalPassword"
+  [header]="'Resetear contraseña'"
+  [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1000}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
+  [draggable]="false"
+  [resizable]="false"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+
+  <ng-template pTemplate="content">
+    <div class="form-modal">
+
+      <div class="form-group">
+        <label>Usuario:</label>
+        <p style="color: #c084fc; font-weight: 600;">{{ usuarioSeleccionado?.nombre }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Email:</label>
+        <p>{{ usuarioSeleccionado?.email }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Nueva contraseña</label>
+        <input type="password" pInputText [(ngModel)]="passwordNueva" class="input-modal" />
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar contraseña</label>
+        <input type="password" pInputText [(ngModel)]="passwordConfirm" class="input-modal" />
+      </div>
+
+      <div class="form-error" *ngIf="passwordError">⚠️ {{ passwordError }}</div>
+
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" 
+            label="Cancelar" 
+            (click)="cerrarModalPassword()"
+            class="p-button-text"
+            [disabled]="enviandoModal">
+    </button>
+
+    <button pButton type="button" 
+            label="Restablecer" 
+            (click)="guardarPassword()"
+            class="p-button-success"
+            [loading]="enviandoModal"
+            [disabled]="enviandoModal">
+    </button>
+  </ng-template>
 </p-dialog>
 
 <!-- MODAL CONFIRMACIÓN (SOLO PARA ELIMINAR) -->

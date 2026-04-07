@@ -213,103 +213,57 @@
     </div>
 
     <!-- ════════════════════════════════════════════════ -->
-    <!-- TABLAS DE JUGADORES (jugado)                    -->
+    <!-- GRÁFICOS DE JUGADORES (jugado)                   -->
     <!-- ════════════════════════════════════════════════ -->
-    <ng-container *ngIf="isPlayed() && playerStats.length > 0">
+    <ng-container *ngIf="isPlayed() && (homePlayers.length > 0 || awayPlayers.length > 0)">
 
-      <div class="panel-card" *ngIf="homePlayers.length > 0">
-        <h2>{{ match.homeTeam.nombre }}</h2>
-        <div class="table-wrap">
-          <table class="stats-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th class="col-name">Jugador</th>
-                <th>Pos</th>
-                <th>Min</th>
-                <th>Gol</th>
-                <th>Ast</th>
-                <th>Tiros</th>
-                <th>A puerta</th>
-                <th title="Tarjeta amarilla">TA</th>
-                <th title="Tarjeta roja">TR</th>
-                <th>Faltas</th>
-                <th>Interc.</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let p of homePlayers"
-                  [class.scored]="p.gls && p.gls > 0"
-                  [class.carded]="(p.yellowCards && p.yellowCards > 0) || (p.redCards && p.redCards > 0)">
-                <td class="col-num">{{ p.number }}</td>
-                <td class="col-name">{{ p.player.nombre }}</td>
-                <td class="col-pos">{{ p.pos }}</td>
-                <td>{{ p.minutes }}</td>
-                <td class="col-goals">{{ p.gls ?? 0 }}</td>
-                <td>{{ p.ast ?? 0 }}</td>
-                <td>{{ p.shots ?? 0 }}</td>
-                <td>{{ p.shotsOnTarget ?? 0 }}</td>
-                <td>
-                  <span class="card yellow" *ngIf="p.yellowCards && p.yellowCards > 0">{{ p.yellowCards }}</span>
-                  <span *ngIf="!p.yellowCards || p.yellowCards === 0">0</span>
-                </td>
-                <td>
-                  <span class="card red" *ngIf="p.redCards && p.redCards > 0">{{ p.redCards }}</span>
-                  <span *ngIf="!p.redCards || p.redCards === 0">0</span>
-                </td>
-                <td>{{ p.foulsCommitted ?? 0 }}</td>
-                <td>{{ p.interceptions ?? 0 }}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="panel-card">
+        <h2>📊 Estadísticas de Jugadores</h2>
+
+        <div class="charts-grid">
+
+          <!-- Gráfico de Goles -->
+          <div class="chart-container">
+            <canvas #goalsChart class="player-chart"></canvas>
+          </div>
+
+          <!-- Gráfico de Tiros -->
+          <div class="chart-container">
+            <canvas #shotsChart class="player-chart"></canvas>
+          </div>
+
+          <!-- Gráfico de Asistencias -->
+          <div class="chart-container">
+            <canvas #assistsChart class="player-chart"></canvas>
+          </div>
+
+          <!-- Gráfico de Intercepciones -->
+          <div class="chart-container">
+            <canvas #interceptionsChart class="player-chart"></canvas>
+          </div>
+
+          <!-- Gráfico de Tarjetas -->
+          <div class="chart-container">
+            <canvas #cardsChart class="player-chart"></canvas>
+          </div>
+
+          <!-- Gráfico de Duelos Ganados -->
+          <div class="chart-container">
+            <canvas #tacklesChart class="player-chart"></canvas>
+          </div>
+
         </div>
-      </div>
 
-      <div class="panel-card" *ngIf="awayPlayers.length > 0">
-        <h2>{{ match.awayTeam.nombre }}</h2>
-        <div class="table-wrap">
-          <table class="stats-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th class="col-name">Jugador</th>
-                <th>Pos</th>
-                <th>Min</th>
-                <th>Gol</th>
-                <th>Ast</th>
-                <th>Tiros</th>
-                <th>A puerta</th>
-                <th title="Tarjeta amarilla">TA</th>
-                <th title="Tarjeta roja">TR</th>
-                <th>Faltas</th>
-                <th>Interc.</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let p of awayPlayers"
-                  [class.scored]="p.gls && p.gls > 0"
-                  [class.carded]="(p.yellowCards && p.yellowCards > 0) || (p.redCards && p.redCards > 0)">
-                <td class="col-num">{{ p.number }}</td>
-                <td class="col-name">{{ p.player.nombre }}</td>
-                <td class="col-pos">{{ p.pos }}</td>
-                <td>{{ p.minutes }}</td>
-                <td class="col-goals">{{ p.gls ?? 0 }}</td>
-                <td>{{ p.ast ?? 0 }}</td>
-                <td>{{ p.shots ?? 0 }}</td>
-                <td>{{ p.shotsOnTarget ?? 0 }}</td>
-                <td>
-                  <span class="card yellow" *ngIf="p.yellowCards && p.yellowCards > 0">{{ p.yellowCards }}</span>
-                  <span *ngIf="!p.yellowCards || p.yellowCards === 0">0</span>
-                </td>
-                <td>
-                  <span class="card red" *ngIf="p.redCards && p.redCards > 0">{{ p.redCards }}</span>
-                  <span *ngIf="!p.redCards || p.redCards === 0">0</span>
-                </td>
-                <td>{{ p.foulsCommitted ?? 0 }}</td>
-                <td>{{ p.interceptions ?? 0 }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Leyenda de colores -->
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-color home"></span>
+            <span>{{ match.homeTeam.nombre }}</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color away"></span>
+            <span>{{ match.awayTeam.nombre }}</span>
+          </div>
         </div>
       </div>
 

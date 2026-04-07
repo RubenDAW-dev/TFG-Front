@@ -47,6 +47,12 @@ export class AdminUsuariosComponent implements OnInit {
   usuarioSeleccionado: any = null;
   nuevoRol: number = 0;
 
+  // MODAL RESET PASSWORD
+  mostrarModalPassword = false;
+  passwordNueva = '';
+  passwordConfirm = '';
+  passwordError: string | null = null;
+
   // MODAL CONFIRMACIÓN (SOLO PARA ELIMINAR)
   modalVisible = false;
   modalTitulo = '';
@@ -217,6 +223,60 @@ export class AdminUsuariosComponent implements OnInit {
     this.usuarioSeleccionado = null;
     this.nuevoRol = 0;
     this.error = null;
+    this.cdr.detectChanges();
+  }
+
+  abrirModalPassword(usuario: any): void {
+    this.usuarioSeleccionado = usuario;
+    this.passwordNueva = '';
+    this.passwordConfirm = '';
+    this.passwordError = null;
+    this.mostrarModalPassword = true;
+    this.cdr.detectChanges();
+  }
+
+  guardarPassword(): void {
+    if (!this.usuarioSeleccionado) return;
+
+    this.passwordError = null;
+
+    if (!this.passwordNueva || !this.passwordConfirm) {
+      this.passwordError = 'Debes completar ambos campos de contraseña.';
+      return;
+    }
+
+    if (this.passwordNueva !== this.passwordConfirm) {
+      this.passwordError = 'Las contraseñas no coinciden.';
+      return;
+    }
+
+    if (this.passwordNueva.length < 6) {
+      this.passwordError = 'La contraseña debe tener al menos 6 caracteres.';
+      return;
+    }
+
+    this.enviandoModal = true;
+    this.usuariosService.resetPassword(this.usuarioSeleccionado.id, this.passwordNueva).subscribe({
+      next: () => {
+        this.enviandoModal = false;
+        this.cerrarModalPassword();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al resetear contraseña:', err);
+        this.passwordError = 'Error al resetear la contraseña. Intenta de nuevo.';
+        this.enviandoModal = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  cerrarModalPassword(): void {
+    this.mostrarModalPassword = false;
+    this.passwordNueva = '';
+    this.passwordConfirm = '';
+    this.passwordError = null;
+    this.usuarioSeleccionado = null;
     this.cdr.detectChanges();
   }
 

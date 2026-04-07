@@ -140,9 +140,14 @@
         <ng-template pTemplate="body" let-p>
           <tr>
             <!-- Fijas -->
-            <td><a [routerLink]="['/jugadores', p.playerId]" class="player-link">
-                {{ p.playerName }}
-              </a></td>
+            <td>
+                <div class="player-cell">
+                    <img *ngIf="p.imageUrl" [src]="p.imageUrl" alt="{{ p.playerName }}" class="player-image">
+                    <a [routerLink]="['/jugadores', p.playerId]" class="player-link">
+                        {{ p.playerName }}
+                    </a>
+                </div>
+            </td>
             <td>{{ p.teamName }}</td>
 
             <!-- BÁSICAS -->
