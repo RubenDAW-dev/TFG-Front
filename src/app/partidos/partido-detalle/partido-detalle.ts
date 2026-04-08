@@ -444,7 +444,7 @@ export class PartidoDetalle implements OnInit {
           legend: { display: false },
           title: {
             display: true,
-            text: 'Tiros a Puerta',
+            text: 'Tiros',
             font: { size: 16, weight: 'bold' }
           }
         },

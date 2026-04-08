@@ -10,6 +10,7 @@ import { PastMatchDTO } from '../shared/models/past-match.dto';
 import { FutureMatchDTO } from '../shared/models/future-match.dto';
 import { PastMatches } from './components/past-matches/past-matches';
 import { NextMatches } from './components/next-matches/next-matches';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,8 @@ import { NextMatches } from './components/next-matches/next-matches';
     LeagueTableComponent,
     PastMatches,
     NextMatches,
-    CommonModule
+    CommonModule,
+    RouterModule
   ]
 })
 export class DashboardComponent implements OnInit {

@@ -1,46 +1,74 @@
-<div class="dashboard-wrapper">
-    <!-- Main Content -->
-  <div class="main-content">
-    <div class="panels-grid">
-
-      <!-- Left Column: Scorers + Past Matches -->
-      <div class="left-column">
-        
-        <!-- Top Scorers -->
-        <div class="panel-card">
-          <app-top-scorers [players]="topScorers()"></app-top-scorers>
-        </div>
-
-        <!-- NEW COMPONENT: Past Matches -->
-        <div class="panel-card">
-          <app-past-matches [matches]="pastMatches()"></app-past-matches>
-        </div>
-
+<div class="home-wrapper">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Bienvenido a FUTStats360</h1>
+      <p class="hero-subtitle">Tu plataforma definitiva para estadísticas de fútbol. Explora jugadores, equipos, partidos y más.</p>
+      <div class="hero-actions">
+        <a routerLink="/jugadores" class="btn-primary">Explorar Jugadores</a>
+        <a routerLink="/equipos" class="btn-secondary">Ver Equipos</a>
       </div>
+    </div>
+  </section>
 
-      <!-- Center Column: League Table -->
-      <div class="center-column">
-        <div class="panel-card center-panel">
-          <app-league-table [table]="leagueTable()"></app-league-table>
+  <!-- Featured Stats Section -->
+  <section class="featured-stats">
+    <div class="container">
+      <h2 class="section-title">Estadísticas Destacadas</h2>
+      <div class="stats-layout">
+        <div class="tops-section">
+          <div class="stat-card small-card">
+            <app-top-scorers [players]="topScorers()"></app-top-scorers>
+          </div>
+          <div class="stat-card small-card">
+            <app-top-assits [players]="topAssists()"></app-top-assits>
+          </div>
+        </div>
+        <div class="table-section">
+          <div class="stat-card large-card">
+            <app-league-table [table]="leagueTable()"></app-league-table>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Right Column: Assists + Next Matches -->
-      <div class="right-column">
-        
-        <!-- Top Assists -->
-        <div class="panel-card">
-          <app-top-assits [players]="topAssists()"></app-top-assits>
-        </div>
-
-        <!-- NEW COMPONENT: Next Matches -->
-        <div class="panel-card">
+  <!-- Upcoming Matches Section -->
+  <section class="upcoming-matches">
+    <div class="container">
+      <h2 class="section-title">Partidos</h2>
+      <div class="matches-grid">
+        <div class="match-card">
           <app-next-matches [matches]="nextMatches()"></app-next-matches>
         </div>
-
+        <div class="match-card">
+          <app-past-matches [matches]="pastMatches()"></app-past-matches>
+        </div>
       </div>
-
     </div>
-  </div>
+  </section>
 
+  <!-- Quick Links Section -->
+  <section class="quick-links">
+    <div class="container">
+      <h2 class="section-title">Explora Más</h2>
+      <div class="links-grid">
+        <a routerLink="/partidos" class="link-card">
+          <i class="pi pi-calendar"></i>
+          <h3>Partidos</h3>
+          <p>Revisa resultados y próximos encuentros.</p>
+        </a>
+        <a routerLink="/comparador" class="link-card">
+          <i class="pi pi-chart-line"></i>
+          <h3>Comparador</h3>
+          <p>Compara estadísticas de jugadores y equipos.</p>
+        </a>
+        <a routerLink="/foro" class="link-card">
+          <i class="pi pi-comments"></i>
+          <h3>Foro</h3>
+          <p>Únete a la comunidad y discute sobre fútbol.</p>
+        </a>
+      </div>
+    </div>
+  </section>
 </div>

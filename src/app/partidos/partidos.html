@@ -21,26 +21,28 @@
       <h2>Jornada {{ currentRound }}</h2>
 
       <div class="matches-grid-2col" *ngIf="currentRoundMatches.length > 0; else noCurrentMatches">
-        <div
-          class="match-row current"
-          *ngFor="let match of currentRoundMatches"
-          [ngClass]="getResultClass(match)"
-          [routerLink]="['/partidos', match.id]" style="cursor:pointer"
-        >
-          <span class="col-left">{{ match.homeTeam.nombre }}</span>
+        <div class="match-row current" *ngFor="let match of currentRoundMatches" [ngClass]="getResultClass(match)"
+          [routerLink]="['/partidos', match.id]" style="cursor:pointer">
+          <div class="team home">
+            <img class="team-shield" [src]="match.homeTeam.escudo" [alt]="match.homeTeam.nombre + ' logo'" />
+            <span>{{ match.homeTeam.nombre }}</span>
+          </div>
 
           <!-- Con resultado -->
-          <span class="col-center strong" *ngIf="match.score && match.score.trim() !== ''">
-            {{ match.score }}
-          </span>
+          <div class="score" *ngIf="match.score && match.score.trim() !== ''">
+            <span class="strong">{{ match.score }}</span>
+          </div>
 
           <!-- Sin resultado: fecha y hora -->
-          <span class="col-center" *ngIf="!match.score || match.score.trim() === ''">
-            <span class="day">{{ formatDate(match.date) }}</span>
+          <div class="score" *ngIf="!match.score || match.score.trim() === ''">
+            <span class="day">{{ formatDate(match.date) }}  </span>
             <span class="time">{{ match.time }}</span>
-          </span>
+          </div>
 
-          <span class="col-right">{{ match.awayTeam.nombre }}</span>
+          <div class="team away">
+            <span>{{ match.awayTeam.nombre }}</span>
+            <img class="team-shield" [src]="match.awayTeam.escudo" [alt]="match.awayTeam.nombre + ' logo'" />
+          </div>
         </div>
       </div>
 
@@ -55,18 +57,10 @@
     <div class="panel-card">
 
       <div class="tabs">
-        <button
-          class="tab-btn"
-          [class.active]="activeTab === 'played'"
-          (click)="activeTab = 'played'"
-        >
+        <button class="tab-btn" [class.active]="activeTab === 'played'" (click)="activeTab = 'played'">
           Jugados
         </button>
-        <button
-          class="tab-btn"
-          [class.active]="activeTab === 'upcoming'"
-          (click)="activeTab = 'upcoming'"
-        >
+        <button class="tab-btn" [class.active]="activeTab === 'upcoming'" (click)="activeTab = 'upcoming'">
           Próximos
         </button>
       </div>
@@ -74,11 +68,7 @@
       <!-- ── JUGADOS ── -->
       <ng-container *ngIf="activeTab === 'played'">
         <div class="round-selector">
-          <select
-            class="round-select"
-            [value]="selectedRound"
-            (change)="selectRound(+$any($event.target).value)"
-          >
+          <select class="round-select" [value]="selectedRound" (change)="selectRound(+$any($event.target).value)">
             <option *ngFor="let r of availableRounds" [value]="r">
               Jornada {{ r }}
             </option>
@@ -86,15 +76,27 @@
         </div>
 
         <div class="matches-grid-2col" *ngIf="selectedRound !== null">
-          <div
-            class="match-row"
-            *ngFor="let match of getMatchesByRound(selectedRound)"
-            [ngClass]="getResultClass(match)"
-            [routerLink]="['/partidos', match.id]" style="cursor:pointer"
-          >
-            <span class="col-left">{{ match.homeTeam.nombre }}</span>
-            <span class="col-center strong">{{ match.score }}</span>
-            <span class="col-right">{{ match.awayTeam.nombre }}</span>
+          <div class="match-row" *ngFor="let match of getMatchesByRound(selectedRound)"
+            [ngClass]="getResultClass(match)" [routerLink]="['/partidos', match.id]" style="cursor:pointer">
+            <div class="team home">
+              <img
+                class="team-shield"
+                [src]="match.homeTeam.escudo"
+                [alt]="match.homeTeam.nombre + ' logo'"
+              />
+              <span>{{ match.homeTeam.nombre }}</span>
+            </div>
+            <div class="score">
+              <span class="strong">{{ match.score }}</span>
+            </div>
+            <div class="team away">
+              <span>{{ match.awayTeam.nombre }}</span>
+              <img
+                class="team-shield"
+                [src]="match.awayTeam.escudo"
+                [alt]="match.awayTeam.nombre + ' logo'"
+              />
+            </div>
           </div>
         </div>
       </ng-container>
@@ -105,17 +107,29 @@
           <div class="upcoming-round-header">Jornada {{ round }}</div>
 
           <div class="matches-grid-2col">
-            <div
-              class="match-row upcoming"
-              *ngFor="let match of getUpcomingByRound(round)"
-              [routerLink]="['/partidos', match.id]" style="cursor:pointer"
-            >
-              <span class="col-left">{{ match.homeTeam.nombre }}</span>
-              <span class="col-center">
-                <span class="day">{{ formatDate(match.date) }}</span>
+            <div class="match-row upcoming" *ngFor="let match of getUpcomingByRound(round)"
+              [routerLink]="['/partidos', match.id]" style="cursor:pointer">
+
+              <div class="team home">
+                <img
+                  class="team-shield"
+                  [src]="match.homeTeam.escudo"
+                  [alt]="match.homeTeam.nombre + ' logo'"
+                />
+                <span>{{ match.homeTeam.nombre }}</span>
+              </div>
+              <div class="score">
+                <span class="day">{{ formatDate(match.date) }}  </span>
                 <span class="time">{{ match.time }}</span>
-              </span>
-              <span class="col-right">{{ match.awayTeam.nombre }}</span>
+              </div>
+              <div class="team away">
+                <span>{{ match.awayTeam.nombre }}</span>
+                <img
+                  class="team-shield"
+                  [src]="match.awayTeam.escudo"
+                  [alt]="match.awayTeam.nombre + ' logo'"
+                />
+              </div>
             </div>
           </div>
         </div>

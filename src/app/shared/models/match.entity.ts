@@ -4,6 +4,7 @@ export interface TeamEntity {
   estadio: string;
   ciudad: string;
   capacidad: number;
+  escudo:string;
 }
 
 export interface MatchEntity {

@@ -375,3 +375,21 @@
     flex-wrap: wrap;
   }
 }
+
+/* ── DATATABLE LOADING STYLES ── */
+:host ::ng-deep .p-datatable .p-datatable-loading-overlay,
+:host ::ng-deep .p-datatable .p-loading-overlay {
+  background-color: rgba(15, 20, 45, 0.95) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-loading-overlay .p-progress-spinner,
+:host ::ng-deep .p-datatable .p-loading-overlay .p-progress-spinner {
+  color: #c084fc !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody,
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr,
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  background: transparent !important;
+}
