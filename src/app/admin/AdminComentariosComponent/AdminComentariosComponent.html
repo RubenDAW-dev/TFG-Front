@@ -53,7 +53,6 @@
         <th>Tipo</th>
         <th>Título/Contenido</th>
         <th pSortableColumn="usuarioNombre">Autor <p-sortIcon field="usuarioNombre"></p-sortIcon></th>
-        <th>Contexto</th>
         <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
         <th style="width: 10%">Acciones</th>
       </tr>
@@ -73,7 +72,7 @@
           </div>
         </td>
         <td><strong>{{ comentario.usuarioNombre }}</strong></td>
-        <td>{{ getTargetLabel(comentario) }}</td>
+        
         <td>{{ comentario.fecha | date:'dd/MM/yyyy' }}</td>
         <td>
           <button pButton type="button" 
@@ -120,17 +119,12 @@
 
       <div class="form-group">
         <label>Autor:</label>
-        <p style="color: #c084fc; font-weight: 600;">{{ comentarioSeleccionado?.usuarioNombre }}</p>
+        <p style="color: #b91c1c; font-weight: 600;">{{ comentarioSeleccionado?.usuarioNombre }}</p>
       </div>
 
       <div class="form-group">
         <label>Tipo:</label>
         <p>{{ getTipoComentario(comentarioSeleccionado) }}</p>
-      </div>
-
-      <div class="form-group">
-        <label>Contexto:</label>
-        <p>{{ getTargetLabel(comentarioSeleccionado) }}</p>
       </div>
 
       <div class="form-group">

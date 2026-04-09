@@ -1,15 +1,15 @@
-.app-footer {
+﻿.app-footer {
   width: 100%;
-  background: linear-gradient(135deg, rgba(30, 41, 70) 0%, rgba(20, 30, 50) 100%);
+  background: linear-gradient(135deg, rgba(255, 247, 239, 1) 0%, rgba(255, 236, 226, 1) 100%);
   padding: 25px 0;
-  border-top: 2px solid #a855f7;
+  border-top: 2px solid rgba(185, 28, 28, 0.25);
 }
 
 .footer-content {
   max-width: 1600px;
   margin: 0 auto;
   text-align: center;
-  color: #a0aec0;
+  color: #4b2920;
   font-size: 0.9rem;
 }
 
@@ -21,8 +21,15 @@
 }
 
 .footer-links a {
-  color: #a0aec0;
+  color: #b91c1c;
   text-decoration: none;
   font-weight: 500;
   transition: 0.3s ease;
 }
+
+.footer-links a:hover {
+  color: #991b1b;
+}
+
+
+

@@ -1,12 +1,12 @@
-/* comparador.component.css */
+﻿/* comparador.component.css */
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap');
 
 /* ── Wrapper ────────────────────────────────────────────── */
 .comparador-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  background: linear-gradient(135deg, #f8ede3 0%, #f3e0d3 100%);
   font-family: 'Barlow', sans-serif;
-  color: #e8edf5;
+  color: #351a11;
   padding: 2rem;
   box-sizing: border-box;
 }
@@ -18,14 +18,14 @@
   justify-content: space-between;
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(185, 28, 28, 0.16);
 }
 
 .page-title {
   font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: 3px;
-  background: linear-gradient(90deg, #c084fc, #a855f7);
+  background: linear-gradient(90deg, #b91c1c, #ef4444);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -35,11 +35,10 @@
 .tab-switcher {
   display: flex;
   gap: 0.5rem;
-  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
-
+  background: rgba(255, 248, 242, 0.96);
   padding: 0.25rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(185, 28, 28, 0.16);
 }
 
 .tab-btn {
@@ -50,7 +49,7 @@
   padding: 0.5rem 1.25rem;
   border: none;
   background: transparent;
-  color: #5a6478;
+  color: #5f4338;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -79,9 +78,8 @@
 }
 
 .selector-panel {
-  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
-
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 248, 242, 0.96);
+  border: 1px solid rgba(185, 28, 28, 0.16);
   border-radius: 12px;
   padding: 1.5rem;
   position: relative;
@@ -89,11 +87,11 @@
 }
 
 .selector-panel.left-panel {
-  border-top: 3px solid #00d4ff;
+  border-top: 3px solid #b91c1c;
 }
 
 .selector-panel.right-panel {
-  border-top: 3px solid #ff5078;
+  border-top: 3px solid #ef4444;
 }
 
 .selector-label {
@@ -123,9 +121,9 @@
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  color: #e8edf5;
+  background: rgba(255, 248, 242, 0.96);
+  border: 1px solid rgba(185, 28, 28, 0.16);
+  color: #351a11;
   font-family: 'Barlow', sans-serif;
   font-size: 0.95rem;
   padding: 0.7rem 2.5rem 0.7rem 1rem;
@@ -139,19 +137,20 @@
 }
 
 .custom-select:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 248, 242, 1);
 }
 
 .custom-select option {
-  background: #1a2232;
+  background: #fff6f0;
+  color: #351a11;
 }
 
 .custom-select.select-a:focus {
-  border-color: #00d4ff;
+  border-color: #b91c1c;
 }
 
 .custom-select.select-b:focus {
-  border-color: #ff5078;
+  border-color: #ef4444;
 }
 
 /* Team Badge */
@@ -205,8 +204,8 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.12);
-  background: #111827;
+  border: 2px solid rgba(185, 28, 28, 0.16);
+  background: #fff3ee;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -219,7 +218,7 @@
   font-size: 1rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: #5a6478;
+  color: #7f4f43;
 }
 
 .vs-line {
@@ -238,9 +237,8 @@
 
 /* ── Stats Panels ───────────────────────────────────────── */
 .stats-panel {
-  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
-
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 248, 242, 0.97);
+  border: 1px solid rgba(185, 28, 28, 0.16);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -250,15 +248,15 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1.1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(185, 28, 28, 0.16);
 }
 
 .stats-header.header-a {
-  border-left: 3px solid #00d4ff;
+  border-left: 3px solid #b91c1c;
 }
 
 .stats-header.header-b {
-  border-left: 3px solid #ff5078;
+  border-left: 3px solid #ef4444;
 }
 
 .stats-team-name {
@@ -266,7 +264,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #e8edf5;
+  color: #351a11;
   flex: 1;
 }
 
@@ -277,13 +275,13 @@
 }
 
 .stats-dot.dot-a {
-  background: #00d4ff;
-  box-shadow: 0 0 8px #00d4ff;
+  background: #b91c1c;
+  box-shadow: 0 0 10px rgba(185, 28, 28, 0.4);
 }
 
 .stats-dot.dot-b {
-  background: #ff5078;
-  box-shadow: 0 0 8px #ff5078;
+  background: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
 .stats-list {
@@ -299,11 +297,11 @@
 }
 
 .stat-row:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(185, 28, 28, 0.08);
 }
 
 .stat-row.winner {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(239, 68, 68, 0.12);
 }
 
 .stat-label {
@@ -311,7 +309,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: #5a6478;
+  color: #5f4338;
   text-transform: uppercase;
   min-width: 90px;
 }
@@ -335,7 +333,7 @@
 .stat-bar-wrapper {
   flex: 1;
   height: 4px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(71, 18, 15, 0.08);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -349,11 +347,11 @@
 }
 
 .stat-bar.bar-a {
-  background: linear-gradient(90deg, #00a8cc, #00d4ff);
+  background: linear-gradient(90deg, #b91c1c, #ef4444);
 }
 
 .stat-bar.bar-b {
-  background: linear-gradient(90deg, #ff5078, #ff7a96);
+  background: linear-gradient(90deg, #ef4444, #fda4af);
 }
 
 /* Panel derecho invertido */
@@ -377,9 +375,8 @@
 
 /* ── Radar Container ────────────────────────────────────── */
 .radar-container {
-  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
-
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 248, 242, 0.97);
+  border: 1px solid rgba(185, 28, 28, 0.16);
   border-radius: 12px;
   padding: 1rem;
   display: flex;
@@ -392,7 +389,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: #5a6478;
+  color: #5f4338;
   margin-bottom: 1.25rem;
 }
 
@@ -405,7 +402,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: #5a6478;
+  color: #5f4338;
 }
 
 .legend-dot {
@@ -425,7 +422,7 @@
 }
 
 .legend-label {
-  color: #e8edf5;
+  color: #351a11;
 }
 
 /* ── Placeholder ────────────────────────────────────────── */
@@ -436,13 +433,13 @@
   align-items: center;
   justify-content: center;
   padding: 5rem;
-  color: #5a6478;
+  color: #5f4338;
 }
 
 .placeholder-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 .placeholder-text {
@@ -451,7 +448,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.5;
+  color: #5f4338;
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
@@ -499,7 +496,7 @@
 
 /* ── Segundo Radar ──────────────────────────────────────── */
 .radar-detail-spacer {
-  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);
 
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 12px;
@@ -520,7 +517,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.3rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(185, 28, 28, 0.16);
 }
 
 .detail-key {
@@ -528,7 +525,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: #5a6478;
+  color: #351a11;
   text-transform: uppercase;
   flex: 1;
 }
@@ -542,11 +539,11 @@
 }
 
 .detail-val.val-a {
-  color: #00d4ff;
+  color: #b91c1c;
 }
 
 .detail-val.val-b {
-  color: #ff5078;
+  color: #ef4444;
 }
 
 .detail-sep {
@@ -563,79 +560,73 @@
 
 /* Cambiar color del cuadro del select */
 :host ::ng-deep .ng-select .ng-select-container {
-  background: #0d1520;
-  /* mismo fondo que tus panels */
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  color: #e8edf5;
+  background: rgba(255, 248, 242, 0.96);
+  border: 1px solid rgba(185, 28, 28, 0.16);
+  color: #351a11;
 }
 
 /* Cambiar color del desplegable */
 :host ::ng-deep .ng-dropdown-panel {
-  background: #1a2232;
-  /* fondo oscuro del dropdown */
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #fff6f0;
+  border: 1px solid rgba(185, 28, 28, 0.16);
 }
 
 :host ::ng-deep .ng-option-marked {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(239, 68, 68, 0.12);
 }
 
 /* Color del texto del selector */
 :host ::ng-deep .ng-select {
-  color: #e8edf5;
+  color: #351a11;
 }
 
 /* Color del texto dentro del select */
 :host ::ng-deep .ng-select-container {
-  color: #e8edf5;
+  color: #351a11;
 }
 
 :host ::ng-deep .ng-select input::placeholder {
-  color: #5a6478;
+  color: #7f4f43;
 }
 
 /* Contenedor general del select */
 :host ::ng-deep .ng-select .ng-select-container {
-  background: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
-
-  /* mismo que tus panels */
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 248, 242, 0.96);
+  border: 1px solid rgba(185, 28, 28, 0.16);
   border-radius: 8px;
-  color: #e8edf5;
-  /* color del texto seleccionado */
+  color: #351a11;
 }
 
 /* Input de búsqueda */
 :host ::ng-deep .ng-select .ng-input input {
-  color: #e8edf5;
-  /* color del texto que escribes */
+  color: #351a11;
   background: transparent;
-  /* fondo transparente para que se vea el panel */
 }
 
 /* Placeholder del input */
 :host ::ng-deep .ng-select .ng-input input::placeholder {
-  color: #5a6478;
-  /* placeholder gris */
+  color: #7f4f43;
 }
 
 /* Dropdown */
 :host ::ng-deep .ng-dropdown-panel {
-  background: #1a2232;
-  /* fondo oscuro del desplegable */
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #fff6f0;
+  border: 1px solid rgba(185, 28, 28, 0.16);
 }
 
 /* Opciones dentro del dropdown */
 :host ::ng-deep .ng-dropdown-panel .ng-option {
-  color: #e8edf5;
+  color: #351a11;
   background: transparent;
 }
 
 :host ::ng-deep .ng-dropdown-panel .ng-option-marked {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(239, 68, 68, 0.12);
 }
 
 :host ::ng-deep .ng-dropdown-panel .ng-option-selected {
-  background: rgba(168, 85, 247, 0.15);
+  background: rgba(255, 238, 232, 0.85);
 }
+
+
+

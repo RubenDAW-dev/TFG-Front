@@ -1,22 +1,23 @@
-/* src/app/equipos/equipos-detalle/equipos-detalle.css */
+﻿/* src/app/equipos/equipos-detalle/equipos-detalle.css */
 
 /* Reutilizamos las mismas variables y estilos base de jugadores */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
 :host {
-  --bg: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
-  --surface: linear-gradient(135deg, rgba(30, 41, 70, 0.6) 0%, rgba(20, 30, 50, 0.6) 100%);
-  --border: rgba(255, 255, 255, 0.07);
-  --accent: #c084fc;
-  --accent-dim: rgba(0, 229, 160, 0.1);
-  --blue: #3d9cff;
-  --blue-dim: rgba(61, 156, 255, 0.12);
-  --yellow: #f5c542;
-  --yellow-dim: rgba(245, 197, 66, 0.12);
-  --red: #f5425a;
-  --red-dim: rgba(245, 66, 90, 0.12);
-  --text-1: #eef0f7;
-  --text-2: #6b7490;
+  --bg: linear-gradient(135deg, #f8ede3 0%, #f3e0d3 100%);
+  --surface: linear-gradient(135deg, rgba(255, 241, 233, 0.98) 0%, rgba(255, 244, 237, 0.98) 100%);
+  --surface-2: rgba(255, 244, 237, 0.95);
+  --border: rgba(161, 49, 49, 0.22);
+  --accent: #b91c1c;
+  --accent-dim: rgba(244, 163, 163, 0.22);
+  --blue: #ef4444;
+  --blue-dim: rgba(255, 210, 210, 0.22);
+  --yellow: #d97706;
+  --yellow-dim: rgba(249, 156, 56, 0.22);
+  --red: #b91c1c;
+  --red-dim: rgba(185, 28, 28, 0.22);
+  --text-1: #351a11;
+  --text-2: #5f4338;
   --radius: 14px;
   --font-d: 'Bebas Neue', Impact, sans-serif;
   --font-b: 'DM Sans', 'Segoe UI', sans-serif;
@@ -119,9 +120,9 @@
   display: inline-flex;
 
   background: none;
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(255, 210, 210, 0.65);
   border-radius: 8px;
-  color: #a855f7;
+  color: #ef4444;
 
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.85rem;
@@ -154,7 +155,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 80% at 20% -10%, rgba(0, 229, 160, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 20% -10%, rgba(244, 163, 163, 0.18) 0%, transparent 70%),
     linear-gradient(180deg, transparent 20%, var(--bg) 100%);
 }
 
@@ -185,7 +186,7 @@
   height: 110px;
   border-radius: 50%;
   background: var(--accent-dim);
-  border: 2px solid #c084fc;
+  border: 2px solid #b91c1c;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -224,7 +225,7 @@
   font-weight: 600;
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 248, 242, 0.95);
   color: var(--text-2);
   border: 1px solid var(--border);
 }
@@ -238,7 +239,7 @@
 .hero-kpis {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 248, 242, 0.9);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -266,7 +267,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: var(--text-2);
+  color: #5c3d32;
 }
 
 .kpi-sep {
@@ -316,11 +317,12 @@
 
 /* Cards */
 .card {
-  background: var(--surface);
+  background: rgba(255, 244, 237, 0.98);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 28px 32px;
   animation: fadeUp 0.4s ease both;
+  box-shadow: 0 18px 45px rgba(71, 18, 15, 0.08);
 }
 
 .card-title {
@@ -383,7 +385,7 @@
 .tabs {
   display: flex;
   gap: 4px;
-  background: var(--surface-2);
+  background: rgba(255, 244, 237, 0.96);
   border: 1px solid var(--border);
   border-radius: 100px;
   padding: 4px;
@@ -394,7 +396,7 @@
   border-radius: 100px;
   border: none;
   background: transparent;
-  color: var(--text-2);
+  color: #5c3d32;
   font-family: var(--font-b);
   font-size: 0.8rem;
   font-weight: 500;
@@ -434,7 +436,7 @@
 
 .sr-bar-wrap {
   height: 6px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 100px;
   overflow: hidden;
 }
@@ -614,3 +616,6 @@
     border-radius: 12px;
   }
 }
+
+
+

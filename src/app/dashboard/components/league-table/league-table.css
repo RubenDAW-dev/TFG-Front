@@ -1,16 +1,20 @@
-:host {
+﻿:host {
   display: block;
   height: 100%;
+  background: rgba(255, 248, 242, 0.93);
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(185, 28, 28, 0.12);
 }
 
 h2 {
-  color: #c084fc;
+  color: #b91c1c;
   font-size: 1.2rem;
   font-weight: 700;
   margin: 0 0 20px 0;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  border-bottom: 2px solid rgba(168, 85, 247, 0.3);
+  border-bottom: 2px solid rgba(185, 28, 28, 0.3);
   padding-bottom: 12px;
 }
 
@@ -20,22 +24,22 @@ h2 {
 }
 
 ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background: rgba(168, 85, 247, 0.2);
-  color: #c084fc;
+  background: rgba(254, 226, 226, 0.9);
+  color: #7f1d1d;
   padding: 12px;
   text-align: left;
   font-weight: 700;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+  border-bottom: 1px solid rgba(185, 28, 28, 0.15);
   border: none;
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   padding: 12px;
-  color: #e0e0e0;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+  color: #4b2920;
+  border-bottom: 1px solid rgba(185, 28, 28, 0.08);
   font-weight: 500;
   background: transparent;
 }
@@ -46,21 +50,21 @@ h2 {
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
-  background: rgba(168, 85, 247, 0.1) !important;
+  background: rgba(255, 238, 232, 0.95) !important;
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td:first-child {
   font-weight: 600;
-  color: #c084fc;
+  color: #b91c1c;
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(2) {
   font-weight: 700;
-  color: #a0a0a0;
+  color: #7f4f43;
 }
 
 .text-gray-500 {
-  color: #8892b0;
+  color: #765147;
   text-align: center;
   padding: 30px 20px;
   font-size: 0.9rem;
@@ -75,31 +79,31 @@ style {
 }
 
 .pos-blue {
-  color: #3b82f6;
+  color: #b91c1c;
   font-weight: 700;
   font-size: 1.1rem;
 }
 
 .pos-orange {
-  color: #f97316;
+  color: #ef4444;
   font-weight: 700;
   font-size: 1.1rem;
 }
 
 .pos-green {
-  color: #10b981;
+  color: #15803d;
   font-weight: 700;
   font-size: 1.1rem;
 }
 
 .pos-white {
-  color: #e0e0e0;
+  color: #4b2920;
   font-weight: 700;
   font-size: 1.1rem;
 }
 
 .pos-red {
-  color: #ef4444;
+  color: #b91c1c;
   font-weight: 700;
   font-size: 1.1rem;
 }
@@ -109,15 +113,18 @@ style {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(168, 85, 247, 0.05);
+  background: rgba(185, 28, 28, 0.08);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(168, 85, 247, 0.3);
+  background: rgba(185, 28, 28, 0.2);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(168, 85, 247, 0.5);
+  background: rgba(185, 28, 28, 0.35);
 }
+
+
+

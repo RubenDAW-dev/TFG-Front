@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    BASE
 ========================================================= */
 * {
@@ -11,15 +11,15 @@
    CONTENEDOR / SECCIÓN
 ========================================================= */
 .admin-section {
-  background: linear-gradient(135deg, rgba(15, 20, 45, 0.8) 0%, rgba(10, 14, 30, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(255, 248, 242, 0.95) 0%, rgba(10, 14, 30, 0.8) 100%);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(255, 210, 210, 0.65);
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
-  color: #e0e0e0;
+  color: #4b2920;
 }
 
 .admin-section::before {
@@ -29,7 +29,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #a855f7, transparent);
+  background: linear-gradient(90deg, transparent, #ef4444, transparent);
   opacity: 0.5;
 }
 
@@ -49,7 +49,7 @@
   font-size: 1.8rem;
   font-weight: 800;
   letter-spacing: 2px;
-  background: linear-gradient(90deg, #c084fc, #a855f7);
+  background: linear-gradient(90deg, #b91c1c, #ef4444);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -70,17 +70,17 @@
   flex: 1;
   min-width: 200px;
   padding: 10px 14px !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  background: rgba(255, 248, 242, 0.95) !important;
+  border: 1px solid rgba(255, 210, 210, 0.7) !important;
   border-radius: 8px !important;
-  color: #e0e0e0 !important;
+  color: #4b2920 !important;
   font-size: 13px !important;
   transition: 0.2s;
 }
 
 .search-input:focus {
-  border-color: rgba(168, 85, 247, 0.8) !important;
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2) !important;
+  border-color: rgba(255, 210, 210, 0.7) !important;
+  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.55) !important;
   background: rgba(255, 255, 255, 0.12) !important;
 }
 
@@ -91,10 +91,10 @@
 /* ========== SELECT FILTRO ESTILIZADO ========== */
 .filter-select {
   padding: 10px 14px !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  background: rgba(255, 248, 242, 0.95) !important;
+  border: 1px solid rgba(255, 210, 210, 0.7) !important;
   border-radius: 8px !important;
-  color: #e0e0e0 !important;
+  color: #4b2920 !important;
   font-size: 13px !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
@@ -111,20 +111,20 @@
 }
 
 .filter-select:hover {
-  border-color: rgba(168, 85, 247, 0.6) !important;
+  border-color: rgba(255, 210, 210, 0.72) !important;
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .filter-select:focus {
   outline: none !important;
-  border-color: rgba(168, 85, 247, 0.8) !important;
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25) !important;
+  border-color: rgba(255, 210, 210, 0.7) !important;
+  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.6) !important;
   background-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 .filter-select option {
   background: #1e1e2e !important;
-  color: #e0e0e0 !important;
+  color: #4b2920 !important;
   padding: 8px 12px !important;
 }
 
@@ -133,14 +133,14 @@
 ========================================================= */
 :host ::ng-deep .p-datatable {
   background: transparent !important;
-  color: #e0e0e0 !important;
+  color: #4b2920 !important;
   font-size: 12px !important;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
-  background: rgba(168, 85, 247, 0.15) !important;
-  color: #c084fc !important;
-  border-color: rgba(168, 85, 247, 0.3) !important;
+  background: rgba(255, 238, 232, 0.85) !important;
+  color: #b91c1c !important;
+  border-color: rgba(255, 210, 210, 0.65) !important;
   font-weight: 700 !important;
   padding: 10px 12px !important;
   height: 40px !important;
@@ -148,54 +148,54 @@
 
 :host ::ng-deep .p-datatable .p-datatable-tbody>tr {
   background: transparent !important;
-  color: #e0e0e0 !important;
-  border-color: rgba(168, 85, 247, 0.1) !important;
+  color: #4b2920 !important;
+  border-color: rgba(255, 238, 232, 0.75) !important;
   transition: background 0.2s !important;
   height: 36px !important;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
-  background: rgba(168, 85, 247, 0.12) !important;
+  background: rgba(255, 238, 232, 0.75) !important;
 }
 
 :host ::ng-deep .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even) {
-  background: rgba(168, 85, 247, 0.06) !important;
+  background: rgba(255, 248, 242, 0.9) !important;
 }
 
 :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
-  border-color: rgba(168, 85, 247, 0.1) !important;
+  border-color: rgba(255, 238, 232, 0.75) !important;
   padding: 8px 12px !important;
-  color: #e0e0e0 !important;
+  color: #4b2920 !important;
   background: transparent !important;
   height: 36px !important;
 }
 
 :host ::ng-deep .p-sortable-column-icon {
-  color: #a855f7 !important;
+  color: #ef4444 !important;
 }
 
 /* Paginador */
 :host ::ng-deep .p-paginator {
   background: transparent !important;
-  color: #a0aec0 !important;
-  border-color: rgba(168, 85, 247, 0.2) !important;
+  color: #7f4f43 !important;
+  border-color: rgba(255, 210, 210, 0.55) !important;
   padding: 12px 0 0 0 !important;
   font-size: 12px !important;
 }
 
 :host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
-  background: rgba(168, 85, 247, 0.3) !important;
-  color: #c084fc !important;
+  background: rgba(255, 210, 210, 0.65) !important;
+  color: #b91c1c !important;
   border-radius: 6px !important;
 }
 
 :host ::ng-deep .p-paginator .p-paginator-page:hover {
-  background: rgba(168, 85, 247, 0.15) !important;
-  color: #c084fc !important;
+  background: rgba(255, 238, 232, 0.85) !important;
+  color: #b91c1c !important;
 }
 
 :host ::ng-deep .p-current-page-report {
-  color: #a0aec0 !important;
+  color: #7f4f43 !important;
   font-size: 0.85rem !important;
 }
 
@@ -205,23 +205,23 @@
 :host ::ng-deep .p-dialog {
   border-radius: 16px !important;
   overflow: hidden !important;
-  background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
+  background: linear-gradient(135deg, #fcf0e9, #f3e0d3) !important;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-header {
-  background: linear-gradient(135deg, #1a1f3a, #0f142d) !important;
-  border-bottom: 2px solid rgba(168, 85, 247, 0.4) !important;
+  background: linear-gradient(135deg, #f3e0d3, #fcf0e9) !important;
+  border-bottom: 2px solid rgba(255, 210, 210, 0.7) !important;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-title {
-  color: #c084fc !important;
+  color: #b91c1c !important;
   font-weight: 700 !important;
   font-size: 16px !important;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-content {
-  background: linear-gradient(135deg, #0f142d, #1a1f3a) !important;
-  color: #e0e0e0 !important;
+  background: linear-gradient(135deg, #fcf0e9, #f3e0d3) !important;
+  color: #4b2920 !important;
   padding: 20px !important;
   overflow: auto !important;
 }
@@ -235,7 +235,7 @@
 
 :host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text {
   background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  border: 1px solid rgba(255, 210, 210, 0.7) !important;
   color: #d4d4d4 !important;
   padding: 8px 16px !important;
   border-radius: 8px !important;
@@ -243,8 +243,8 @@
 }
 
 :host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text:hover {
-  background: rgba(168, 85, 247, 0.15) !important;
-  border-color: rgba(168, 85, 247, 0.6) !important;
+  background: rgba(255, 238, 232, 0.85) !important;
+  border-color: rgba(255, 210, 210, 0.72) !important;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-danger {
@@ -278,11 +278,11 @@
 .form-group label {
   font-size: 13px;
   font-weight: 600;
-  color: #a0aec0;
+  color: #7f4f43;
 }
 
 .form-group p {
-  color: #e0e0e0;
+  color: #4b2920;
   font-size: 13px;
   margin: 0;
   line-height: 1.5;
@@ -292,11 +292,11 @@
    CONTENT BOX
 ========================================================= */
 .content-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(168, 85, 247, 0.1);
+  background: rgba(255, 248, 242, 0.9);
+  border: 1px solid rgba(255, 238, 232, 0.75);
   border-radius: 6px;
   padding: 12px;
-  color: #e0e0e0;
+  color: #4b2920;
   font-size: 13px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -319,14 +319,14 @@
 }
 
 .badge-topic {
-  background: rgba(168, 85, 247, 0.2);
-  color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: rgba(255, 210, 210, 0.55);
+  color: #b91c1c;
+  border: 1px solid rgba(255, 210, 210, 0.7);
 }
 
 .badge-respuesta {
   background: rgba(59, 130, 246, 0.2);
-  color: #3b82f6;
+  color: #b91c1c;
   border: 1px solid rgba(59, 130, 246, 0.4);
 }
 
@@ -341,7 +341,7 @@
 
 .contenido-titulo {
   font-weight: 600;
-  color: #c084fc;
+  color: #b91c1c;
   max-width: 280px;
   white-space: nowrap;
   overflow: hidden;
@@ -349,7 +349,7 @@
 }
 
 .contenido-texto {
-  color: #a0aec0;
+  color: #7f4f43;
   font-size: 12px;
   max-width: 280px;
   white-space: nowrap;
@@ -362,7 +362,7 @@
 ========================================================= */
 :host ::ng-deep .p-button.p-button-info {
   background: rgba(59, 130, 246, 0.2) !important;
-  color: #3b82f6 !important;
+  color: #b91c1c !important;
   border: 1px solid rgba(59, 130, 246, 0.3) !important;
 }
 
@@ -407,3 +407,6 @@
     max-width: 200px;
   }
 }
+
+
+

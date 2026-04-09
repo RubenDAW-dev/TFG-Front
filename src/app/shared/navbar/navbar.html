@@ -7,8 +7,8 @@
         <svg class="logo-icon" width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
           <defs>
             <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#c084fc" />
-              <stop offset="100%" stop-color="#a855f7" />
+              <stop offset="0%" stop-color="#b91c1c" />
+              <stop offset="100%" stop-color="#ef4444" />
             </linearGradient>
           </defs>
           <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="3" />
@@ -62,7 +62,7 @@
 
       <!-- SÍ autenticado: nombre + salir -->
       <ng-template #logged>
-        <span class="user-name" style="color: #c084fc">Hola, {{ auth.currentUser()?.nombre }}</span>
+        <span class="user-name" style="color: #b91c1c">Hola, {{ auth.currentUser()?.nombre }}</span>
         <button class="btn-login" (click)="logout()">Salir</button>
       </ng-template>
 
@@ -89,7 +89,7 @@
 
     <ng-template #mobileLogged>
       <div class="mobile-user">
-        <span style="color: #c084fc">Hola, {{ auth.currentUser()?.nombre }}</span>
+        <span style="color: #b91c1c">Hola, {{ auth.currentUser()?.nombre }}</span>
         <button class="btn-login mobile" (click)="logout(); closeMobile()">Salir</button>
       </div>
     </ng-template>

@@ -1,79 +1,144 @@
-@import "primeicons/primeicons.css";
+﻿@import "primeicons/primeicons.css";
 @import "@ng-select/ng-select/themes/default.theme.css";
+
+:root {
+  --bg: #f6efe3;
+  --surface: #fff7f0;
+  --surface-strong: #f2e3d5;
+  --primary: #b91c1c;
+  --primary-soft: #fca5a5;
+  --text: #4b2920;
+  --text-muted: #6e493f;
+  --border: #d8b0a4;
+  --shadow: 0 10px 30px rgba(75, 41, 32, 0.12);
+}
 
 /* Asegura que la raíz puede medir toda la altura */
 html, body, app-root {
-  height: 100%;
+  min-height: 100%;
+  background: radial-gradient(circle at top, #fff9f5 0%, var(--bg) 100%);
+  color: var(--text);
 }
 
 /* Evita márgenes por defecto del body */
 body {
   margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--bg);
 }
 
 /* Opcional: suaviza el scrolling en otras vistas */
 html {
   scroll-behavior: smooth;
 }
+
+body, button, input, textarea, select {
+  color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #7f1d1d;
+}
+
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: #991b1b;
+}
+
+button, .p-button {
+  border-radius: 999px;
+}
+
 /* ── POPOVER GLOBAL ── */
 .p-popover {
-  background: rgba(15, 20, 45, 0.98) !important;
-  border: 1px solid rgba(168, 85, 247, 0.35) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
-  border-radius: 10px !important;
+  background: rgba(255, 247, 239, 0.98) !important;
+  border: 1px solid rgba(185, 28, 28, 0.2) !important;
+  box-shadow: var(--shadow) !important;
+  border-radius: 14px !important;
 }
 
 .p-popover .p-popover-content {
-  background: rgba(15, 20, 45, 0.98) !important;
-  padding: 16px !important;
-  border-radius: 10px !important;
-  color: #e0e0e0 !important;
+  background: rgba(255, 247, 239, 0.98) !important;
+  padding: 18px !important;
+  border-radius: 14px !important;
+  color: var(--text) !important;
 }
 
 .p-select {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(168, 85, 247, 0.3) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(185, 28, 28, 0.25) !important;
 }
 
 .p-select-label {
-  color: #e0e0e0 !important;
+  color: var(--text) !important;
 }
 
 .p-select-overlay {
-  background: rgba(15, 20, 45, 0.98) !important;
-  border-color: rgba(168, 85, 247, 0.3) !important;
+  background: rgba(255, 247, 239, 0.98) !important;
+  border-color: rgba(185, 28, 28, 0.25) !important;
 }
 
 .p-select-option {
-  color: #e0e0e0 !important;
+  color: var(--text) !important;
   background: transparent !important;
 }
 
 .p-select-option:hover,
 .p-select-option.p-highlight {
-  background: rgba(168, 85, 247, 0.2) !important;
-  color: #c084fc !important;
+  background: rgba(249, 207, 207, 0.55) !important;
+  color: #7f1d1d !important;
 }
+
 .p-paginator-rpp-dropdown .p-select-overlay {
-  background: rgb(15, 20, 45) !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  background: rgba(255, 247, 239, 0.98) !important;
+  border: 1px solid rgba(185, 28, 28, 0.25) !important;
   overflow: visible !important;
   max-height: none !important;
 }
 
 .p-paginator-rpp-dropdown .p-select-list-container {
-  background: rgb(15, 20, 45) !important;
+  background: rgba(255, 247, 239, 0.98) !important;
   max-height: none !important;
   overflow: visible !important;
 }
 
 .p-paginator-rpp-dropdown .p-select-option {
-  color: #e0e0e0 !important;
+  color: var(--text) !important;
   background: transparent !important;
   padding: 8px 16px !important;
 }
 
 .p-paginator-rpp-dropdown .p-select-option:hover {
-  background: rgba(168, 85, 247, 0.2) !important;
-  color: #c084fc !important;
+  background: rgba(249, 207, 207, 0.55) !important;
+  color: #7f1d1d !important;
 }
+
+/* Estilos de bordes y tarjetas generales */
+.card, .panel, .surface-card, .p-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+input, textarea, select {
+  background: #fffaf5;
+  border: 1px solid rgba(185, 28, 28, 0.2);
+}
+
+button, .p-button {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+button:hover, .p-button:hover {
+  background: #991b1b;
+  border-color: #991b1b;
+}
+
+
+
+

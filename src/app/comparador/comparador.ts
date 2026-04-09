@@ -270,19 +270,19 @@ export class Comparador implements OnInit, AfterViewChecked {
           {
             label: this.getNombre(this.seleccionA),
             data: normA,
-            backgroundColor: 'rgba(0, 212, 255, 0.15)',
-            borderColor: '#00d4ff',
+            backgroundColor: 'rgba(185, 28, 28, 0.18)',
+            borderColor: '#b91c1c',
             borderWidth: 2,
-            pointBackgroundColor: '#00d4ff',
+            pointBackgroundColor: '#b91c1c',
             pointRadius: 4,
           },
           {
             label: this.getNombre(this.seleccionB),
             data: normB,
-            backgroundColor: 'rgba(255, 80, 120, 0.15)',
-            borderColor: '#ff5078',
+            backgroundColor: 'rgba(239, 68, 68, 0.18)',
+            borderColor: '#ef4444',
             borderWidth: 2,
-            pointBackgroundColor: '#ff5078',
+            pointBackgroundColor: '#ef4444',
             pointRadius: 4,
           }
         ]
@@ -294,11 +294,11 @@ export class Comparador implements OnInit, AfterViewChecked {
           legend: { display: false },
           tooltip: {
             callbacks: { label: tooltipLabel },
-            backgroundColor: 'rgba(13, 21, 32, 0.95)',
-            borderColor: 'rgba(255,255,255,0.1)',
+            backgroundColor: 'rgba(255, 244, 237, 0.95)',
+            borderColor: 'rgba(185, 28, 28, 0.16)',
             borderWidth: 1,
-            titleColor: '#aab4c8',
-            bodyColor: '#e8edf5',
+            titleColor: '#351a11',
+            bodyColor: '#351a11',
             titleFont: { family: "'Barlow Condensed', sans-serif", size: 11 },
             bodyFont: { family: "'Barlow Condensed', sans-serif", size: 13 },
             padding: 10,
@@ -309,9 +309,9 @@ export class Comparador implements OnInit, AfterViewChecked {
             min: 0, max: 100,
             ticks: { display: false },
             grid: { color: 'rgba(255,255,255,0.08)' },
-            angleLines: { color: 'rgba(255,255,255,0.1)' },
+            angleLines: { color: 'rgba(185, 28, 28, 0.18)' },
             pointLabels: {
-              color: '#aab4c8',
+              color: '#351a11',
               font: { size: 11, family: "'Barlow Condensed', sans-serif" }
             }
           }

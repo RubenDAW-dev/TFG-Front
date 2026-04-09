@@ -1,4 +1,4 @@
-/* proximos-partidos.css */
+﻿/* proximos-partidos.css */
 
 .upcoming-card {
   background: var(--surface);
@@ -196,3 +196,6 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+
+
