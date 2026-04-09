@@ -43,11 +43,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.pss.getTopScorers(undefined, 5).subscribe(res => {
+    this.pss.getTopScorers(undefined, 6).subscribe(res => {
       this.topScorers.set(res ?? []);
     });
 
-    this.pss.getTopAssists(undefined, 5).subscribe(res => {
+    this.pss.getTopAssists(undefined, 6).subscribe(res => {
       this.topAssists.set(res ?? []);
     });
 
