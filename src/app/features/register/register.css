@@ -24,7 +24,7 @@ h2 {
 
 label {
   font-size: .9rem;
-  color: #cbd5e1;
+  color: #b91c1c;
   margin: 8px 0 6px;
   display: block;
 }
@@ -34,7 +34,6 @@ input {
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #334155;
-  background: #0f172a;
   color: #e2e8f0;
 }
 
@@ -62,7 +61,8 @@ button {
   margin-top: 12px;
   text-align: center;
   font-size: .85rem;
-  color: #cbd5e1;
+  color: #66707d;
+
 }
 
 .register-link a {
@@ -73,6 +73,3 @@ button {
 .register-link a:hover {
   text-decoration: underline;
 }
-
-
-

@@ -393,7 +393,62 @@
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   background: transparent !important;
 }
+/* Sección de filtros con badge */
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
+/* Badge de filtro activo */
+.active-filter-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 20px;
+  font-size: 13px;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.active-filter-badge i.pi-filter-fill {
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.active-filter-badge span {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: rgba(239, 68, 68, 0.2);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.remove-filter-btn i {
+  font-size: 10px;
+  color: #b91c1c;
+}
+
+.remove-filter-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  transform: scale(1.1);
+}
 
 
 

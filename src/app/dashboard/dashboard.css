@@ -27,7 +27,7 @@
 .hero-title {
   font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #b91c1c, #f43f5e);
+  background: #b91c1c;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -57,7 +57,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(90deg, #b91c1c, #f87171);
+  background:  #f87171;
   color: white;
   border: none;
 }

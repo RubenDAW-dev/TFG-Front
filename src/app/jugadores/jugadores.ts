@@ -13,6 +13,7 @@ import { Table } from 'primeng/table';
 import { PlayerSeasonStatsService } from '../services/player-season-stats.service';
 import { SelectModule } from 'primeng/select';
 import { RouterLink } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-jugadores',
@@ -29,7 +30,8 @@ import { RouterLink } from '@angular/router';
     PopoverModule,
     IconFieldModule,
     InputIconModule,
-    RouterLink
+    RouterLink,
+    TooltipModule
   ]
 })
 export class Jugadores implements OnInit {
@@ -80,6 +82,11 @@ export class Jugadores implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  getTeamName(teamId: string): string {
+    const team = this.teams.find(t => t.id === teamId);
+    return team ? team.nombre : teamId;
   }
 
   applyFilters() {

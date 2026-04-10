@@ -52,9 +52,20 @@
         <!-- CAPTION -->
         <ng-template pTemplate="caption">
           <div class="caption-bar">
-            <p-button label="Filtros" icon="pi pi-filter" severity="secondary" [outlined]="true"
-              (click)="filterMenu.toggle($event)">
-            </p-button>
+            <div class="filter-section">
+              <p-button label="Filtros" icon="pi pi-filter" severity="secondary" [outlined]="true"
+                (click)="filterMenu.toggle($event)">
+              </p-button>
+
+              <!-- BADGE DE FILTRO ACTIVO -->
+              <div class="active-filter-badge" *ngIf="selectedTeam">
+                <i class="pi pi-filter-fill"></i>
+                <span>{{ getTeamName(selectedTeam) }}</span>
+                <button class="remove-filter-btn" (click)="clearFilters()" pTooltip="Limpiar filtro">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
 
             <div class="search-wrapper">
               <i class="pi pi-search search-icon"></i>
@@ -141,12 +152,12 @@
           <tr>
             <!-- Fijas -->
             <td>
-                <div class="player-cell">
-                    <img *ngIf="p.imageUrl" [src]="p.imageUrl" alt="{{ p.playerName }}" class="player-image">
-                    <a [routerLink]="['/jugadores', p.playerId]" class="player-link">
-                        {{ p.playerName }}
-                    </a>
-                </div>
+              <div class="player-cell">
+                <img *ngIf="p.imageUrl" [src]="p.imageUrl" alt="{{ p.playerName }}" class="player-image">
+                <a [routerLink]="['/jugadores', p.playerId]" class="player-link">
+                  {{ p.playerName }}
+                </a>
+              </div>
             </td>
             <td>{{ p.teamName }}</td>
 

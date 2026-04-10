@@ -39,14 +39,14 @@
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #b91c1c, #ef4444);
+  background: #b91c1c;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .logo-text span {
-  color: #ef4444;
-  -webkit-text-fill-color: #ef4444;
+  color: #b91c1c;
+  -webkit-text-fill-color: #b91c1c;
 }
 
 /* Links */
@@ -98,7 +98,7 @@
 }
 
 .btn-login {
-  background: linear-gradient(90deg, #b91c1c, #ef4444);
+  background: #ef4444;
   color: #0f1227;
   border: none;
   padding: 8px 14px;

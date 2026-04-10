@@ -6,88 +6,62 @@
 
   <!-- BÚSQUEDA Y FILTROS -->
   <div class="filter-section">
-    <input 
-      type="text" 
-      pInputText
-      [(ngModel)]="busqueda" 
-      (ngModelChange)="onBusquedaChange()"
-      placeholder="🔍 Buscar por nombre o email..."
-      class="search-input"
-    />
-    <select 
-      class="custom-select-filtro"
-      [(ngModel)]="filtroRol" 
-      (ngModelChange)="onFiltroRolChange()"
-    >
+    <input type="text" pInputText [(ngModel)]="busqueda" (ngModelChange)="onBusquedaChange()"
+      placeholder="🔍 Buscar por nombre o email..." class="search-input" />
+    <select class="custom-select-filtro" [(ngModel)]="filtroRol" (ngModelChange)="onFiltroRolChange()">
       <option value="">Todos los roles</option>
       <option value="1">Administrador</option>
       <option value="0">Usuario</option>
     </select>
-    <button 
-      pButton type="button"
-      icon="pi pi-times"
-      *ngIf="busqueda || filtroRol"
-      (click)="limpiarFiltros()"
-      class="p-button-text"
-      label="Limpiar">
+    <button pButton type="button" icon="pi pi-times" *ngIf="busqueda || filtroRol" (click)="limpiarFiltros()"
+      class="p-button-text" label="Limpiar">
     </button>
   </div>
 
   <!-- TABLA DE USUARIOS -->
-  <p-table 
-    [value]="usuariosFiltrados" 
-    [loading]="cargando"
-    [rows]="rows"
-    [totalRecords]="totalRecords"
-    [paginator]="true"
-    [first]="first"
-    (onPageChange)="onPageChange($event)"
-    [rowsPerPageOptions]="[20, 50, 100]"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuarios"
-    responsiveLayout="scroll"
-    styleClass="p-datatable-striped">
-    
+  <p-table [value]="usuariosFiltrados" [loading]="cargando" [rows]="rows" [totalRecords]="totalRecords"
+    [paginator]="true" [first]="first" (onPageChange)="onPageChange($event)" [rowsPerPageOptions]="[20, 50, 100]"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuarios"
+    responsiveLayout="scroll" styleClass="p-datatable-striped">
+
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="nombre" style="width: 26%; min-width: 180px;">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-        <th pSortableColumn="email" style="width: 30%; min-width: 180px;">Email <p-sortIcon field="email"></p-sortIcon></th>
-        <th style="width: 16%; min-width: 120px;">Rol</th>
-        <th style="width: 160px; min-width: 150px;">Acciones</th>
+        <th pSortableColumn="nombre" style="width: 25%;">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email" style="width: 35%;">
+          Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th style="width: 20%;">Rol</th>
+        <th style="width: 20%;">Acciones</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-usuario>
       <tr>
-        <td><strong class="truncate-cell">{{ usuario.nombre }}</strong></td>
-        <td><span class="truncate-cell">{{ usuario.email }}</span></td>
-        <td>
+        <td style="width: 25%;">
+          <strong class="truncate-cell">{{ usuario.nombre }}</strong>
+        </td>
+        <td style="width: 35%;">
+          <span class="truncate-cell">{{ usuario.email }}</span>
+        </td>
+        <td style="width: 20%;">
           <span class="badge-rol" [class.badge-admin]="usuario.rol === 1" [class.badge-user]="usuario.rol === 0">
             {{ getRolNombre(usuario.rol) }}
           </span>
         </td>
-        <td>
+        <td style="width: 20%;">
           <div class="action-buttons">
-            <button pButton type="button" 
-                    icon="pi pi-pencil" 
-                    class="p-button-rounded p-button-warning p-button-sm"
-                    (click)="abrirModalRol(usuario)"
-                    pTooltip="Cambiar rol" 
-                    tooltipPosition="top">
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-text p-button-warning p-button-sm"
+              (click)="abrirModalRol(usuario)" pTooltip="Cambiar rol" tooltipPosition="top">
             </button>
-            <button pButton type="button"
-                    icon="pi pi-key"
-                    class="p-button-rounded p-button-success p-button-sm"
-                    (click)="abrirModalPassword(usuario)"
-                    pTooltip="Resetear contraseña"
-                    tooltipPosition="top">
+
+            <button pButton type="button" icon="pi pi-key" class="p-button-text p-button-success p-button-sm"
+              (click)="abrirModalPassword(usuario)" pTooltip="Resetear contraseña" tooltipPosition="top">
             </button>
-            <button pButton type="button" 
-                    icon="pi pi-trash" 
-                    class="p-button-rounded p-button-danger p-button-sm"
-                    (click)="eliminarUsuario(usuario.id, usuario.nombre)"
-                    pTooltip="Eliminar" 
-                    tooltipPosition="top">
+
+            <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-danger p-button-sm"
+              (click)="eliminarUsuario(usuario.id, usuario.nombre)" pTooltip="Eliminar" tooltipPosition="top">
             </button>
           </div>
         </td>
@@ -104,16 +78,9 @@
 </div>
 
 <!-- MODAL CAMBIAR ROL (directo, sin confirmación extra) -->
-<p-dialog 
-  [(visible)]="mostrarModalRol"
-  [header]="'Cambiar Rol de Usuario'"
-  [modal]="true"
-  [style]="{width: '40vw', 'z-index': 1000}"
-  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
-  [draggable]="false"
-  [resizable]="false"
-  (onShow)="onDialogShow()"
-  (onHide)="onDialogHide()">
+<p-dialog [(visible)]="mostrarModalRol" [header]="'Cambiar Rol de Usuario'" [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1000}" [breakpoints]="{'960px': '60vw', '640px': '90vw'}" [draggable]="false"
+  [resizable]="false" (onShow)="onDialogShow()" (onHide)="onDialogHide()">
 
   <ng-template pTemplate="content">
     <div class="form-modal">
@@ -147,35 +114,21 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cancelar" 
-            (click)="cerrarModalRol()"
-            class="p-button-text"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Cancelar" (click)="cerrarModalRol()" class="p-button-text"
+      [disabled]="enviandoModal">
     </button>
 
-    <button pButton type="button" 
-            label="Guardar"
-            (click)="guardarRol()"
-            class="p-button-success"
-            [loading]="enviandoModal"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Guardar" (click)="guardarRol()" class="p-button-success"
+      [loading]="enviandoModal" [disabled]="enviandoModal">
     </button>
   </ng-template>
 
 </p-dialog>
 
 <!-- MODAL RESET CONTRASEÑA -->
-<p-dialog 
-  [(visible)]="mostrarModalPassword"
-  [header]="'Resetear contraseña'"
-  [modal]="true"
-  [style]="{width: '40vw', 'z-index': 1000}"
-  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
-  [draggable]="false"
-  [resizable]="false"
-  (onShow)="onDialogShow()"
-  (onHide)="onDialogHide()">
+<p-dialog [(visible)]="mostrarModalPassword" [header]="'Resetear contraseña'" [modal]="true"
+  [style]="{width: '40vw', 'z-index': 1000}" [breakpoints]="{'960px': '60vw', '640px': '90vw'}" [draggable]="false"
+  [resizable]="false" (onShow)="onDialogShow()" (onHide)="onDialogHide()">
 
   <ng-template pTemplate="content">
     <div class="form-modal">
@@ -206,50 +159,30 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cancelar" 
-            (click)="cerrarModalPassword()"
-            class="p-button-text"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Cancelar" (click)="cerrarModalPassword()" class="p-button-text"
+      [disabled]="enviandoModal">
     </button>
 
-    <button pButton type="button" 
-            label="Restablecer" 
-            (click)="guardarPassword()"
-            class="p-button-success"
-            [loading]="enviandoModal"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Restablecer" (click)="guardarPassword()" class="p-button-success"
+      [loading]="enviandoModal" [disabled]="enviandoModal">
     </button>
   </ng-template>
 </p-dialog>
 
 <!-- MODAL CONFIRMACIÓN (SOLO PARA ELIMINAR) -->
-<p-dialog 
-  [(visible)]="modalVisible"
-  [header]="modalTitulo"
-  [modal]="true"
-  [style]="{width: '40vw', 'z-index': 1001}"
-  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
-  [draggable]="false"
-  [resizable]="false">
+<p-dialog [(visible)]="modalVisible" [header]="modalTitulo" [modal]="true" [style]="{width: '40vw', 'z-index': 1001}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}" [draggable]="false" [resizable]="false">
 
   <ng-template pTemplate="content">
     <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cancelar" 
-            (click)="cerrarModal()"
-            class="p-button-text"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Cancelar" (click)="cerrarModal()" class="p-button-text"
+      [disabled]="enviandoModal">
     </button>
-    <button pButton type="button" 
-            label="Eliminar"
-            (click)="confirmarAccion()"
-            class="p-button-danger"
-            [loading]="enviandoModal"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Eliminar" (click)="confirmarAccion()" class="p-button-danger"
+      [loading]="enviandoModal" [disabled]="enviandoModal">
     </button>
   </ng-template>
 </p-dialog>

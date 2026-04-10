@@ -2,41 +2,31 @@
   <h2>Clasificación</h2>
 
   @if (table && table.length > 0) {
-    <p-table [value]="table">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 8%;">Pos</th>
-          <th style="width: 32%;">Equipo</th>
-          <th style="width: 15%;">Pts</th>
-          <th style="width: 15%;">GF</th>
-          <th style="width: 15%;">GC</th>
-          <th style="width: 15%;">DG</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
-        <tr>
-          <td>
-            @if (rowIndex < 4) {
-              <span class="pos-blue">{{ rowIndex + 1 }}</span>
-            } @else if (rowIndex === 4) {
-              <span class="pos-orange">{{ rowIndex + 1 }}</span>
-            } @else if (rowIndex === 5) {
-              <span class="pos-green">{{ rowIndex + 1 }}</span>
-            } @else if (rowIndex >= table.length - 3) {
-              <span class="pos-red">{{ rowIndex + 1 }}</span>
-            } @else {
-              <span class="pos-white">{{ rowIndex + 1 }}</span>
-            }
-          </td>
-          <td>{{ row.teamName }}</td>
-          <td>{{ row.puntos }}</td>
-          <td>{{ row.golesFavor }}</td>
-          <td>{{ row.golesContra }}</td>
-          <td>{{ row.diferenciaGoles }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
+  <p-table [value]="table">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 8%;">Pos</th>
+        <th style="width: 32%;">Equipo</th>
+        <th style="width: 15%;">Pts</th>
+        <th style="width: 15%;">GF</th>
+        <th style="width: 15%;">GC</th>
+        <th style="width: 15%;">DG</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          {{ rowIndex + 1 }}
+        </td>
+        <td>{{ row.teamName }}</td>
+        <td>{{ row.puntos }}</td>
+        <td>{{ row.golesFavor }}</td>
+        <td>{{ row.golesContra }}</td>
+        <td>{{ row.diferenciaGoles }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
   } @else {
-    <p class="text-gray-500">No hay datos disponibles</p>
+  <p class="text-gray-500">No hay datos disponibles</p>
   }
 </div>

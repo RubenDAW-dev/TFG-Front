@@ -257,7 +257,7 @@ export class PartidoDetalle implements OnInit {
           borderWidth: 2,
           pointBackgroundColor: '#00d4ff',
 
-          // 🔥 NECESARIO PARA QUE SE VEA EL TOOLTIP
+          // NECESARIO PARA QUE SE VEA EL TOOLTIP
           pointRadius: 5,
           pointHoverRadius: 8,
           pointHitRadius: 20,
@@ -297,7 +297,7 @@ export class PartidoDetalle implements OnInit {
           ticks: { display: false },
           grid: { color: 'rgba(255,255,255,0.08)' },
           pointLabels: {
-            color: '#e8edf5',
+            color: '#000000',
             font: {
               size: 16,
               family: "'Barlow Condensed', sans-serif"

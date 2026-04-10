@@ -8,22 +8,21 @@
 }
 
 /* =========================================================
-   CONTENEDOR / SECCIÓN
+   CONTENEDOR / SECCIÓN (IGUAL QUE JUGADORES / EQUIPOS)
 ========================================================= */
 .admin-section {
-  background: linear-gradient(135deg, rgba(255, 248, 242, 0.95) 0%, rgba(10, 14, 30, 0.8) 100%);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #ffffff 0%, #fcf0e9 100%);
   border: 1px solid rgba(255, 210, 210, 0.65);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden;
   color: #4b2920;
 }
 
 .admin-section::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -51,25 +50,7 @@
   letter-spacing: 2px;
   background: linear-gradient(90deg, #b91c1c, #ef4444);
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.btn-nuevo {
-  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
-  border: none !important;
-  padding: 10px 24px !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  color: #fff !important;
-  box-shadow: 0 4px 15px rgba(255, 210, 210, 0.65) !important;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.btn-nuevo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 210, 210, 0.72);
 }
 
 /* =========================================================
@@ -92,19 +73,9 @@
   border-radius: 8px !important;
   color: #4b2920 !important;
   font-size: 13px !important;
-  transition: 0.2s;
 }
 
-.search-input:focus {
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.55) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-}
-
-.search-input::placeholder {
-  color: #8a8fa3 !important;
-}
-
+/* Select semana */
 .filter-select {
   padding: 10px 14px !important;
   background: rgba(255, 248, 242, 0.95) !important;
@@ -112,125 +83,47 @@
   border-radius: 8px !important;
   color: #4b2920 !important;
   font-size: 13px !important;
-  cursor: pointer !important;
-  transition: 0.2s !important;
-  font-family: inherit !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 8px center !important;
-  background-size: 20px !important;
-  padding-right: 32px !important;
-}
-
-.filter-select:hover {
-  border-color: rgba(255, 210, 210, 0.72) !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.filter-select:focus {
-  outline: none !important;
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.6) !important;
-}
-
-.filter-select option {
-  background: #1e1e2e !important;
-  color: #4b2920 !important;
-}
-
-.btn-limpiar {
-  background: rgba(255, 238, 232, 0.85);
-  border: 1px solid rgba(255, 210, 210, 0.65);
-  color: #b91c1c;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-  transition: all 0.3s;
-}
-
-.btn-limpiar:hover {
-  background: rgba(255, 210, 210, 0.6);
-  border-color: rgba(255, 210, 210, 0.72);
 }
 
 /* =========================================================
-   TABLA PRIMENG (tema oscuro)
+   TABLA PRIMENG
 ========================================================= */
 :host ::ng-deep .p-datatable {
   background: transparent !important;
   color: #4b2920 !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   background: rgba(255, 238, 232, 0.85) !important;
   color: #b91c1c !important;
   border-color: rgba(255, 210, 210, 0.65) !important;
   font-weight: 700 !important;
   padding: 10px 12px !important;
-  height: 40px !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
   background: transparent !important;
-  color: #4b2920 !important;
-  border-color: rgba(255, 238, 232, 0.75) !important;
-  transition: background 0.2s !important;
-  height: 36px !important;
+  transition: background 0.2s ease !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
   background: rgba(255, 238, 232, 0.75) !important;
 }
 
-:host ::ng-deep .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even) {
+:host ::ng-deep
+.p-datatable.p-datatable-striped
+.p-datatable-tbody > tr:nth-child(even) {
   background: rgba(255, 248, 242, 0.9) !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   border-color: rgba(255, 238, 232, 0.75) !important;
   padding: 8px 12px !important;
-  color: #4b2920 !important;
-  background: transparent !important;
-  height: 36px !important;
-}
-
-:host ::ng-deep .p-sortable-column-icon {
-  color: #ef4444 !important;
-}
-
-/* Paginador */
-:host ::ng-deep .p-paginator {
-  background: transparent !important;
-  color: #7f4f43 !important;
-  border-color: rgba(255, 210, 210, 0.55) !important;
-  padding: 12px 0 0 0 !important;
-  font-size: 12px !important;
-}
-
-:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
-  background: rgba(255, 210, 210, 0.65) !important;
-  color: #b91c1c !important;
-  border-radius: 6px !important;
-}
-
-:host ::ng-deep .p-paginator .p-paginator-page:hover {
-  background: rgba(255, 238, 232, 0.85) !important;
-  color: #b91c1c !important;
-}
-
-:host ::ng-deep .p-current-page-report {
-  color: #7f4f43 !important;
-  font-size: 0.85rem !important;
 }
 
 /* =========================================================
-   FORMULARIO (dentro del modal)
+   FORMULARIO MODAL – MISMO PATRÓN QUE LOS DEMÁS
 ========================================================= */
 .form-modal {
   display: flex;
@@ -240,101 +133,36 @@
 
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
 }
 
 .form-group {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 6px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .form-group label {
-  order: 1 !important;
   font-size: 13px;
   font-weight: 600;
   color: #7f4f43;
-  margin-bottom: 2px;
 }
 
 .form-group input,
 .form-group select,
-.form-group .p-inputtext {
-  order: 2 !important;
+.form-group .p-inputtext,
+.form-group .custom-select-modal {
   width: 100% !important;
-}
-
-/* Inputs del modal (pInputText) */
-:host ::ng-deep .p-dialog .p-inputtext,
-:host ::ng-deep .p-dialog input.p-inputtext,
-:host ::ng-deep .p-dialog input[pinputtext] {
   background: rgba(255, 248, 242, 0.95) !important;
   border: 1px solid rgba(255, 210, 210, 0.7) !important;
-  color: #4b2920 !important;
+  border-radius: 6px !important;
   padding: 8px 12px !important;
   font-size: 13px !important;
-  border-radius: 6px !important;
-  transition: 0.2s ease !important;
-}
-
-:host ::ng-deep .p-dialog .p-inputtext:focus,
-:host ::ng-deep .p-dialog input.p-inputtext:focus,
-:host ::ng-deep .p-dialog input[pinputtext]:focus {
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.6) !important;
-}
-
-:host ::ng-deep .p-dialog .p-inputtext::placeholder {
-  color: #8a8fa3 !important;
 }
 
 /* =========================================================
-   SELECT NATIVO ESTILIZADO (Modal)
-========================================================= */
-.custom-select-modal {
-  width: 100% !important;
-  padding: 8px 12px !important;
-  background: rgba(255, 248, 242, 0.95) !important;
-  border: 1px solid rgba(255, 210, 210, 0.7) !important;
-  color: #4b2920 !important;
-  font-size: 13px !important;
-  border-radius: 6px !important;
-  font-family: inherit !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 8px center !important;
-  background-size: 20px !important;
-  padding-right: 32px !important;
-}
-
-.custom-select-modal:hover {
-  border-color: rgba(255, 210, 210, 0.72) !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.custom-select-modal:focus {
-  outline: none !important;
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  background-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.6) !important;
-}
-
-.custom-select-modal option {
-  background: #1e1e2e !important;
-  color: #4b2920 !important;
-  padding: 8px 12px !important;
-}
-
-/* =========================================================
-   DIALOG / MODAL (PrimeNG)
+   DIALOG / MODAL
 ========================================================= */
 :host ::ng-deep .p-dialog {
   border-radius: 16px !important;
@@ -347,114 +175,68 @@
   border-bottom: 2px solid rgba(255, 210, 210, 0.7) !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-title {
-  color: #b91c1c !important;
-  font-weight: 700 !important;
-  font-size: 16px !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-content {
-  background: linear-gradient(135deg, #fcf0e9, #f3e0d3) !important;
-  color: #4b2920 !important;
-  padding: 20px !important;
-  overflow: auto !important;
-}
-
 :host ::ng-deep .p-dialog .p-dialog-footer {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  align-items: center;
+}
+/* =========================================================
+   BOTONES DE ACCIONES EN TABLA (PARTIDOS)
+   – IGUAL QUE JUGADORES / EQUIPOS
+========================================================= */
+:host ::ng-deep .p-datatable .p-button.p-button-rounded {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-width: auto !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 210, 210, 0.7) !important;
-  color: #d4d4d4 !important;
+/* Tamaño icono */
+:host ::ng-deep .p-datatable .p-button.p-button-rounded .pi {
+  font-size: 1rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Editar (warning) */
+:host ::ng-deep .p-datatable .p-button-warning .pi {
+  color: #f59e0b !important;
+}
+
+/* Hover */
+:host ::ng-deep .p-datatable .p-button:hover .pi {
+  transform: scale(1.15);
+  filter: brightness(1.15);
+}
+/* Botones modal */
+:host ::ng-deep .p-dialog-footer .p-button {
   padding: 8px 16px !important;
   border-radius: 8px !important;
   font-weight: 600 !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text:hover {
-  background: rgba(255, 238, 232, 0.85) !important;
-  border-color: rgba(255, 210, 210, 0.72) !important;
+:host ::ng-deep .p-dialog-footer .p-button-text {
+  background: transparent !important;
+  border: 1px solid rgba(255, 210, 210, 0.7) !important;
+  color: #7f4f43 !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success {
+:host ::ng-deep .p-dialog-footer .p-button-success {
   background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
   border: none !important;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
   color: #fff !important;
-  font-weight: 600 !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success:hover {
-  filter: brightness(1.08);
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-danger {
-  background: linear-gradient(135deg, #ef4444, #f87171) !important;
-  border: none !important;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-danger:hover {
-  filter: brightness(1.08);
 }
 
 /* =========================================================
-   ERROR MESSAGE
+   ERROR
 ========================================================= */
 .form-error {
   padding: 10px 12px;
   background: rgba(239, 68, 68, 0.15);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 6px;
-  color: #fca5a5;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
-/* =========================================================
-   BOTONES DE TABLA
-========================================================= */
-.btn-edit {
-  background: rgba(59, 130, 246, 0.2);
   color: #b91c1c;
-  padding: 6px 12px;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  border-radius: 6px;
-  cursor: pointer;
   font-size: 13px;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-
-.btn-edit:hover {
-  background: rgba(59, 130, 246, 0.3);
-  border-color: rgba(59, 130, 246, 0.6);
-}
-
-.btn-delete {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-  padding: 6px 12px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-
-.btn-delete:hover {
-  background: rgba(239, 68, 68, 0.3);
-  border-color: rgba(239, 68, 68, 0.6);
 }
 
 /* =========================================================
@@ -465,13 +247,8 @@
     padding: 20px;
   }
 
-  .section-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-nuevo {
-    width: 100%;
+  .form-row {
+    grid-template-columns: 1fr;
   }
 
   .filter-section {
@@ -482,24 +259,4 @@
   .filter-select {
     width: 100%;
   }
-
-  .admin-table {
-    font-size: 12px;
-  }
-
-  .admin-table th,
-  .admin-table td {
-    padding: 8px;
-  }
-
-  .col-acciones {
-    flex-direction: column;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
 }
-
-
-

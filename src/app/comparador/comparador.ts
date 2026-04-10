@@ -244,81 +244,87 @@ export class Comparador implements OnInit, AfterViewChecked {
   }
 
   private buildRadarChart(
-    canvas: HTMLCanvasElement,
-    rawA: number[],
-    rawB: number[],
-    labels: string[]
-  ): Chart {
-    const combined = rawA.map((_, i) => Math.max(rawA[i], rawB[i], 1));
-    const normA = rawA.map((v, i) => Math.round((v / combined[i]) * 100));
-    const normB = rawB.map((v, i) => Math.round((v / combined[i]) * 100));
+  canvas: HTMLCanvasElement,
+  rawA: number[],
+  rawB: number[],
+  labels: string[]
+): Chart {
+  const combined = rawA.map((_, i) => Math.max(rawA[i], rawB[i], 1));
+  const normA = rawA.map((v, i) => Math.round((v / combined[i]) * 100));
+  const normB = rawB.map((v, i) => Math.round((v / combined[i]) * 100));
 
-    const tooltipLabel = (context: any) => {
-      const raw = context.datasetIndex === 0 ? rawA[context.dataIndex] : rawB[context.dataIndex];
-      const nombre = context.datasetIndex === 0
-        ? this.getNombre(this.seleccionA)
-        : this.getNombre(this.seleccionB);
-      const formatted = Number.isInteger(raw) ? String(raw) : raw.toFixed(1);
-      return ` ${nombre}: ${formatted}`;
-    };
+  const tooltipLabel = (context: any) => {
+    const raw = context.datasetIndex === 0 ? rawA[context.dataIndex] : rawB[context.dataIndex];
+    const nombre = context.datasetIndex === 0
+      ? this.getNombre(this.seleccionA)
+      : this.getNombre(this.seleccionB);
+    const formatted = Number.isInteger(raw) ? String(raw) : raw.toFixed(1);
+    return ` ${nombre}: ${formatted}`;
+  };
 
-    return new Chart(canvas.getContext('2d')!, {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: this.getNombre(this.seleccionA),
-            data: normA,
-            backgroundColor: 'rgba(185, 28, 28, 0.18)',
-            borderColor: '#b91c1c',
-            borderWidth: 2,
-            pointBackgroundColor: '#b91c1c',
-            pointRadius: 4,
-          },
-          {
-            label: this.getNombre(this.seleccionB),
-            data: normB,
-            backgroundColor: 'rgba(239, 68, 68, 0.18)',
-            borderColor: '#ef4444',
-            borderWidth: 2,
-            pointBackgroundColor: '#ef4444',
-            pointRadius: 4,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: { label: tooltipLabel },
-            backgroundColor: 'rgba(255, 244, 237, 0.95)',
-            borderColor: 'rgba(185, 28, 28, 0.16)',
-            borderWidth: 1,
-            titleColor: '#351a11',
-            bodyColor: '#351a11',
-            titleFont: { family: "'Barlow Condensed', sans-serif", size: 11 },
-            bodyFont: { family: "'Barlow Condensed', sans-serif", size: 13 },
-            padding: 10,
-          }
+  return new Chart(canvas.getContext('2d')!, {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: this.getNombre(this.seleccionA),
+          data: normA,
+          backgroundColor: 'rgba(239, 68, 68, 0.25)',      // Rojo transparente
+          borderColor: '#ef4444',                          // Rojo sólido
+          borderWidth: 2,
+          pointBackgroundColor: '#ef4444',                 // Puntos rojos
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1,
+          pointRadius: 4,
+          pointHoverRadius: 6,
         },
-        scales: {
-          r: {
-            min: 0, max: 100,
-            ticks: { display: false },
-            grid: { color: 'rgba(255,255,255,0.08)' },
-            angleLines: { color: 'rgba(185, 28, 28, 0.18)' },
-            pointLabels: {
-              color: '#351a11',
-              font: { size: 11, family: "'Barlow Condensed', sans-serif" }
-            }
+        {
+          label: this.getNombre(this.seleccionB),
+          data: normB,
+          backgroundColor: 'rgba(59, 130, 246, 0.25)',     // Azul transparente
+          borderColor: '#3b82f6',                          // Azul sólido
+          borderWidth: 2,
+          pointBackgroundColor: '#3b82f6',                 // Puntos azules
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: tooltipLabel },
+          backgroundColor: 'rgba(255, 244, 237, 0.95)',
+          borderColor: 'rgba(185, 28, 28, 0.16)',
+          borderWidth: 1,
+          titleColor: '#351a11',
+          bodyColor: '#351a11',
+          titleFont: { family: "'Barlow Condensed', sans-serif", size: 11 },
+          bodyFont: { family: "'Barlow Condensed', sans-serif", size: 13 },
+          padding: 10,
+        }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.08)' },
+          angleLines: { color: 'rgba(185, 28, 28, 0.18)' },
+          pointLabels: {
+            color: '#351a11',
+            font: { size: 11, family: "'Barlow Condensed', sans-serif" }
           }
         }
       }
-    });
-  }
+    }
+  });
+}
 
   private renderRadar(): void {
     this.destroyChart();

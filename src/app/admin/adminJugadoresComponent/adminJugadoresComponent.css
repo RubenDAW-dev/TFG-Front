@@ -1,5 +1,5 @@
 ﻿/* =========================================================
-   BASE
+   RESET
 ========================================================= */
 * {
   box-sizing: border-box;
@@ -11,26 +11,25 @@
    CONTENEDOR / SECCIÓN
 ========================================================= */
 .admin-section {
-  background: linear-gradient(135deg, rgba(255, 248, 242, 0.95) 0%, rgba(10, 14, 30, 0.8) 100%);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #ffffff 0%, #fcf0e9 100%);
   border: 1px solid rgba(255, 210, 210, 0.65);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden;
   color: #4b2920;
 }
 
 .admin-section::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, #ef4444, transparent);
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /* =========================================================
@@ -46,29 +45,29 @@
 }
 
 .section-title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 800;
   letter-spacing: 2px;
   background: linear-gradient(90deg, #b91c1c, #ef4444);
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.section-header button {
+/* Botón "Nuevo jugador" */
+.section-header .p-button {
   background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
   border: none !important;
-  padding: 10px 24px !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
   color: #fff !important;
-  box-shadow: 0 4px 15px rgba(255, 210, 210, 0.65) !important;
-  transition: .3s;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45) !important;
+  transition: all 0.25s ease;
 }
 
-.section-header button:hover {
+.section-header .p-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 210, 210, 0.72);
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.6) !important;
 }
 
 /* =========================================================
@@ -78,337 +77,288 @@
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
-  flex-wrap: wrap;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-input {
   flex: 1;
-  min-width: 200px;
+  min-width: 240px;
   padding: 10px 14px !important;
   background: rgba(255, 248, 242, 0.95) !important;
   border: 1px solid rgba(255, 210, 210, 0.7) !important;
   border-radius: 8px !important;
   color: #4b2920 !important;
-  font-size: 13px !important;
-  transition: .2s;
+  font-size: 0.9rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .search-input:focus {
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.55) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 210, 210, 0.75) !important;
+  box-shadow: 0 0 0 2px rgba(255, 238, 232, 0.85) !important;
 }
 
 .search-input::placeholder {
-  color: #8a8fa3 !important;
+  color: #7f4f43 !important;
 }
 
-.filter-ng-select {
-  flex: 1;
-  min-width: 200px;
-}
-
-/* === NG-SELECT DEL FILTRO (aislado por clase) === */
+/* NG-SELECT FILTRO */
 :host ::ng-deep .filter-ng-select .ng-select-container {
   background: rgba(255, 248, 242, 0.95) !important;
   border: 1px solid rgba(255, 210, 210, 0.65) !important;
   border-radius: 8px !important;
-  min-height: 36px !important;
+  min-height: 38px !important;
   color: #4b2920 !important;
 }
 
 :host ::ng-deep .filter-ng-select .ng-dropdown-panel {
-  background: #1e1e2e !important;
+  background: #fcf0e9 !important;
   border: 1px solid rgba(255, 210, 210, 0.65) !important;
   border-radius: 8px !important;
-  margin-top: 4px !important;
-  z-index: 10000 !important;
 }
 
 :host ::ng-deep .filter-ng-select .ng-option {
   padding: 10px 14px !important;
-  font-size: 13px !important;
   color: #4b2920 !important;
-  background: transparent !important;
 }
 
 :host ::ng-deep .filter-ng-select .ng-option:hover {
-  background: rgba(255, 210, 210, 0.55) !important;
-}
-
-:host ::ng-deep .filter-ng-select .ng-option.ng-option-selected {
-  background: rgba(255, 210, 210, 0.65) !important;
-  font-weight: 600;
+  background: rgba(255, 210, 210, 0.6) !important;
 }
 
 /* =========================================================
-   TABLA PRIMENG (tema oscuro)
+   TABLA PRIMENG
 ========================================================= */
 :host ::ng-deep .p-datatable {
   background: transparent !important;
   color: #4b2920 !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   background: rgba(255, 238, 232, 0.85) !important;
   color: #b91c1c !important;
   border-color: rgba(255, 210, 210, 0.65) !important;
   font-weight: 700 !important;
   padding: 10px 12px !important;
-  height: 40px !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
   background: transparent !important;
-  color: #4b2920 !important;
-  border-color: rgba(255, 238, 232, 0.75) !important;
-  transition: background .2s !important;
-  height: 36px !important;
+  transition: background 0.2s ease !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
   background: rgba(255, 238, 232, 0.75) !important;
 }
 
-:host ::ng-deep .p-datatable.p-datatable-striped .p-datatable-tbody>tr:nth-child(even) {
+:host ::ng-deep
+.p-datatable.p-datatable-striped
+.p-datatable-tbody > tr:nth-child(even) {
   background: rgba(255, 248, 242, 0.9) !important;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   border-color: rgba(255, 238, 232, 0.75) !important;
   padding: 8px 12px !important;
-  color: #4b2920 !important;
-  background: transparent !important;
-  height: 36px !important;
 }
 
 :host ::ng-deep .p-sortable-column-icon {
   color: #ef4444 !important;
 }
 
-/* Paginador */
-:host ::ng-deep .p-paginator {
+/* =========================================================
+   PLAYER / ACCIONES
+========================================================= */
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.acciones-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Botones de acciones: SOLO ICONO */
+:host ::ng-deep .acciones-cell .p-button {
   background: transparent !important;
-  color: #7f4f43 !important;
-  border-color: rgba(255, 210, 210, 0.55) !important;
-  padding: 12px 0 0 0 !important;
-  font-size: 12px !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-width: auto !important;
 }
 
-:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
-  background: rgba(255, 210, 210, 0.65) !important;
-  color: #b91c1c !important;
-  border-radius: 6px !important;
+:host ::ng-deep .acciones-cell .p-button .pi {
+  font-size: 1rem;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-:host ::ng-deep .p-paginator .p-paginator-page:hover {
-  background: rgba(255, 238, 232, 0.85) !important;
-  color: #b91c1c !important;
+:host ::ng-deep .acciones-cell .p-button-warning .pi {
+  color: #f59e0b;
 }
 
-:host ::ng-deep .p-current-page-report {
-  color: #7f4f43 !important;
-  font-size: .85rem !important;
+:host ::ng-deep .acciones-cell .p-button-danger .pi {
+  color: #ef4444;
+}
+
+:host ::ng-deep .acciones-cell .p-button:hover .pi {
+  transform: scale(1.15);
+  filter: brightness(1.15);
 }
 
 /* =========================================================
-   DIALOG / MODAL
+   MODAL (DIALOG)
 ========================================================= */
 :host ::ng-deep .p-dialog {
   border-radius: 16px !important;
   overflow: hidden !important;
-  background: linear-gradient(135deg, #fcf0e9, #f3e0d3) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 
 :host ::ng-deep .p-dialog .p-dialog-header {
   background: linear-gradient(135deg, #f3e0d3, #fcf0e9) !important;
-  border-bottom: 2px solid rgba(255, 210, 210, 0.7) !important;
+  border-bottom: 1px solid rgba(255, 210, 210, 0.7) !important;
+  padding: 16px 20px !important;
 }
 
-:host ::ng-deep .p-dialog .p-dialog-title {
+:host ::ng-deep .p-dialog-title {
   color: #b91c1c !important;
-  font-weight: 700 !important;
-  font-size: 16px !important;
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
 }
 
 :host ::ng-deep .p-dialog .p-dialog-content {
   background: linear-gradient(135deg, #fcf0e9, #f3e0d3) !important;
+  padding: 22px !important;
   color: #4b2920 !important;
-  padding: 20px !important;
-  overflow: auto !important;
 }
 
-/* Footer botones */
 :host ::ng-deep .p-dialog .p-dialog-footer {
+  background: linear-gradient(135deg, #fcf0e9, #f3e0d3) !important;
+  border-top: 1px solid rgba(255, 210, 210, 0.7) !important;
+  padding: 14px 20px !important;
   display: flex;
-  gap: 12px;
   justify-content: flex-end;
-  align-items: center;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 210, 210, 0.7) !important;
-  color: #d4d4d4 !important;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-text:hover {
-  background: rgba(255, 238, 232, 0.85) !important;
-  border-color: rgba(255, 210, 210, 0.72) !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success {
-  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
-  border: none !important;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-footer .p-button.p-button-success:hover {
-  filter: brightness(1.08);
+  gap: 10px;
 }
 
 /* =========================================================
-   FORMULARIO (labels arriba)
+   BOTONES DEL MODAL
+========================================================= */
+:host ::ng-deep .p-dialog-footer .p-button {
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-weight: 600 !important;
+}
+
+/* Cancelar */
+:host ::ng-deep .p-dialog-footer .p-button.p-button-text {
+  background: transparent !important;
+  border: 1px solid rgba(255, 210, 210, 0.7) !important;
+  color: #7f4f43 !important;
+}
+
+:host ::ng-deep .p-dialog-footer .p-button.p-button-text:hover {
+  background: rgba(255, 238, 232, 0.85) !important;
+}
+
+/* Crear / Actualizar */
+:host ::ng-deep .p-dialog-footer .p-button.p-button-success {
+  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .p-dialog-footer .p-button.p-button-success:hover {
+  filter: brightness(1.08);
+}
+
+/* Eliminar */
+:host ::ng-deep .p-dialog-footer .p-button.p-button-danger {
+  background: #ef4444 !important;
+  border: none !important;
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .p-dialog-footer .p-button.p-button-danger:hover {
+  background: #dc2626 !important;
+}
+
+/* =========================================================
+   FORMULARIO MODAL
 ========================================================= */
 .form-modal {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
-
 .form-group {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 6px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .form-group label {
-  order: 1 !important;
-  font-size: 13px;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #7f4f43;
-  margin-bottom: 2px;
 }
 
 .form-group input,
-.form-group select,
 .form-group .p-inputtext,
 .form-group .ng-select-container {
-  order: 2 !important;
-  width: 100% !important;
-}
-
-/* Inputs del modal (pInputText) */
-:host ::ng-deep .p-dialog .p-inputtext,
-:host ::ng-deep .p-dialog input.p-inputtext,
-:host ::ng-deep .p-dialog input[pinputtext] {
   background: rgba(255, 248, 242, 0.95) !important;
   border: 1px solid rgba(255, 210, 210, 0.7) !important;
-  color: #4b2920 !important;
-  padding: 8px 12px !important;
-  font-size: 13px !important;
-  border-radius: 6px !important;
-  transition: .2s ease !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
 }
 
-:host ::ng-deep .p-dialog .p-inputtext:focus,
-:host ::ng-deep .p-dialog input.p-inputtext:focus,
-:host ::ng-deep .p-dialog input[pinputtext]:focus {
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.6) !important;
-}
-
-:host ::ng-deep .p-dialog .p-inputtext::placeholder {
-  color: #8a8fa3 !important;
-}
 
 /* =========================================================
-   SELECT NATIVO ESTILIZADO (Solución para el dropdown)
-========================================================= */
-.custom-select-modal {
-  width: 100% !important;
-  padding: 8px 12px !important;
-  background: rgba(255, 248, 242, 0.95) !important;
-  border: 1px solid rgba(255, 210, 210, 0.7) !important;
-  color: #4b2920 !important;
-  font-size: 13px !important;
-  border-radius: 6px !important;
-  font-family: inherit !important;
-  cursor: pointer !important;
-  transition: all .2s ease !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 8px center !important;
-  background-size: 20px !important;
-  padding-right: 32px !important;
-}
-
-.custom-select-modal:hover {
-  border-color: rgba(255, 210, 210, 0.72) !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.custom-select-modal:focus {
-  outline: none !important;
-  border-color: rgba(255, 210, 210, 0.7) !important;
-  background-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(255, 210, 210, 0.6) !important;
-}
-
-/* Opciones del select en navegadores que lo permiten */
-.custom-select-modal option {
-  background: #1e1e2e !important;
-  color: #4b2920 !important;
-  padding: 8px 12px !important;
-}
-
-.custom-select-modal option:hover {
-  background: rgba(255, 210, 210, 0.65) !important;
-  color: #b91c1c !important;
-}
-
-.custom-select-modal option:checked {
-  background: rgba(255, 210, 210, 0.65) !important;
-  color: #b91c1c !important;
-}
-
-/* Firefox específicamente */
-.custom-select-modal option {
-  background: #1a1a2e;
-  color: #4b2920;
-}
-
-/* =========================================================
-   ERROR MESSAGE
+   ERROR
 ========================================================= */
 .form-error {
-  padding: 10px 12px;
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  padding: 10px;
   background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 6px;
-  color: #fca5a5;
-  font-size: 13px;
-  margin-top: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 8px;
+  color: #b91c1c;
+  font-size: 0.85rem;
 }
 
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 768px) {
+  .filter-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
+  .search-input {
+    min-width: 100%;
+  }
+
+  .form-modal {
+    grid-template-columns: 1fr;
+  }
+}
 

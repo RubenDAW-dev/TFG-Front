@@ -38,7 +38,13 @@ export class Equipos implements OnInit {
   allTeams: any[] = [];
   teams: any[] = [];
   cities: any[] = [];
+
+  /** ✅ FILTRO APLICADO */
   selectedCity: string | null = null;
+
+  /** ✅ FILTRO EN PREVIEW (UI) */
+  selectedCityTemp: string | null = null;
+
   loading = true;
   totalRecords = 0;
   currentRows = 20;
@@ -51,8 +57,9 @@ export class Equipos implements OnInit {
 
   loadAll() {
     this.loading = true;
+
     this.service.getStatsTable().subscribe({
-      next: (res) => {
+      next: res => {
         this.allTeams = res;
         this.teams = [...res];
         this.cities = this.getCities(res);
@@ -65,13 +72,15 @@ export class Equipos implements OnInit {
             this.dt.sortOrder = -1;
             this.dt.sortSingle();
           }
-        }, 0);
+        });
 
-        this.applyFilters();
+        /** ✅ sincroniza preview con lo aplicado */
+        this.selectedCityTemp = this.selectedCity;
+
         this.cdr.detectChanges();
       },
-      error: (err) => {
-        console.error('Error completo:', err);
+      error: err => {
+        console.error(err);
         this.loading = false;
       }
     });
@@ -82,7 +91,10 @@ export class Equipos implements OnInit {
     return unique.sort().map(ciudad => ({ label: ciudad, value: ciudad }));
   }
 
+  /** ✅ SOLO FILTRA CUANDO PULSAS APLICAR */
   applyFilters() {
+    this.selectedCity = this.selectedCityTemp;
+
     if (!this.selectedCity) {
       this.teams = [...this.allTeams];
     } else {
@@ -90,6 +102,7 @@ export class Equipos implements OnInit {
     }
 
     this.totalRecords = this.teams.length;
+
     if (this.dt) {
       this.dt.first = 0;
       this.dt.reset();
@@ -98,7 +111,13 @@ export class Equipos implements OnInit {
 
   clearFilters() {
     this.selectedCity = null;
-    this.applyFilters();
+    this.selectedCityTemp = null;
+    this.teams = [...this.allTeams];
+
+    if (this.dt) {
+      this.dt.first = 0;
+      this.dt.reset();
+    }
   }
 
   onRowsChange(rows: number) {

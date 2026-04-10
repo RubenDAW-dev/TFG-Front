@@ -15,7 +15,7 @@
       class="search-input"
     />
     <select 
-      class="filter-select"
+      class="custom-select-filtro"
       [(ngModel)]="filtroTipo" 
       (ngModelChange)="onFiltroTipoChange()"
     >
@@ -50,59 +50,68 @@
     
     <ng-template pTemplate="header">
       <tr>
-        <th>Tipo</th>
-        <th>Título/Contenido</th>
-        <th pSortableColumn="usuarioNombre">Autor <p-sortIcon field="usuarioNombre"></p-sortIcon></th>
-        <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
-        <th style="width: 10%">Acciones</th>
+        <th style="width: 12%;">Tipo</th>
+        <th style="width: 40%;">Título/Contenido</th>
+        <th pSortableColumn="usuarioNombre" style="width: 18%;">
+          Autor <p-sortIcon field="usuarioNombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="fecha" style="width: 15%;">
+          Fecha <p-sortIcon field="fecha"></p-sortIcon>
+        </th>
+        <th style="width: 15%;">Acciones</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-comentario>
       <tr>
-        <td>
+        <td style="width: 12%;">
           <span class="badge-tipo" [class.badge-topic]="!comentario.comentarioPadreId" [class.badge-respuesta]="comentario.comentarioPadreId">
             {{ getTipoComentario(comentario) }}
           </span>
         </td>
-        <td>
+        <td style="width: 40%;">
           <div class="contenido-preview">
             <div class="contenido-titulo" *ngIf="comentario.titulo">{{ comentario.titulo }}</div>
             <div class="contenido-texto">{{ comentario.comentario | slice:0:80 }}...</div>
           </div>
         </td>
-        <td><strong>{{ comentario.usuarioNombre }}</strong></td>
-        
-        <td>{{ comentario.fecha | date:'dd/MM/yyyy' }}</td>
-        <td>
-          <button pButton type="button" 
-                  icon="pi pi-eye" 
-                  class="p-button-rounded p-button-info p-button-sm"
-                  (click)="verDetalles(comentario)"
-                  pTooltip="Ver detalles" 
-                  tooltipPosition="top">
-          </button>
-          <button pButton type="button" 
-                  icon="pi pi-trash" 
-                  class="p-button-rounded p-button-danger p-button-sm"
-                  (click)="eliminarComentario(comentario.id, comentario.titulo)"
-                  pTooltip="Eliminar" 
-                  tooltipPosition="top"
-                  style="margin-left: 0.5rem;">
-          </button>
+        <td style="width: 18%;">
+          <strong class="truncate-cell">{{ comentario.usuarioNombre }}</strong>
+        </td>
+        <td style="width: 15%;">
+          {{ comentario.fecha | date:'dd/MM/yyyy' }}
+        </td>
+        <td style="width: 15%;">
+          <div class="action-buttons">
+            <button pButton type="button" 
+                    icon="pi pi-eye" 
+                    class="p-button-text p-button-info p-button-sm"
+                    (click)="verDetalles(comentario)"
+                    pTooltip="Ver detalles" 
+                    tooltipPosition="top">
+            </button>
+            <button pButton type="button" 
+                    icon="pi pi-trash" 
+                    class="p-button-text p-button-danger p-button-sm"
+                    (click)="eliminarComentario(comentario.id, comentario.titulo)"
+                    pTooltip="Eliminar" 
+                    tooltipPosition="top">
+            </button>
+          </div>
         </td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6" style="text-align: center;">No hay comentarios</td>
+        <td colspan="5" style="text-align: center;">No hay comentarios</td>
       </tr>
     </ng-template>
   </p-table>
 
 </div>
 
+<!-- MODAL DETALLES -->
 <p-dialog 
   [(visible)]="mostrarDetalles"
   [header]="comentarioSeleccionado?.titulo || 'Detalles del Comentario'"
@@ -142,6 +151,11 @@
 
   <ng-template pTemplate="footer">
     <button pButton type="button" 
+            label="Cerrar"
+            (click)="mostrarDetalles = false"
+            class="p-button-text">
+    </button>
+    <button pButton type="button" 
             label="Eliminar"
             (click)="eliminarComentario(comentarioSeleccionado.id, comentarioSeleccionado.titulo)"
             class="p-button-danger">
@@ -150,7 +164,7 @@
 
 </p-dialog>
 
-<!-- MODAL CONFIRMACIÓN ✅ IGUAL QUE ADMINEQUIPOS -->
+<!-- MODAL CONFIRMACIÓN -->
 <p-dialog 
   [(visible)]="modalVisible"
   [header]="modalTitulo"
@@ -161,7 +175,7 @@
   [resizable]="false">
 
   <ng-template pTemplate="content">
-    <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
+    <p [innerHTML]="modalMensaje" style="color: #4b2920; line-height: 1.6;"></p>
   </ng-template>
 
   <ng-template pTemplate="footer">

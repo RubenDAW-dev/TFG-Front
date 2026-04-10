@@ -6,49 +6,27 @@
 
   <!-- BÚSQUEDA Y FILTROS -->
   <div class="filter-section">
-    <input 
-      type="text" 
-      pInputText
-      [(ngModel)]="busqueda" 
-      (ngModelChange)="onBusquedaChange()"
-      placeholder="🔍 Buscar por equipos o estadio..."
-      class="search-input"
-    />
-    <select 
-      class="filter-select"
-      [(ngModel)]="filtroSemana"
-      (ngModelChange)="onFiltroSemanaChange()"
-    >
+    <input type="text" pInputText [(ngModel)]="busqueda" (ngModelChange)="onBusquedaChange()"
+      placeholder="🔍 Buscar por equipos o estadio..." class="search-input" />
+    <select class="filter-select" [(ngModel)]="filtroSemana" (ngModelChange)="onFiltroSemanaChange()">
       <option value="">Todas las semanas</option>
-      <option *ngFor="let wk of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38]" [value]="wk">
+      <option
+        *ngFor="let wk of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38]"
+        [value]="wk">
         Semana {{ wk }}
       </option>
     </select>
-    <button 
-      pButton type="button"
-      icon="pi pi-times"
-      *ngIf="busqueda || filtroSemana"
-      (click)="limpiarFiltros()"
-      class="p-button-text"
-      label="Limpiar">
+    <button pButton type="button" icon="pi pi-times" *ngIf="busqueda || filtroSemana" (click)="limpiarFiltros()"
+      class="p-button-text" label="Limpiar">
     </button>
   </div>
 
   <!-- TABLA DE PARTIDOS CON PAGINACIÓN -->
-  <p-table 
-    [value]="partidosFiltrados" 
-    [loading]="cargando"
-    [rows]="rows"
-    [totalRecords]="totalRecords"
-    [paginator]="true"
-    [first]="first"
-    (onPageChange)="onPageChange($event)"
-    [rowsPerPageOptions]="[20, 50, 100]"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} partidos"
-    responsiveLayout="scroll"
-    styleClass="p-datatable-striped">
-    
+  <p-table [value]="partidosFiltrados" [loading]="cargando" [rows]="rows" [totalRecords]="totalRecords"
+    [paginator]="true" [first]="first" (onPageChange)="onPageChange($event)" [rowsPerPageOptions]="[20, 50, 100]"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} partidos"
+    responsiveLayout="scroll" styleClass="p-datatable-striped">
+
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="wk">Semana <p-sortIcon field="wk"></p-sortIcon></th>
@@ -72,14 +50,13 @@
         <td>{{ partido.time || '—' }}</td>
         <td>{{ partido.venue || '—' }}</td>
         <td>
-          <button pButton type="button" 
-                  icon="pi pi-pencil" 
-                  class="p-button-rounded p-button-warning p-button-sm"
-                  (click)="editarPartido(partido)"
-                  pTooltip="Editar" 
-                  tooltipPosition="top">
-          </button>
+          <div class="acciones-cell">
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-text p-button-sm p-button-warning"
+              (click)="editarPartido(partido)" pTooltip="Editar" tooltipPosition="top">
+            </button>
+          </div>
         </td>
+
       </tr>
     </ng-template>
 
@@ -93,16 +70,9 @@
 </div>
 
 <!-- MODAL FORMULARIO EDICIÓN -->
-<p-dialog 
-  [(visible)]="mostrarForm"
-  [header]="'Editar Partido'"
-  [modal]="true"
-  [style]="{width: '60vw', 'z-index': 1000}"
-  [breakpoints]="{'960px': '80vw', '640px': '95vw'}"
-  [draggable]="false"
-  [resizable]="false"
-  (onShow)="onDialogShow()"
-  (onHide)="onDialogHide()">
+<p-dialog [(visible)]="mostrarForm" [header]="'Editar Partido'" [modal]="true"
+  [style]="{width: '60vw', 'z-index': 1000}" [breakpoints]="{'960px': '80vw', '640px': '95vw'}" [draggable]="false"
+  [resizable]="false" (onShow)="onDialogShow()" (onHide)="onDialogHide()">
 
   <ng-template pTemplate="content">
     <div class="form-modal">
@@ -181,48 +151,29 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cancelar" 
-            (click)="cerrarFormulario()"
-            class="p-button-text">
+    <button pButton type="button" label="Cancelar" (click)="cerrarFormulario()" class="p-button-text">
     </button>
 
-    <button pButton type="button" 
-            label="Guardar"
-            (click)="guardarPartido()"
-            class="p-button-success">
+    <button pButton type="button" label="Guardar" (click)="guardarPartido()" class="p-button-success">
     </button>
   </ng-template>
 
 </p-dialog>
 
 <!-- MODAL CONFIRMACIÓN -->
-<p-dialog 
-  [(visible)]="modalVisible"
-  [header]="modalTitulo"
-  [modal]="true"
-  [style]="{width: '40vw', 'z-index': 1001}"
-  [breakpoints]="{'960px': '60vw', '640px': '90vw'}"
-  [draggable]="false"
-  [resizable]="false">
+<p-dialog [(visible)]="modalVisible" [header]="modalTitulo" [modal]="true" [style]="{width: '40vw', 'z-index': 1001}"
+  [breakpoints]="{'960px': '60vw', '640px': '90vw'}" [draggable]="false" [resizable]="false">
 
   <ng-template pTemplate="content">
     <p [innerHTML]="modalMensaje" style="color: #e0e0e0; line-height: 1.6;"></p>
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cancelar" 
-            (click)="cerrarModal()"
-            class="p-button-text"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Cancelar" (click)="cerrarModal()" class="p-button-text"
+      [disabled]="enviandoModal">
     </button>
-    <button pButton type="button" 
-            label="Guardar"
-            (click)="confirmarAccion()"
-            class="p-button-success"
-            [loading]="enviandoModal"
-            [disabled]="enviandoModal">
+    <button pButton type="button" label="Guardar" (click)="confirmarAccion()" class="p-button-success"
+      [loading]="enviandoModal" [disabled]="enviandoModal">
     </button>
   </ng-template>
 </p-dialog>
