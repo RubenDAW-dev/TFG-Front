@@ -1,22 +1,47 @@
 <h2 class="section-title">Próximos partidos</h2>
 
-<div *ngIf="matches.length === 0" class="empty">No hay datos disponibles.</div>
+<div *ngIf="matches.length === 0" class="empty">
+  No hay datos disponibles.
+</div>
 
-<div class="matches-grid-2col" *ngIf="matches.length > 0">
+<div *ngIf="matches.length > 0">
   <div
     class="match-row"
     *ngFor="let match of matches"
     [routerLink]="['/partidos', match.id]"
-    style="cursor:pointer"
   >
-    <span class="col-left">{{ match.homeTeam }}</span>
+    <!-- Equipo local -->
+    <div class="team home">
+      <img
+        class="team-shield"
+        [src]="match.homeTeamEscudo"
+        [alt]="match.homeTeam"
+      />
+      <span class="team-name">
+        {{ match.homeTeam }}
+      </span>
+    </div>
 
-    <!-- Fecha/hora centrado -->
-    <span class="col-center">
-      <span class="day">{{ formatDay(match.day) }} </span>
-      <span class="time">{{ match.time }}</span>
-    </span>
+    <!-- Fecha / Hora -->
+    <div class="match-center">
+      <span class="day">
+        {{ formatDay(match.day) }}
+      </span>
+      <span class="time">
+        {{ match.time }}
+      </span>
+    </div>
 
-    <span class="col-right">{{ match.awayTeam }}</span>
+    <!-- Equipo visitante -->
+    <div class="team away">
+      <span class="team-name">
+        {{ match.awayTeam }}
+      </span>
+      <img
+        class="team-shield"
+        [src]="match.awayTeamEscudo"
+        [alt]="match.awayTeam"
+      />
+    </div>
   </div>
 </div>

@@ -5,79 +5,90 @@
   margin-bottom: 12px;
 }
 
+/* Fila */
 .match-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 12px;
-
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  gap: 12px;
+
   padding: 12px 14px;
+  height: 60px;
   border-radius: 16px;
-  border: 1px solid rgba(185, 28, 28, 0.12);
   background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(185, 28, 28, 0.12);
   margin-bottom: 10px;
 
   font-size: 0.95rem;
   color: #4b2920;
   font-weight: 500;
 
-  height: 60px;
   box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .match-row:hover {
   background: rgba(255, 238, 232, 0.95);
+  border-color: rgba(185, 28, 28, 0.35);
 }
 
 /* Equipos */
 .team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.team.home {
+  justify-content: flex-start;
+}
+
+.team.away {
+  justify-content: flex-end;
+}
+
+/* Nombre equipo */
+.team-name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Alineaciones */
-.left {
-  justify-self: start;
-}
-
-.right {
-  justify-self: end;
-}
-
-/* CENTRO */
-.center {
-  justify-self: center;
+/* Centro (fecha / hora) */
+.match-center {
   text-align: center;
   line-height: 1.1;
 }
 
-/* Para NEXT (día y hora dentro del centro) */
-.center .day {
-  font-weight: 600;
+.match-center .day {
   display: block;
+  font-weight: 600;
 }
 
-.center .time {
+.match-center .time {
+  display: block;
   font-size: 0.85rem;
   color: #7f4f43;
-  display: block;
   margin-top: 2px;
 }
 
-/* Para PAST (score en el centro) */
-.strong {
-  font-weight: 800;
-  color: #7f1d1d;
+/* Escudos */
+.team-shield {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
-/* Si no hay datos */
+/* Empty */
 .empty {
   text-align: center;
   color: #7f5a51;
   padding: 10px 0;
 }
 
+/* h2 común */
 h2 {
   color: #b91c1c;
   font-size: 1.2rem;
@@ -88,6 +99,3 @@ h2 {
   border-bottom: 2px solid rgba(185, 28, 28, 0.3);
   padding-bottom: 12px;
 }
-
-
-

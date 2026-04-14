@@ -347,10 +347,6 @@
   transition: opacity 0.2s;
 }
 
-.player-cell:hover .player-image {
-  opacity: 1;
-}
-
 .player-link {
   color: #b91c1c;
   text-decoration: none;

@@ -1,23 +1,41 @@
 <h2 class="section-title">Partidos Pasados</h2>
-<div class="matches-grid-2col" *ngIf="matches.length > 0; else noPastMatches">
-  <div
-    class="match-row current"
-    *ngFor="let match of matches"
-    [ngClass]="getResultClass(match)"
-    [routerLink]="['/partidos', match.id]"
-    style="cursor:pointer"
-  >
-    <span class="col-left">{{ match.homeTeam }}</span>
 
-    <!-- Con resultado -->
-    <span class="col-center strong" *ngIf="match.score && match.score.trim() !== ''">
-      {{ match.score }}
+<div class="matches-list" *ngIf="matches.length > 0; else empty">
+  <div class="match-row"
+     *ngFor="let match of matches"
+     [routerLink]="['/partidos', match.id]"
+     style="cursor:pointer">
+
+  <!-- Equipo local -->
+  <div class="team home">
+    <img class="team-shield"
+         [src]="match.homeTeamEscudo"
+         [alt]="match.homeTeam">
+    <span class="team-name">
+      {{ match.homeTeam }}
     </span>
+  </div>
 
-    <span class="col-right">{{ match.awayTeam }}</span>
+  <!-- Resultado -->
+  <span class="match-score">
+    {{ match.score }}
+  </span>
+
+  <!-- Equipo visitante -->
+  <div class="team away">
+
+    <img class="team-shield"
+         [src]="match.awayTeamEscudo"
+         [alt]="match.awayTeam">
+             <span class="team-name">
+      {{ match.awayTeam }}
+    </span>
   </div>
 </div>
+</div>
 
-<ng-template #noPastMatches>
-  <div class="empty">No hay datos disponibles.</div>
+<ng-template #empty>
+  <div class="empty">
+    No hay datos disponibles
+  </div>
 </ng-template>

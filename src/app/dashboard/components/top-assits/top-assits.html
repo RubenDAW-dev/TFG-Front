@@ -10,6 +10,13 @@
           style="cursor:pointer"
         >
           <div class="w-10">{{ $index + 1 }}</div>
+          <div>
+            <img 
+              [src]="p.imageUrl" 
+              alt="{{ p.playerName }}"
+              class="player-image" 
+            />
+          </div>
           <div class="flex-1">{{ p.playerName }}</div>
           <div class="text-red-600 font-bold">{{ p.valor }}</div>
         </div>

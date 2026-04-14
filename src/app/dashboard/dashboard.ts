@@ -45,10 +45,12 @@ export class DashboardComponent implements OnInit {
 
     this.pss.getTopScorers(undefined, 6).subscribe(res => {
       this.topScorers.set(res ?? []);
+      console.log('Top Scorers:', res);
     });
 
     this.pss.getTopAssists(undefined, 6).subscribe(res => {
       this.topAssists.set(res ?? []);
+      console.log('Top Assists:', res);
     });
 
     this.teamStats.getLeagueTable().subscribe(res => {
