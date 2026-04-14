@@ -40,7 +40,6 @@ h2 {
 
 .flex:hover {
   background: rgba(255, 238, 232, 0.95);
-  transform: translateX(4px);
 }
 
 /* ── Posición ranking ───────────────── */
