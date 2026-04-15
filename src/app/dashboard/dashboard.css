@@ -13,7 +13,7 @@
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, rgba(255, 245, 238, 0.95) 0%, rgba(255, 237, 228, 1) 100%);
+  background:  rgb(255, 206, 181);
   padding: 80px 40px;
   text-align: center;
   border-bottom: 1px solid rgba(185, 28, 28, 0.18);
