@@ -15,13 +15,21 @@
       class="search-input"
     />
 
+    <select
+      class="filter-select"
+      [(ngModel)]="selectedCity"
+      (ngModelChange)="onCityChange()">
+      <option value="">Todas las ciudades</option>
+      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+    </select>
+
     <button
       pButton
       type="button"
       icon="pi pi-times"
       class="p-button-text"
       label="Limpiar"
-      *ngIf="busqueda"
+      *ngIf="busqueda || selectedCity"
       (click)="limpiarFiltros()">
     </button>
   </div>
@@ -49,7 +57,17 @@
 
     <ng-template pTemplate="body" let-equipo>
       <tr>
-        <td><strong>{{ equipo.nombre }}</strong></td>
+        <td>
+          <div class="team-cell">
+            <img
+              *ngIf="getEscudoEquipo(equipo)"
+              [src]="getEscudoEquipo(equipo)"
+              [alt]="equipo.nombre"
+              class="team-shield"
+            />
+            <strong>{{ equipo.nombre }}</strong>
+          </div>
+        </td>
         <td>{{ equipo.ciudad }}</td>
         <td>{{ equipo.estadio }}</td>
         <td>{{ equipo.capacidad | number }}</td>

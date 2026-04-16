@@ -10,6 +10,12 @@ export interface UsuarioDTO {
   rol: number; // 1 = admin, 0 = usuario normal
 }
 
+export interface CrearUsuarioDTO {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +33,10 @@ export class UsuariosService {
 
   obtener(id: number): Observable<UsuarioDTO> {
     return this.http.get<UsuarioDTO>(`${this.api}/${id}`);
+  }
+
+  crear(dto: CrearUsuarioDTO): Observable<unknown> {
+    return this.http.post(`${this.api}/create`, dto);
   }
 
   actualizar(id: number, dto: Partial<UsuarioDTO>): Observable<UsuarioDTO> {

@@ -2,40 +2,85 @@
 
   <div class="section-header">
     <h2 class="section-title">💬 Moderación de Comentarios</h2>
+    <button
+      pButton
+      type="button"
+      label="Nuevo comentario"
+      icon="pi pi-plus"
+      class="p-button-success"
+      (click)="abrirModalCrear()">
+    </button>
   </div>
 
-  <!-- BÚSQUEDA Y FILTROS -->
   <div class="filter-section">
-    <input 
-      type="text" 
+    <input
+      type="text"
       pInputText
-      [(ngModel)]="busqueda" 
+      [(ngModel)]="busqueda"
       (ngModelChange)="onBusquedaChange()"
-      placeholder="🔍 Buscar por título, contenido o autor..."
+      placeholder="🔍 Buscar por titulo, contenido, autor o entidad..."
       class="search-input"
     />
-    <select 
+
+    <select
       class="custom-select-filtro"
-      [(ngModel)]="filtroTipo" 
+      [(ngModel)]="filtroTipo"
       (ngModelChange)="onFiltroTipoChange()"
     >
       <option value="">Todos los tipos</option>
       <option value="topic">Topics</option>
       <option value="respuesta">Respuestas</option>
     </select>
-    <button 
-      pButton type="button"
+
+    <select
+      class="custom-select-filtro"
+      [(ngModel)]="filtroTarget"
+      (ngModelChange)="onFiltroTargetChange()"
+    >
+      <option value="todos">Todas las entidades</option>
+      <option value="equipo">Equipos</option>
+      <option value="jugador">Jugadores</option>
+      <option value="partido">Partidos</option>
+    </select>
+
+    <ng-select
+      *ngIf="filtroTarget !== 'todos'"
+      class="filter-ng-select"
+      [items]="opcionesFiltroTarget"
+      bindLabel="nombre"
+      bindValue="id"
+      [(ngModel)]="filtroTargetId"
+      (ngModelChange)="onFiltroTargetIdChange()"
+      [loading]="cargandoFiltroTarget"
+      [clearable]="true"
+      [searchable]="true"
+      placeholder="Selecciona una entidad">
+    </ng-select>
+
+    <span
+      *ngIf="filtroTargetNombre"
+      class="filter-entity-label"
+      [class.filter-entity-label-equipo]="filtroTarget === 'equipo'"
+      [class.filter-entity-label-jugador]="filtroTarget === 'jugador'"
+      [class.filter-entity-label-partido]="filtroTarget === 'partido'">
+      <i [class]="getFilterTargetIcon()" aria-hidden="true"></i>
+      <span>Filtrado por:</span>
+      <strong>{{ getFilterTargetLabel() }}</strong>
+    </span>
+
+    <button
+      pButton
+      type="button"
       icon="pi pi-times"
-      *ngIf="busqueda || filtroTipo"
+      *ngIf="busqueda || filtroTipo || filtroTarget !== 'todos' || filtroTargetId"
       (click)="limpiarFiltros()"
       class="p-button-text"
       label="Limpiar">
     </button>
   </div>
 
-  <!-- TABLA DE COMENTARIOS -->
-  <p-table 
-    [value]="comentariosFiltrados" 
+  <p-table
+    [value]="comentariosFiltrados"
     [loading]="cargando"
     [rows]="rows"
     [totalRecords]="totalRecords"
@@ -47,54 +92,63 @@
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} comentarios"
     responsiveLayout="scroll"
     styleClass="p-datatable-striped">
-    
+
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 12%;">Tipo</th>
-        <th style="width: 40%;">Título/Contenido</th>
-        <th pSortableColumn="usuarioNombre" style="width: 18%;">
+        <th style="width: 11%;">Tipo</th>
+        <th style="width: 33%;">Titulo/Contenido</th>
+        <th style="width: 18%;">Entidad</th>
+        <th pSortableColumn="usuarioNombre" style="width: 16%;">
           Autor <p-sortIcon field="usuarioNombre"></p-sortIcon>
         </th>
-        <th pSortableColumn="fecha" style="width: 15%;">
+        <th pSortableColumn="fecha" style="width: 12%;">
           Fecha <p-sortIcon field="fecha"></p-sortIcon>
         </th>
-        <th style="width: 15%;">Acciones</th>
+        <th style="width: 10%;">Acciones</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-comentario>
       <tr>
-        <td style="width: 12%;">
-          <span class="badge-tipo" [class.badge-topic]="!comentario.comentarioPadreId" [class.badge-respuesta]="comentario.comentarioPadreId">
+        <td>
+          <span class="badge-tipo" [class.badge-topic]="!comentario.comentarioPadreId" [class.badge-respuesta]="!!comentario.comentarioPadreId">
             {{ getTipoComentario(comentario) }}
           </span>
         </td>
-        <td style="width: 40%;">
+        <td>
           <div class="contenido-preview">
             <div class="contenido-titulo" *ngIf="comentario.titulo">{{ comentario.titulo }}</div>
-            <div class="contenido-texto">{{ comentario.comentario | slice:0:80 }}...</div>
+            <div class="contenido-texto">{{ comentario.comentario | slice:0:90 }}{{ comentario.comentario?.length > 90 ? '...' : '' }}</div>
           </div>
         </td>
-        <td style="width: 18%;">
+        <td>
+          <span
+            class="target-chip"
+            [class.target-chip-equipo]="getTargetType(comentario) === 'equipo'"
+            [class.target-chip-jugador]="getTargetType(comentario) === 'jugador'"
+            [class.target-chip-partido]="getTargetType(comentario) === 'partido'">
+            <i [class]="getTargetIcon(comentario)" aria-hidden="true"></i>
+            <span>{{ getTargetLabel(comentario) }}</span>
+          </span>
+        </td>
+        <td>
           <strong class="truncate-cell">{{ comentario.usuarioNombre }}</strong>
         </td>
-        <td style="width: 15%;">
-          {{ comentario.fecha | date:'dd/MM/yyyy' }}
-        </td>
-        <td style="width: 15%;">
+        <td>{{ comentario.fecha | date:'dd/MM/yyyy' }}</td>
+        <td>
           <div class="action-buttons">
-            <button pButton type="button" 
-                    icon="pi pi-eye" 
+            <button pButton type="button"
+                    icon="pi pi-eye"
                     class="p-button-text p-button-info p-button-sm"
                     (click)="verDetalles(comentario)"
-                    pTooltip="Ver detalles" 
+                    pTooltip="Ver detalles"
                     tooltipPosition="top">
             </button>
-            <button pButton type="button" 
-                    icon="pi pi-trash" 
+            <button pButton type="button"
+                    icon="pi pi-trash"
                     class="p-button-text p-button-danger p-button-sm"
                     (click)="eliminarComentario(comentario.id, comentario.titulo)"
-                    pTooltip="Eliminar" 
+                    pTooltip="Eliminar"
                     tooltipPosition="top">
             </button>
           </div>
@@ -104,20 +158,70 @@
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5" style="text-align: center;">No hay comentarios</td>
+        <td colspan="6" style="text-align: center;">No hay comentarios</td>
       </tr>
     </ng-template>
   </p-table>
 
 </div>
 
-<!-- MODAL DETALLES -->
-<p-dialog 
+<p-dialog
   [(visible)]="mostrarDetalles"
-  [header]="comentarioSeleccionado?.titulo || 'Detalles del Comentario'"
+  [header]="comentarioSeleccionado?.titulo || 'Detalles del comentario'"
+  [modal]="true"
+  [style]="{width: '52vw', 'z-index': 1000}"
+  [breakpoints]="{'960px': '75vw', '640px': '92vw'}"
+  [draggable]="false"
+  [resizable]="false"
+  (onShow)="onDialogShow()"
+  (onHide)="onDialogHide()">
+
+  <ng-template pTemplate="content">
+    <div class="form-modal" *ngIf="comentarioSeleccionado">
+      <div class="form-group">
+        <label>Autor</label>
+        <p>{{ comentarioSeleccionado.usuarioNombre }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo</label>
+        <p>{{ getTipoComentario(comentarioSeleccionado) }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Entidad</label>
+        <p>{{ getTargetLabel(comentarioSeleccionado) }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha</label>
+        <p>{{ comentarioSeleccionado.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+      <div class="form-group" *ngIf="comentarioSeleccionado.titulo">
+        <label>Titulo</label>
+        <p>{{ comentarioSeleccionado.titulo }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Contenido</label>
+        <div class="content-box">{{ comentarioSeleccionado.comentario }}</div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Cerrar" (click)="cerrarDetalles()" class="p-button-text"></button>
+    <button pButton type="button" label="Eliminar" (click)="eliminarComentario(comentarioSeleccionado!.id, comentarioSeleccionado?.titulo)" class="p-button-danger"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="mostrarModalCrear"
+  [header]="'Crear comentario'"
   [modal]="true"
   [style]="{width: '50vw', 'z-index': 1000}"
-  [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+  [breakpoints]="{'960px': '75vw', '640px': '92vw'}"
   [draggable]="false"
   [resizable]="false"
   (onShow)="onDialogShow()"
@@ -125,47 +229,52 @@
 
   <ng-template pTemplate="content">
     <div class="form-modal">
-
       <div class="form-group">
-        <label>Autor:</label>
-        <p style="color: #b91c1c; font-weight: 600;">{{ comentarioSeleccionado?.usuarioNombre }}</p>
+        <label>Titulo</label>
+        <input type="text" pInputText [(ngModel)]="crearForm.titulo" class="input-modal" maxlength="200" />
       </div>
 
       <div class="form-group">
-        <label>Tipo:</label>
-        <p>{{ getTipoComentario(comentarioSeleccionado) }}</p>
+        <label>Comentario</label>
+        <textarea [(ngModel)]="crearForm.comentario" class="textarea-modal" rows="5" maxlength="5000"></textarea>
       </div>
 
       <div class="form-group">
-        <label>Fecha:</label>
-        <p>{{ comentarioSeleccionado?.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+        <label>Categoria</label>
+        <select [(ngModel)]="crearForm.tipo" (ngModelChange)="onCrearTipoChange()" class="custom-select-modal">
+          <option value="equipo">Equipo</option>
+          <option value="jugador">Jugador</option>
+          <option value="partido">Partido</option>
+        </select>
       </div>
 
       <div class="form-group">
-        <label>Contenido:</label>
-        <div class="content-box">{{ comentarioSeleccionado?.comentario }}</div>
+        <label>{{ crearForm.tipo === 'equipo' ? 'Equipo' : crearForm.tipo === 'jugador' ? 'Jugador' : 'Partido' }}</label>
+        <ng-select
+          class="modal-ng-select"
+          [items]="opcionesCrearTarget"
+          bindLabel="nombre"
+          bindValue="id"
+          [(ngModel)]="crearForm.targetId"
+          (ngModelChange)="onCrearTargetIdChange()"
+          [loading]="cargandoCrearTarget"
+          [searchable]="true"
+          [clearable]="false"
+          placeholder="Selecciona una entidad">
+        </ng-select>
       </div>
 
+      <div class="form-error" *ngIf="crearError">⚠ {{ crearError }}</div>
     </div>
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cerrar"
-            (click)="mostrarDetalles = false"
-            class="p-button-text">
-    </button>
-    <button pButton type="button" 
-            label="Eliminar"
-            (click)="eliminarComentario(comentarioSeleccionado.id, comentarioSeleccionado.titulo)"
-            class="p-button-danger">
-    </button>
+    <button pButton type="button" label="Cancelar" (click)="cerrarModalCrear()" class="p-button-text" [disabled]="enviandoCrear"></button>
+    <button pButton type="button" label="Crear" (click)="guardarNuevoComentario()" class="p-button-success" [loading]="enviandoCrear" [disabled]="enviandoCrear"></button>
   </ng-template>
-
 </p-dialog>
 
-<!-- MODAL CONFIRMACIÓN -->
-<p-dialog 
+<p-dialog
   [(visible)]="modalVisible"
   [header]="modalTitulo"
   [modal]="true"
@@ -179,18 +288,7 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" 
-            label="Cancelar" 
-            (click)="cerrarModal()"
-            class="p-button-text"
-            [disabled]="enviandoModal">
-    </button>
-    <button pButton type="button" 
-            label="Eliminar"
-            (click)="confirmarAccion()"
-            class="p-button-danger"
-            [loading]="enviandoModal"
-            [disabled]="enviandoModal">
-    </button>
+    <button pButton type="button" label="Cancelar" (click)="cerrarModal()" class="p-button-text" [disabled]="enviandoModal"></button>
+    <button pButton type="button" label="Eliminar" (click)="confirmarAccion()" class="p-button-danger" [loading]="enviandoModal" [disabled]="enviandoModal"></button>
   </ng-template>
 </p-dialog>

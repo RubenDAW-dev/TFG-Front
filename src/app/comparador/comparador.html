@@ -18,7 +18,7 @@
   <div class="selector-row">
     <!-- Selector Izquierda -->
     <div class="selector-panel left-panel">
-      <div class="selector-label">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} A</div>
+      <div class="selector-label" [ngClass]="{'selected-label': seleccionA}">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} A</div>
       <div class="custom-select-wrapper" [class.selected]="seleccionA">
         <ng-select [items]="listaOpciones" bindLabel="nombre" bindValue="id" placeholder="— Elige —"
           [(ngModel)]="seleccionA" (change)="onCambioA()" [searchable]="true">
@@ -42,7 +42,7 @@
 
     <!-- Selector Derecha -->
     <div class="selector-panel right-panel">
-      <div class="selector-label">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} B</div>
+      <div class="selector-label" [ngClass]="{'selected-label': seleccionB}">SELECCIONAR {{ modo === 'equipos' ? 'EQUIPO' : 'JUGADOR' }} B</div>
       <div class="custom-select-wrapper" [class.selected]="seleccionB">
         <ng-select [items]="listaOpciones" bindLabel="nombre" bindValue="id" placeholder="— Elige —"
           [(ngModel)]="seleccionB" (change)="onCambioB()" [searchable]="true">

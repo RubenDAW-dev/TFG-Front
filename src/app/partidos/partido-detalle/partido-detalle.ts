@@ -58,9 +58,9 @@ export class PartidoDetalle implements OnInit {
 
   // Colores consistentes para equipos
   private readonly homeColor = 'rgba(59, 130, 246, 0.8)'; // Azul
-  private readonly awayColor = 'rgba(239, 68, 68, 0.8)'; // Rojo
+  private readonly awayColor = 'rgba(47, 133, 90, 0.82)'; // Verde medio oscuro
   private readonly homeBorderColor = 'rgba(59, 130, 246, 1)';
-  private readonly awayBorderColor = 'rgba(239, 68, 68, 1)';
+  private readonly awayBorderColor = 'rgba(34, 109, 72, 1)';
 
   loading = true;
   error: string | null = null;
@@ -265,10 +265,10 @@ export class PartidoDetalle implements OnInit {
         {
           label: 'away',
           data: normB,
-          backgroundColor: 'rgba(255, 80, 120, 0.15)',
-          borderColor: '#ff5078',
+          backgroundColor: 'rgba(47, 133, 90, 0.18)',
+          borderColor: '#2f855a',
           borderWidth: 2,
-          pointBackgroundColor: '#ff5078',
+          pointBackgroundColor: '#2f855a',
 
           // 🔥 NECESARIO PARA QUE SE VEA EL TOOLTIP
           pointRadius: 5,
@@ -567,7 +567,8 @@ export class PartidoDetalle implements OnInit {
         name: p.player.nombre,
         yellow: p.yellowCards ?? 0,
         red: p.redCards ?? 0,
-        total: (p.yellowCards ?? 0) + (p.redCards ?? 0)
+        total: (p.yellowCards ?? 0) + (p.redCards ?? 0),
+        team: p.player.team?.id === this.match?.homeTeam.id ? 'home' : 'away'
       }))
       .sort((a, b) => b.total - a.total)
       .slice(0, 10);
@@ -575,6 +576,9 @@ export class PartidoDetalle implements OnInit {
     const labels = cardPlayers.map(p => p.name);
     const yellowData = cardPlayers.map(p => p.yellow);
     const redData = cardPlayers.map(p => p.red);
+    const labelColors = cardPlayers.map(p =>
+      p.team === 'home' ? this.homeBorderColor : this.awayBorderColor
+    );
 
     this.cardsChartInstance = new Chart(this.cardsChart.nativeElement, {
       type: 'bar',
@@ -609,7 +613,13 @@ export class PartidoDetalle implements OnInit {
           }
         },
         scales: {
-          x: { stacked: false },
+          x: {
+            stacked: false,
+            ticks: {
+              color: (ctx: any) => labelColors[ctx.index] ?? '#3d4a6b',
+              font: { weight: 600 }
+            }
+          },
           y: {
             beginAtZero: true,
             ticks: { precision: 0 }

@@ -42,6 +42,16 @@ export class AdminUsuariosComponent implements OnInit {
   first = 0;
   pagina = 1;
 
+  // MODAL CREAR USUARIO
+  mostrarModalCrear = false;
+  crearUsuarioForm = {
+    nombre: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  };
+  crearUsuarioError: string | null = null;
+
   // MODAL CAMBIAR ROL
   mostrarModalRol = false;
   usuarioSeleccionado: any = null;
@@ -159,6 +169,83 @@ export class AdminUsuariosComponent implements OnInit {
   // ====================================
   getRolNombre(rol: number): string {
     return rol === 1 ? 'ADMINISTRADOR' : 'USUARIO';
+  }
+
+  // ====================================
+  // MODAL CREAR USUARIO
+  // ====================================
+  abrirModalCrear(): void {
+    this.crearUsuarioForm = {
+      nombre: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    };
+    this.crearUsuarioError = null;
+    this.mostrarModalCrear = true;
+    this.cdr.detectChanges();
+  }
+
+  guardarNuevoUsuario(): void {
+    this.crearUsuarioError = null;
+
+    const nombre = this.crearUsuarioForm.nombre.trim();
+    const email = this.crearUsuarioForm.email.trim();
+    const password = this.crearUsuarioForm.password;
+    const confirmPassword = this.crearUsuarioForm.confirmPassword;
+
+    if (!nombre || !email || !password || !confirmPassword) {
+      this.crearUsuarioError = 'Completa todos los campos.';
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      this.crearUsuarioError = 'El email no tiene un formato válido.';
+      return;
+    }
+
+    if (password.length < 6) {
+      this.crearUsuarioError = 'La contraseña debe tener al menos 6 caracteres.';
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      this.crearUsuarioError = 'Las contraseñas no coinciden.';
+      return;
+    }
+
+    this.enviandoModal = true;
+    this.usuariosService.crear({ nombre, email, password }).subscribe({
+      next: () => {
+        this.enviandoModal = false;
+        this.cerrarModalCrear();
+        // Diferir la carga de usuarios al siguiente ciclo de eventos
+        // para evitar ExpressionChangedAfterItHasBeenCheckedError
+        setTimeout(() => this.cargarUsuarios(), 0);
+      },
+      error: (err) => {
+        this.enviandoModal = false;
+        if (err?.status === 409) {
+          this.crearUsuarioError = 'El correo ya está registrado.';
+        } else {
+          this.crearUsuarioError = 'No se pudo crear el usuario. Inténtalo de nuevo.';
+        }
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  cerrarModalCrear(): void {
+    this.mostrarModalCrear = false;
+    this.crearUsuarioError = null;
+    this.crearUsuarioForm = {
+      nombre: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    };
+    this.cdr.detectChanges();
   }
 
   // ====================================
@@ -302,7 +389,6 @@ export class AdminUsuariosComponent implements OnInit {
         this.error = null;
         this.enviandoModal = false;
         this.cerrarModal();
-        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Error al eliminar el usuario';
@@ -337,6 +423,8 @@ export class AdminUsuariosComponent implements OnInit {
 
   onDialogHide(): void {
     this.error = null;
+    this.crearUsuarioError = null;
+    this.passwordError = null;
     this.cdr.detectChanges();
   }
 }

@@ -29,6 +29,7 @@ body {
 
 /* Opcional: suaviza el scrolling en otras vistas */
 html {
+  font-size: 17px;
   scroll-behavior: smooth;
 }
 

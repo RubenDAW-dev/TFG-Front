@@ -311,5 +311,16 @@ h2 {
   }
 }
 
+/* Separación visual entre columnas de la tabla */
+table th:not(:last-child),
+table td:not(:last-child) {
+  border-right: 2px solid rgba(255, 210, 210, 0.7);
+}
+table th,
+table td {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
 
 

@@ -134,7 +134,7 @@
       <li class="topic-row" *ngFor="let t of topics; trackBy: trackById" (click)="abrirHilo(t)">
         <div class="topic-avatar">{{ t.usuarioNombre.charAt(0).toUpperCase() }}</div>
         <div class="topic-content">
-          <div class="topic-title">{{ t.titulo }}</div>
+          <div class="topic-title">{{ censurarTexto(t.titulo) }}</div>
           <div class="topic-meta">
             <span class="meta-usuario">{{ t.usuarioNombre }}</span>
             <span class="meta-sep">·</span>
@@ -180,7 +180,7 @@
             <span class="fecha">{{ topicActivo.fecha | date:'dd MMM yyyy' }}</span>
             <span class="tag-target">{{ targetLabel(topicActivo) }}</span>
           </div>
-          <div class="topic-actions" *ngIf="puedeEditar(topicActivo.usuarioId)">
+          <div class="topic-actions" *ngIf="puedeEditar(topicActivo.usuarioId, topicActivo.fecha)">
             <button class="btn-ghost-icon" 
               *ngIf="editandoId !== topicActivo.id"
               (click)="iniciarEdicion(topicActivo, true)" title="Editar topic">✎</button>
@@ -191,8 +191,8 @@
 
         <!-- MODO LECTURA: Título y contenido -->
         <ng-container *ngIf="editandoId !== topicActivo.id">
-          <h2 class="topic-titulo">{{ topicActivo.titulo }}</h2>
-          <p class="topic-cuerpo">{{ topicActivo.comentario }}</p>
+          <h2 class="topic-titulo">{{ censurarTexto(topicActivo.titulo) }}</h2>
+          <p class="topic-cuerpo">{{ censurarTexto(topicActivo.comentario) }}</p>
         </ng-container>
 
         <!-- MODO EDICIÓN: Campos editables -->
@@ -231,7 +231,7 @@
             <div class="respuesta-meta">
               <span class="usuario-nombre">{{ r.usuarioNombre }}</span>
               <span class="fecha">{{ r.fecha | date:'dd MMM yyyy' }}</span>
-              <div class="respuesta-actions" *ngIf="puedeEditar(r.usuarioId)">
+              <div class="respuesta-actions" *ngIf="puedeEditar(r.usuarioId, r.fecha)">
                 <button class="btn-ghost-sm-xs" 
                   *ngIf="editandoId !== r.id"
                   (click)="iniciarEdicion(r, false)" title="Editar">✎</button>
@@ -242,7 +242,7 @@
 
             <!-- MODO LECTURA: Contenido -->
             <ng-container *ngIf="editandoId !== r.id">
-              <p class="respuesta-texto">{{ r.comentario }}</p>
+              <p class="respuesta-texto">{{ censurarTexto(r.comentario) }}</p>
             </ng-container>
 
             <!-- MODO EDICIÓN: Campo editable -->

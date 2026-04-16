@@ -12,6 +12,28 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 type Vista = 'lista' | 'hilo';
 type TargetTipo = 'equipo' | 'jugador' | 'partido';
 
+const PALABRAS_PROHIBIDAS = [
+  'gilipollas',
+  'imbecil',
+  'idiota',
+  'subnormal',
+  'capullo',
+  'cabron',
+  'cabrón',
+  'mierda',
+  'puta',
+  'puto',
+  'joder',
+  'coño',
+  'cono',
+  'hostia',
+  'polla',
+  'polla',
+  'mierdas',
+  'maricon',
+  'maricón'
+];
+
 @Component({
   selector: 'app-foro-page',
   standalone: true,
@@ -392,8 +414,22 @@ export class Foro implements OnInit {
 
   // ── HELPERS ────────────────────────────────────────────────────────────────
 
-  puedeEditar(usuarioId: number): boolean {
-    return this.authService.currentUser()?.id === usuarioId || this.authService.isAdmin();
+  puedeEditar(usuarioId: number, fecha?: string | Date): boolean {
+    const usuarioActual = this.authService.currentUser();
+    
+    // El usuario debe ser el propietario del comentario
+    if (usuarioActual?.id !== usuarioId) return false;
+    
+    // Verificar que no hayan pasado más de 24 horas
+    if (fecha) {
+      const fechaComentario = new Date(fecha);
+      const ahora = new Date();
+      const diferencia = ahora.getTime() - fechaComentario.getTime();
+      const horas = diferencia / (1000 * 60 * 60);
+      return horas < 24;
+    }
+    
+    return false;
   }
 
   targetLabel(topic: ComentarioResponseDTO): string {
@@ -401,6 +437,44 @@ export class Foro implements OnInit {
     if (topic.jugadorId) return '👤 ' + (topic.targetNombre || topic.jugadorId || '');
     if (topic.partidoId) return '⚽ ' + (topic.targetNombre || ('Partido ' + topic.partidoId) || '');
     return '';
+  }
+
+  censurarTexto(texto: string | null | undefined): string {
+    if (!texto) {
+      return '';
+    }
+
+    let textoCensurado = texto;
+
+    for (const palabra of PALABRAS_PROHIBIDAS) {
+      const patron = this.crearPatronPalabra(palabra);
+      textoCensurado = textoCensurado.replace(patron, (match: string) => this.censurarCoincidencia(match));
+    }
+
+    return textoCensurado;
+  }
+
+  private crearPatronPalabra(palabra: string): RegExp {
+    const letras = this.normalizarTexto(palabra).split('');
+    const patronNormalizado = letras.map((letra) => `${letra}[\\u0300-\\u036f]*`).join('');
+    return new RegExp(`(^|[^\\p{L}\\p{N}])(${patronNormalizado})(?=[^\\p{L}\\p{N}]|$)`, 'giu');
+  }
+
+  private censurarCoincidencia(coincidencia: string): string {
+    const primerIndiceLetra = coincidencia.search(/[\p{L}\p{N}]/u);
+
+    if (primerIndiceLetra === -1) {
+      return coincidencia;
+    }
+
+    return `${coincidencia.slice(0, primerIndiceLetra)}***`;
+  }
+
+  private normalizarTexto(texto: string): string {
+    return texto
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
   }
 
   trackById(_: number, item: ComentarioResponseDTO): number { return item.id; }

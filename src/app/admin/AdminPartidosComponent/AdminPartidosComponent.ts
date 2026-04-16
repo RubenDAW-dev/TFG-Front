@@ -177,7 +177,25 @@ export class AdminPartidosComponent implements OnInit {
   // UTILIDADES
   // ====================================
   getNombreEquipo(teamId: string): string {
-    return this.equipos.find(e => e.id === teamId)?.nombre || 'N/A';
+    return this.equipos.find(e => String(e.id) === String(teamId))?.nombre || 'N/A';
+  }
+
+  getEscudoEquipo(teamId: string): string {
+    const equipo = this.equipos.find(e => String(e.id) === String(teamId));
+    return equipo?.escudo || equipo?.imagenUrl || '';
+  }
+
+  getResultadoClase(score: string | null | undefined): string {
+    if (!score || !score.trim()) return 'score-pending';
+
+    const parts = score.split('-').map(v => Number(v.trim()));
+    if (parts.length !== 2 || Number.isNaN(parts[0]) || Number.isNaN(parts[1])) {
+      return 'score-pending';
+    }
+
+    if (parts[0] > parts[1]) return 'score-home-win';
+    if (parts[0] < parts[1]) return 'score-away-win';
+    return 'score-draw';
   }
 
   // ====================================

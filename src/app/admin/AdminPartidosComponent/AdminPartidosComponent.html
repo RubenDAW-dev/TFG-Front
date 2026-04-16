@@ -43,9 +43,33 @@
     <ng-template pTemplate="body" let-partido>
       <tr>
         <td><strong>Wk {{ partido.wk }}</strong></td>
-        <td><strong>{{ getNombreEquipo(partido.homeTeam?.id) }}</strong></td>
-        <td><strong>{{ getNombreEquipo(partido.awayTeam?.id) }}</strong></td>
-        <td>{{ partido.score || '—' }}</td>
+        <td>
+          <div class="team-cell">
+            <img
+              *ngIf="getEscudoEquipo(partido.homeTeam?.id)"
+              [src]="getEscudoEquipo(partido.homeTeam?.id)"
+              [alt]="getNombreEquipo(partido.homeTeam?.id)"
+              class="team-shield"
+            />
+            <strong>{{ getNombreEquipo(partido.homeTeam?.id) }}</strong>
+          </div>
+        </td>
+        <td>
+          <div class="team-cell">
+            <img
+              *ngIf="getEscudoEquipo(partido.awayTeam?.id)"
+              [src]="getEscudoEquipo(partido.awayTeam?.id)"
+              [alt]="getNombreEquipo(partido.awayTeam?.id)"
+              class="team-shield"
+            />
+            <strong>{{ getNombreEquipo(partido.awayTeam?.id) }}</strong>
+          </div>
+        </td>
+        <td>
+          <span class="score-pill" [ngClass]="getResultadoClase(partido.score)">
+            {{ partido.score || '—' }}
+          </span>
+        </td>
         <td>{{ partido.date | date:'dd/MM/yyyy' }}</td>
         <td>{{ partido.time || '—' }}</td>
         <td>{{ partido.venue || '—' }}</td>

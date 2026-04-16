@@ -24,13 +24,12 @@ export class ComentarioService {
     return this.http.delete(`${this.base}/delete/${id}`, { responseType: 'text' });
   }
  
-  // ✅ PARA ADMIN: Obtener TODOS los comentarios (topics + respuestas)
-  // Llamar al nuevo endpoint /admin/all
   todosLosComentarios(): Observable<ComentarioResponseDTO[]> {
     return this.http.get<ComentarioResponseDTO[]>(`${this.base}/admin/all`).pipe(
       map(res => Array.isArray(res) ? res : []),
       catchError(() => of([]))
     );
+
   }
 
   // ✅ PARA FRONTEND: Obtener solo topics raíz (sin respuestas)

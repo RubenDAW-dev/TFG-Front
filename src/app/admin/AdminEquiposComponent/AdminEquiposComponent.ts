@@ -46,6 +46,8 @@ export class AdminEquiposComponent implements OnInit {
 
   // BÚSQUEDA Y FILTRADO
   busqueda = '';
+  selectedCity = '';
+  cities: string[] = [];
 
   constructor(
     private equiposService: TeamsService,
@@ -62,6 +64,11 @@ export class AdminEquiposComponent implements OnInit {
     this.equiposService.getAllTeams().subscribe({
       next: (data) => {
         this.equipos = data || [];
+        this.cities = Array.from(new Set(
+          this.equipos
+            .map(e => e.ciudad)
+            .filter((c: string | null | undefined) => !!c)
+        )).sort((a, b) => a.localeCompare(b));
         this.aplicarFiltros();
         this.cargando = false;
         this.cdr.detectChanges();
@@ -86,12 +93,24 @@ export class AdminEquiposComponent implements OnInit {
       );
     }
 
+    if (this.selectedCity) {
+      resultado = resultado.filter(e => e.ciudad === this.selectedCity);
+    }
+
     this.equiposFiltrados = resultado;
     this.cdr.detectChanges();
   }
 
   onBusquedaChange(): void {
     this.aplicarFiltros();
+  }
+
+  onCityChange(): void {
+    this.aplicarFiltros();
+  }
+
+  getEscudoEquipo(equipo: any): string {
+    return equipo?.escudo || equipo?.imagenUrl || '';
   }
 
   editarEquipo(equipo: any): void {
@@ -156,6 +175,7 @@ export class AdminEquiposComponent implements OnInit {
 
   limpiarFiltros(): void {
     this.busqueda = '';
+    this.selectedCity = '';
     this.equiposFiltrados = [...this.equipos];
     this.cdr.detectChanges();
   }

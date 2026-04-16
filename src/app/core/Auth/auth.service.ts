@@ -9,6 +9,12 @@ interface LoginRequest {
   password: string;
 }
 
+interface CreateUserRequest {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
 interface LoginResponse {
   token: string;
   tokenType?: string;
@@ -65,7 +71,7 @@ export class AuthService {
     return this.userSignal();
   }
 
-  register(body: LoginRequest) {
+  register(body: CreateUserRequest) {
     return this.http.post<LoginResponse>(`${environment.apiUrl}/usuarios/create`, body);
   }
   
