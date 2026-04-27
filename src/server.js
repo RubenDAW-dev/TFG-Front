@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs'); 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// 🔥 Detectar automáticamente la carpeta
 const distFolder = fs.readdirSync(path.join(__dirname, 'dist'))[0];
 const distPath = path.join(__dirname, 'dist', distFolder, 'browser');
 
